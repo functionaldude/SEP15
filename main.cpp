@@ -11,6 +11,7 @@
 //
 
 #include <iostream>
+#include <string.h>
 #include "Game.h"
 #include "Position.h"
 #include "Color.h"
@@ -25,6 +26,16 @@
 //
 int main(int argc, char **argv)
 {
+  std::string *filename;
+  //chack for arguments
+  if (strcmp(argv[1], "-g")) {
+    if (argv[2] == nullptr) {
+      //error
+    } else {
+      filename = new std::string(argv[2]);
+    }
+  }
+
   Game trax;
   std::cout << " === GAME === " << std::endl;
   std::cout << "getActivePlayer() = " << trax.getActivePlayer() << std::endl;
