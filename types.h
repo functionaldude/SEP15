@@ -12,6 +12,7 @@
 #include <string>
 
 enum Color{
+  COLOR_BLANK = 0,
   COLOR_WHITE = 1,
   COLOR_RED = 2
 };
@@ -48,6 +49,7 @@ struct file_header{
 
 enum TileType
 {
+  VOID = 0,
   CROSS = 1,
   CURVE_1 = 2,
   CURVE_2 = 3

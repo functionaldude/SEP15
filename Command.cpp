@@ -87,6 +87,7 @@ int cmd_Write::execute(){
   cout << "file: " << *filename << endl;
 
   file_header *header = new file_header;
+  //maybe after sort?
   dimension *dimensions = game->getFieldDimension();
 
   header->player = game->Activeplayer;
@@ -102,8 +103,45 @@ int cmd_Write::execute(){
     return -1;
   }
   file.write((char*)header, sizeof(header));
-
   delete header;
+
+  char length = dimensions->maxX - dimensions->minX;
+  char width = dimensions->maxY - dimensions->maxY;
+
+  char *buffer = new char[length*width*2];
+
+  short x = dimensions->minX;
+  short y = dimensions->minY;
+  int buffer_pos = 0;
+  bool found = false;
+  while (x != dimensions->maxX && y != dimensions->maxY) {
+    for (auto &iter : game->tiles) {
+      if (iter->getPos()->getX() == x && iter->getPos()->getY() == y) {
+        found = true;
+        buffer[buffer_pos] = iter->getType();
+        buffer_pos++;
+        buffer[buffer_pos] = iter->getColor();
+        buffer_pos++;
+        break;
+      }
+    }
+    x++;
+    if (x == dimensions->maxX) {
+      x = dimensions->minX;
+      y++;
+    }
+    if (found) {
+      found = false;
+      continue;
+    } else {
+      buffer[buffer_pos] = 0;
+      buffer_pos++;
+      buffer[buffer_pos] = 0;
+      buffer_pos++;
+    }
+  }
+  file.write(buffer, length*width*2);
+  delete [] buffer;
 
   delete dimensions;
   file.close();

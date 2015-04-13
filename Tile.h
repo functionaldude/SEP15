@@ -18,6 +18,9 @@ public:
   Tile(TileType Side, Color Topcolor, Position *pos);
   ~Tile();
   Position *getPos();
+  TileType getType();
+  Color getColor();
+  bool operator<(const Tile& other);
 private:
   TileType Side;
   Color Topcolor;

@@ -23,3 +23,19 @@ Tile::~Tile(){
 Position *Tile::getPos(){
   return pos;
 }
+
+bool Tile::operator<(const Tile &other){
+  if (pos->getX() == other.pos->getX()) {
+    return (pos->getY() < other.pos->getY());
+  } else {
+    return pos->getX() < other.pos->getX();
+  }
+}
+
+TileType Tile::getType(){
+  return Side;
+}
+
+Color Tile::getColor(){
+  return Topcolor;
+}
