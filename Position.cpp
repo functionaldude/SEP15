@@ -6,12 +6,15 @@
 //  Copyright (c) 2015 G-TEAM. All rights reserved.
 //
 
+#include <string>
 #include <sstream>
 #include "Position.h"
 
 Position::Position(int x, int y) : x(x), y(y)
 {
 }
+
+Position::Position(){}
 
 int Position::getX(){
   return x;

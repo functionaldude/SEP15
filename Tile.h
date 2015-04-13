@@ -9,7 +9,9 @@
 #ifndef __ass1__Tile__
 #define __ass1__Tile__
 
-#include "Color.h"
+#include "types.h"
+
+class Position;
 
 class Tile {
 public:
@@ -20,11 +22,13 @@ public:
     TYPE_CURVE_2 = 3
   };
 
-  Tile(Type Side, Color Topcolor);
-
+  Tile(Type Side, Color Topcolor, Position *pos);
+  ~Tile();
+  Position *getPos();
 private:
   Type Side;
   Color Topcolor;
+  Position *pos;
 };
 
 #endif /* defined(__ass1__Tile__) */

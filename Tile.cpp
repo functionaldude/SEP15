@@ -7,9 +7,19 @@
 //
 
 #include "Tile.h"
+#include "Position.h"
 
-Tile::Tile(Type Side, Color Orientation) :
+Tile::Tile(Type Side, Color Orientation, Position *pos) :
   Side(Side),
-  Topcolor(Orientation)
+  Topcolor(Orientation),
+  pos(pos)
 {
+}
+
+Tile::~Tile(){
+  delete pos;
+}
+
+Position *Tile::getPos(){
+  return pos;
 }

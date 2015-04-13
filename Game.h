@@ -9,20 +9,25 @@
 #ifndef __ass1__Game__
 #define __ass1__Game__
 
-#include "Color.h"
+#include "types.h"
+#include <vector>
+#include <string>
 
 class Tile;
 
 class Game {
-
-private:
+  friend class cmd_AddTile;
+protected:
   Color Activeplayer;
-  Tile* Starttile;
   bool Running;
+  std::string filename;
+  bool constant_write;
+  std::vector<Tile*> tiles;
 
 public:
-  Game();
-  void setStarttile(Tile* input);
+  Game(std::string *filename);
+  ~Game();
+  short addTile(Tile* input);
   void run();
   void setRunning(bool input);
   void togglePlayer();

@@ -17,6 +17,7 @@ private:
   int y;
 public:
   Position(int x, int y);
+  Position();
   int getX();
   int getY();
   bool parse(std::string input);
