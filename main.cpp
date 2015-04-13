@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 {
   std::string *filename;
   //chack for arguments
-  if (strcmp(argv[1], "-g")) {
+  if (argc > 1 && !strcmp(argv[1], "-g")) {
     if (argv[2] == nullptr) {
       //error
     } else {
