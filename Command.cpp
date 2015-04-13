@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 #include <iostream>
+#include <fstream>
 #include "Command.h"
 #include "Position.h"
 #include "Tile.h"
@@ -31,7 +32,7 @@ int cmd_AddTile::execute(){
   cout << "Addtile " << (int)args->arg_count << endl;
   short error = 0;
   if (args->arg_count != 2) {
-    cout << "Invalid parameters" << endl;
+    cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
   Position *tmp_pos = new Position();
@@ -47,5 +48,55 @@ int cmd_AddTile::execute(){
     delete tmp_tile;
     return -1;
   }
+
+  //autosave if -g
+  if (game->constant_write) {
+    Command *save = new cmd_Write(game, args);
+    save->execute();
+    delete save;
+  }
+  return 0;
+}
+
+cmd_Write::cmd_Write(Game *game, struct args *args): Command(game, args){}
+int cmd_Write::execute(){
+  cout << "write " << (int)args->arg_count << endl;
+  if (!game->constant_write && args->arg_count != 1) {
+    cout << "Error: Wrong parameter count!" << endl;
+    return -1;
+  }
+  if (game->tiles.size() == 0) {
+    cout << "Board is empty!" << endl;
+    return -1;
+  }
+  string *filename;
+  if (game->constant_write) {
+    filename = &game->filename;
+  } else {
+    filename = args->arg[1];
+  }
+  cout << "file: " << *filename << endl;
+
+  file_header *header = new file_header;
+  dimension *dimensions = game->getFieldDimension();
+
+  header->player = game->Activeplayer;
+
+  header->minX = dimensions->minX;
+  header->minY = dimensions->minY;
+  header->maxX = dimensions->maxX;
+  header->maxY = dimensions->maxY;
+
+  fstream file(*filename, ios::out | ios::binary);
+  if (!file.is_open()) {
+    cout << "Cannot write file " << *filename << endl;
+    return -1;
+  }
+  file.write((char*)header, sizeof(header));
+
+  delete header;
+
+  delete dimensions;
+  file.close();
   return 0;
 }

@@ -30,4 +30,19 @@ struct args{
   short arg_count;
 };
 
+struct dimension{
+  short minX;
+  short maxX;
+  short minY;
+  short maxY;
+};
+
+struct file_header{
+  unsigned char magic_num[4] = {'T', 'R', 'A', 'X'};
+  unsigned char player;
+  char minX;
+  char maxX;
+  char minY;
+  char maxY;
+}__attribute__((packed));
 #endif

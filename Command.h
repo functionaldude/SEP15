@@ -40,4 +40,10 @@ public:
   cmd_AddTile(Game *game, struct args *args);
   int execute() override;
 };
+
+class cmd_Write : public Command {
+public:
+  cmd_Write(Game *game, struct args *args);
+  int execute() override;
+};
 #endif //COMMAND_H_INCLUDED

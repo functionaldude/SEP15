@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 G-TEAM. All rights reserved.
 //
 
-#include <string>
 #include <iostream>
 #include <sstream>
 #include "Game.h"
@@ -69,21 +68,21 @@ void Game::run(){
         break;
       case CMD_QUIT:
         cout << "Bye!" << endl;
+        delete cmd;
         Running = false;
         return;
-      case CMD_ADDTILE:{
+      case CMD_ADDTILE:
         cmd = new cmd_AddTile(this, &arguments);
-        error = cmd->execute();
-        delete cmd;
         break;
-      }
       case CMD_WRITE:
-        cout << "write" << endl;
+        cmd = new cmd_Write(this, &arguments);
         break;
       case CMD_ERROR:
         cout << "Error: Unknown command!" << endl;
-        break;
+        continue;
     }
+    error = cmd->execute();
+    delete cmd;
   }
 }
 
@@ -112,4 +111,27 @@ short Game::addTile(Tile *input){
 
 Game::~Game(){
   tiles.clear();
+}
+
+dimension *Game::getFieldDimension(){
+  dimension *retval = new dimension;
+  for (auto &iter : tiles) {
+    if (retval->maxX < iter->getPos()->getX()) {
+      retval->maxX = iter->getPos()->getX();
+    }
+    if (retval->maxY < iter->getPos()->getY()) {
+      retval->maxY = iter->getPos()->getY();
+    }
+  }
+  retval->minX = retval->maxX;
+  retval->minY = retval->maxY;
+  for (auto &iter : tiles) {
+    if (retval->minX > iter->getPos()->getX()) {
+      retval->minX = iter->getPos()->getX();
+    }
+    if (retval->minY > iter->getPos()->getY()) {
+      retval->minY = iter->getPos()->getY();
+    }
+  }
+  return retval;
 }

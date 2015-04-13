@@ -14,9 +14,11 @@
 #include <string>
 
 class Tile;
+class Position;
 
 class Game {
   friend class cmd_AddTile;
+  friend class cmd_Write;
 protected:
   Color Activeplayer;
   bool Running;
@@ -32,6 +34,7 @@ public:
   void setRunning(bool input);
   void togglePlayer();
   Color getActivePlayer();
+  dimension *getFieldDimension();
 };
 
 #endif /* defined(__ass1__Game__) */
