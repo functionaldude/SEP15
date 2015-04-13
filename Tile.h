@@ -15,18 +15,11 @@ class Position;
 
 class Tile {
 public:
-  enum Type
-  {
-    TYPE_CROSS = 1,
-    TYPE_CURVE_1 = 2,
-    TYPE_CURVE_2 = 3
-  };
-
-  Tile(Type Side, Color Topcolor, Position *pos);
+  Tile(TileType Side, Color Topcolor, Position *pos);
   ~Tile();
   Position *getPos();
 private:
-  Type Side;
+  TileType Side;
   Color Topcolor;
   Position *pos;
 };

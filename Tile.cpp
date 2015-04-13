@@ -9,7 +9,7 @@
 #include "Tile.h"
 #include "Position.h"
 
-Tile::Tile(Type Side, Color Orientation, Position *pos) :
+Tile::Tile(TileType Side, Color Orientation, Position *pos) :
   Side(Side),
   Topcolor(Orientation),
   pos(pos)

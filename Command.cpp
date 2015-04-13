@@ -41,7 +41,16 @@ int cmd_AddTile::execute(){
     delete tmp_pos;
     return -1;
   }
-  Tile *tmp_tile = new Tile(Tile::TYPE_CROSS, game->Activeplayer, tmp_pos);
+  //TODO: this is ghetto
+  TileType tiletype;
+  if (*args->arg[2] == "+") {
+    tiletype = CROSS;
+  } else if (*args->arg[2] == "/"){
+    tiletype = CURVE_1;
+  } else {
+    tiletype = CURVE_2;
+  }
+  Tile *tmp_tile = new Tile(tiletype, game->Activeplayer, tmp_pos);
   error = game->addTile(tmp_tile);
   if (error == -1) {
     cout << "Invalid coordinates - first tile must be set on (0,0)" << endl;

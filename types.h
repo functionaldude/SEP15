@@ -45,4 +45,12 @@ struct file_header{
   char minY;
   char maxY;
 }__attribute__((packed));
+
+enum TileType
+{
+  CROSS = 1,
+  CURVE_1 = 2,
+  CURVE_2 = 3
+};
+
 #endif
