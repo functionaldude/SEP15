@@ -87,7 +87,6 @@ int cmd_Write::execute(){
   cout << "file: " << *filename << endl;
 
   file_header *header = new file_header;
-  //maybe after sort?
   dimension *dimensions = game->getFieldDimension();
 
   header->player = game->Activeplayer;
@@ -102,46 +101,59 @@ int cmd_Write::execute(){
     cout << "Cannot write file " << *filename << endl;
     return -1;
   }
-  file.write((char*)header, sizeof(header));
+
+  //test
+  char testheader[9];
+  testheader[0] = 'T';
+  testheader[1] = 'R';
+  testheader[2] = 'A';
+  testheader[3] = 'X';
+  testheader[4] = game->Activeplayer;
+  testheader[5] = dimensions->minX;
+  testheader[6] = dimensions->minY;
+  testheader[7] = dimensions->maxX;
+  testheader[8] = dimensions->maxY;
+  file.write(testheader, 9);
   delete header;
 
-  char length = dimensions->maxX - dimensions->minX;
-  char width = dimensions->maxY - dimensions->maxY;
+//  char length = dimensions->maxX - dimensions->minX;
+//  char width = dimensions->maxY - dimensions->maxY;
 
-  char *buffer = new char[length*width*2];
+  char buffer[2];
 
   short x = dimensions->minX;
   short y = dimensions->minY;
-  int buffer_pos = 0;
   bool found = false;
-  while (x != dimensions->maxX && y != dimensions->maxY) {
+  while (x <= dimensions->maxX && y <= dimensions->maxY) {
     for (auto &iter : game->tiles) {
       if (iter->getPos()->getX() == x && iter->getPos()->getY() == y) {
         found = true;
-        buffer[buffer_pos] = iter->getType();
-        buffer_pos++;
-        buffer[buffer_pos] = iter->getColor();
-        buffer_pos++;
+        buffer[0] = iter->getType();
+        buffer[1] = iter->getColor();
+        file.write(buffer, 2);
         break;
       }
     }
-    x++;
     if (x == dimensions->maxX) {
       x = dimensions->minX;
       y++;
     }
+    x++;
     if (found) {
       found = false;
       continue;
     } else {
-      buffer[buffer_pos] = 0;
-      buffer_pos++;
-      buffer[buffer_pos] = 0;
-      buffer_pos++;
+      buffer[0] = 0;
+      buffer[1] = 0;
+      file.write(buffer, 2);
     }
   }
-  file.write(buffer, length*width*2);
-  delete [] buffer;
+  //only 1 tile on (0,0)
+  if(game->tiles.size() == 1){
+    buffer[0] = game->tiles[0]->getType();
+    buffer[1] = game->tiles[0]->getColor();
+    file.write(buffer, 2);
+  }
 
   delete dimensions;
   file.close();
