@@ -62,7 +62,7 @@ void Game::run(){
     //cin >> input;
     getline(cin, input);
     getCMD(input, arguments);
-    Command *cmd;
+    Command *cmd = nullptr;
     switch (arguments.command) {
       case CMD_BLANK:
         break;
@@ -117,6 +117,9 @@ short Game::addTile(Tile *input){
 }
 
 Game::~Game(){
+  for (auto &iter : tiles) {
+    delete iter;
+  }
   tiles.clear();
 }
 
