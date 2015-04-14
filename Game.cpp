@@ -106,6 +106,13 @@ short Game::addTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
     return -1;
   }
+  for (auto &iter : tiles){
+    if (input->getPos()->getX() == iter->getPos()->getX() && input->getPos()->getY() == iter->getPos()->getY()) {
+      //already exists
+      return -2;
+    }
+  }
+  tiles.push_back(input);
   return 0;
 }
 

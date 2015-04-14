@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 {
   string *filename = nullptr;
   //chack for arguments
-  if (argc > 2) {
+  if (argc > 3) {
     cout << "Usage: <" << string(argv[0]) << ">" << endl;
     return 2;
   }
