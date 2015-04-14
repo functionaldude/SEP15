@@ -54,6 +54,12 @@ int cmd_AddTile::execute(){
   error = game->addTile(tmp_tile);
   if (error == -1) {
     cout << "Invalid coordinates - first tile must be set on (0,0)" << endl;
+  } else if (error == -3){
+    cout << "Invalid coordinates - field not connected to tile" << endl;
+  } else if (error == -2){
+    cout << "Invalid coordinates - field already occupied" << endl;
+  }
+  if (error != 0) {
     delete tmp_tile;
     return -1;
   }

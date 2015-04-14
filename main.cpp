@@ -44,11 +44,11 @@ int main(int argc, char **argv)
   Game trax(filename);
 
   //testtiles
-  trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(0,0)));
-  trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(-1,0)));
-  trax.addTile(new Tile(CURVE_1, COLOR_WHITE, new Position(2,0)));
-  trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(4,0)));
-  trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(0,1)));
+  cout << trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(0,0))) << endl;
+  cout << trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(-1,0))) << endl;
+  cout << trax.addTile(new Tile(CURVE_1, COLOR_WHITE, new Position(2,0))) << endl;
+  cout << trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(4,0))) << endl;
+  cout << trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(0,1))) << endl;
   
   trax.run();
 

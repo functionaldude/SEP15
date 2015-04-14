@@ -106,11 +106,25 @@ short Game::addTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
     return -1;
   }
+  bool has_neigbour = false;
   for (auto &iter : tiles){
     if (input->getPos()->getX() == iter->getPos()->getX() && input->getPos()->getY() == iter->getPos()->getY()) {
       //already exists
       return -2;
     }
+    if ((input->getPos()->getX() == iter->getPos()->getX() +1 ||
+        input->getPos()->getX() == iter->getPos()->getX() -1) &&
+        input->getPos()->getY() == iter->getPos()->getY()) {
+      has_neigbour = true;
+    } else if ((input->getPos()->getY() == iter->getPos()->getY() +1 ||
+                input->getPos()->getY() == iter->getPos()->getY() -1) &&
+               input->getPos()->getX() == iter->getPos()->getX()){
+      has_neigbour = true;
+    }
+  }
+  if (!has_neigbour && tiles.size() != 0) {
+    //no neigbour found
+    return -3;
   }
   tiles.push_back(input);
   return 0;
