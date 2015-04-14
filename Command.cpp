@@ -102,22 +102,8 @@ int cmd_Write::execute(){
     return -1;
   }
 
-  //test
-  char testheader[9];
-  testheader[0] = 'T';
-  testheader[1] = 'R';
-  testheader[2] = 'A';
-  testheader[3] = 'X';
-  testheader[4] = game->Activeplayer;
-  testheader[5] = dimensions->minX;
-  testheader[6] = dimensions->minY;
-  testheader[7] = dimensions->maxX;
-  testheader[8] = dimensions->maxY;
-  file.write(testheader, 9);
+  file.write((char*)header, sizeof(file_header));
   delete header;
-
-//  char length = dimensions->maxX - dimensions->minX;
-//  char width = dimensions->maxY - dimensions->maxY;
 
   char buffer[2];
 
@@ -137,8 +123,9 @@ int cmd_Write::execute(){
     if (x == dimensions->maxX) {
       x = dimensions->minX;
       y++;
+    } else {
+      x++;
     }
-    x++;
     if (found) {
       found = false;
       continue;

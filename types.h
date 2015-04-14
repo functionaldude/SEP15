@@ -42,8 +42,8 @@ struct file_header{
   unsigned char magic_num[4] = {'T', 'R', 'A', 'X'};
   unsigned char player;
   char minX;
-  char maxX;
   char minY;
+  char maxX;
   char maxY;
 }__attribute__((packed));
 
