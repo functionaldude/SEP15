@@ -111,28 +111,22 @@ int cmd_Write::execute(){
   short y = dimensions->minY;
   bool found = false;
   while (x <= dimensions->maxX && y <= dimensions->maxY) {
+    buffer[0] = 0;
+    buffer[1] = 0;
     for (auto &iter : game->tiles) {
       if (iter->getPos()->getX() == x && iter->getPos()->getY() == y) {
         found = true;
         buffer[0] = iter->getType();
         buffer[1] = iter->getColor();
-        file.write(buffer, 2);
         break;
       }
     }
+    file.write(buffer, 2);
     if (x == dimensions->maxX) {
       x = dimensions->minX;
       y++;
     } else {
       x++;
-    }
-    if (found) {
-      found = false;
-      continue;
-    } else {
-      buffer[0] = 0;
-      buffer[1] = 0;
-      file.write(buffer, 2);
     }
   }
   //only 1 tile on (0,0)
