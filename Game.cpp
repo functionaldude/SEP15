@@ -65,10 +65,13 @@ void Game::run(){
     Command *cmd = nullptr;
     switch (arguments.command) {
       case CMD_BLANK:
-        break;
+        continue;
       case CMD_QUIT:
         cout << "Bye!" << endl;
         delete cmd;
+        delete arguments.arg[0];
+        delete arguments.arg[1];
+        delete arguments.arg[2];
         Running = false;
         return;
       case CMD_ADDTILE:
@@ -104,12 +107,14 @@ Color Game::getActivePlayer(){
 
 short Game::addTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
+    delete input;
     return -1;
   }
   bool has_neigbour = false;
   for (auto &iter : tiles){
     if (input->getPos()->getX() == iter->getPos()->getX() && input->getPos()->getY() == iter->getPos()->getY()) {
       //already exists
+      delete input;
       return -2;
     }
     if (((input->getPos()->getX() == iter->getPos()->getX() +1 ||
@@ -123,6 +128,7 @@ short Game::addTile(Tile *input){
   }
   if (!has_neigbour && tiles.size() != 0) {
     //no neigbour found
+    delete input;
     return -3;
   }
   tiles.push_back(input);

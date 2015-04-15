@@ -60,7 +60,6 @@ int cmd_AddTile::execute(){
     cout << "Invalid coordinates - field not empty" << endl;
   }
   if (error != 0) {
-    delete tmp_tile;
     return -1;
   }
 
@@ -115,13 +114,11 @@ int cmd_Write::execute(){
 
   short x = dimensions->minX;
   short y = dimensions->minY;
-  bool found = false;
   while (x <= dimensions->maxX && y <= dimensions->maxY) {
     buffer[0] = 0;
     buffer[1] = 0;
     for (auto &iter : game->tiles) {
       if (iter->getPos()->getX() == x && iter->getPos()->getY() == y) {
-        found = true;
         buffer[0] = iter->getType();
         buffer[1] = iter->getColor();
         break;
