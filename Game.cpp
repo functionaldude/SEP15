@@ -15,7 +15,7 @@
 
 using namespace std;
 
-void getCMD(string input, args &arguments){
+void getCMD(string input, arguments &arguments){
   if(input == ""){
     arguments.command = CMD_BLANK;
     return;
@@ -56,7 +56,7 @@ void Game::run(){
   Running = true;
   string input;
   short error = 0;
-  args arguments;
+  arguments arguments;
   while (Running == true) {
     cout << "sep> ";
     //cin >> input;

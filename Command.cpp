@@ -17,7 +17,7 @@
 
 using namespace std;
 
-Command::Command(Game *game, struct args *args):
+Command::Command(Game *game, struct arguments *args):
   game(game),
   args(args)
 {
@@ -27,7 +27,7 @@ Command::~Command()
 {
 }
 
-cmd_AddTile::cmd_AddTile(Game *game, struct args *args): Command(game, args){}
+cmd_AddTile::cmd_AddTile(Game *game, struct arguments *args): Command(game, args){}
 int cmd_AddTile::execute(){
   cout << "Addtile " << (int)args->arg_count << endl;
   short error = 0;
@@ -57,7 +57,7 @@ int cmd_AddTile::execute(){
   } else if (error == -3){
     cout << "Invalid coordinates - field not connected to tile" << endl;
   } else if (error == -2){
-    cout << "Invalid coordinates - field already occupied" << endl;
+    cout << "Invalid coordinates - field not empty" << endl;
   }
   if (error != 0) {
     delete tmp_tile;
@@ -73,7 +73,7 @@ int cmd_AddTile::execute(){
   return 0;
 }
 
-cmd_Write::cmd_Write(Game *game, struct args *args): Command(game, args){}
+cmd_Write::cmd_Write(Game *game, struct arguments *args): Command(game, args){}
 int cmd_Write::execute(){
   cout << "write " << (int)args->arg_count << endl;
   if (!game->constant_write && args->arg_count != 1) {

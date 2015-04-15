@@ -25,7 +25,7 @@ enum cmd : char{
   CMD_BLANK = 4,
 };
 
-struct args{
+struct arguments{
   cmd command;
   std::string *arg[5];
   short arg_count;
