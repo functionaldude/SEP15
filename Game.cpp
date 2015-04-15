@@ -112,13 +112,12 @@ short Game::addTile(Tile *input){
       //already exists
       return -2;
     }
-    if ((input->getPos()->getX() == iter->getPos()->getX() +1 ||
-        input->getPos()->getX() == iter->getPos()->getX() -1) &&
-        input->getPos()->getY() == iter->getPos()->getY()) {
-      has_neigbour = true;
-    } else if ((input->getPos()->getY() == iter->getPos()->getY() +1 ||
-                input->getPos()->getY() == iter->getPos()->getY() -1) &&
-               input->getPos()->getX() == iter->getPos()->getX()){
+    if (((input->getPos()->getX() == iter->getPos()->getX() +1 ||
+          input->getPos()->getX() == iter->getPos()->getX() -1) &&
+         input->getPos()->getY() == iter->getPos()->getY()) ||
+        ((input->getPos()->getY() == iter->getPos()->getY() +1 ||
+          input->getPos()->getY() == iter->getPos()->getY() -1) &&
+         input->getPos()->getX() == iter->getPos()->getX())) {
       has_neigbour = true;
     }
   }
