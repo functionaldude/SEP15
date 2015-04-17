@@ -84,12 +84,20 @@ int cmd_Write::execute(){
     return -1;
   }
   string *filename;
-  if (game->constant_write) {
-    filename = &game->filename;
-  } else {
-    filename = args->arg[1];
+  if (!game->outputfile) {
+    filename = new string(*args->arg[1]);
+    game->filename = filename;
+    game->outputfile = new fstream(*filename, ios::out | ios::binary);
+  } else if (!game->constant_write && *filename != *game->filename){
+    filename = new string(*args->arg[1]);
+    game->outputfile->close();
+    delete game->outputfile;
+    delete game->filename;
+    game->filename = filename;
+    game->outputfile = new fstream(*filename, ios::out | ios::binary);
   }
-  cout << "file: " << *filename << endl;
+
+  cout << "file: " << *game->filename << endl;
 
   file_header *header = new file_header;
   dimension *dimensions = game->getFieldDimension();
@@ -101,13 +109,12 @@ int cmd_Write::execute(){
   header->maxX = dimensions->maxX;
   header->maxY = dimensions->maxY;
 
-  fstream file(*filename, ios::out | ios::binary);
-  if (!file.is_open()) {
+  if (!game->outputfile->is_open()) {
     cout << "Cannot write file " << *filename << endl;
     return -1;
   }
 
-  file.write((char*)header, sizeof(file_header));
+  game->outputfile->write((char*)header, sizeof(file_header));
   delete header;
 
   char buffer[2];
@@ -124,7 +131,7 @@ int cmd_Write::execute(){
         break;
       }
     }
-    file.write(buffer, 2);
+    game->outputfile->write(buffer, 2);
     if (x == dimensions->maxX) {
       x = dimensions->minX;
       y++;
@@ -136,10 +143,10 @@ int cmd_Write::execute(){
   if(game->tiles.size() == 1){
     buffer[0] = game->tiles[0]->getType();
     buffer[1] = game->tiles[0]->getColor();
-    file.write(buffer, 2);
+    game->outputfile->write(buffer, 2);
   }
 
   delete dimensions;
-  file.close();
+  game->outputfile->flush();
   return 0;
 }

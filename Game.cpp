@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include "Game.h"
 #include "Tile.h"
 #include "Position.h"
@@ -45,10 +46,13 @@ Game::Game(string *filename){
   Activeplayer = COLOR_WHITE;
   Running = false;
   if (filename) {
-    this->filename = *filename;
+    this->filename = filename;
     constant_write = true;
+    outputfile = new fstream(*filename, ios::out | ios::binary);
   } else {
+    this->filename = nullptr;
     constant_write = false;
+    outputfile = nullptr;
   }
 }
 
@@ -122,7 +126,8 @@ short Game::addTile(Tile *input){
          input->getPos()->getY() == iter->getPos()->getY()) ||
         ((input->getPos()->getY() == iter->getPos()->getY() +1 ||
           input->getPos()->getY() == iter->getPos()->getY() -1) &&
-         input->getPos()->getX() == iter->getPos()->getX())) {
+         input->getPos()->getX() == iter->getPos()->getX()))
+    {
       has_neigbour = true;
     }
   }
@@ -138,6 +143,11 @@ short Game::addTile(Tile *input){
 Game::~Game(){
   for (auto &iter : tiles) {
     delete iter;
+  }
+  if (outputfile) {
+    outputfile->close();
+    delete outputfile;
+    delete filename;
   }
   tiles.clear();
 }

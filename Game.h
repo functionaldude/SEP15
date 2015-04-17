@@ -22,9 +22,10 @@ class Game {
 protected:
   Color Activeplayer;
   bool Running;
-  std::string filename;
+  std::string *filename;
   bool constant_write;
   std::vector<Tile*> tiles;
+  std::fstream *outputfile;
 
 public:
   Game(std::string *filename);
