@@ -83,18 +83,23 @@ int cmd_Write::execute(){
     cout << "Board is empty!" << endl;
     return -1;
   }
-  string *filename;
+  string *filename = new string(*args->arg[1]);
   if (!game->outputfile) {
-    filename = new string(*args->arg[1]);
     game->filename = filename;
     game->outputfile = new fstream(*filename, ios::out | ios::binary);
   } else if (!game->constant_write && *filename != *game->filename){
-    filename = new string(*args->arg[1]);
     game->outputfile->close();
     delete game->outputfile;
     delete game->filename;
     game->filename = filename;
     game->outputfile = new fstream(*filename, ios::out | ios::binary);
+  } else {
+    delete filename;
+  }
+
+  if (!game->outputfile->is_open()) {
+    cout << "Cannot write file " << *game->filename << endl;
+    return -1;
   }
 
   cout << "file: " << *game->filename << endl;
@@ -108,11 +113,6 @@ int cmd_Write::execute(){
   header->minY = dimensions->minY;
   header->maxX = dimensions->maxX;
   header->maxY = dimensions->maxY;
-
-  if (!game->outputfile->is_open()) {
-    cout << "Cannot write file " << *filename << endl;
-    return -1;
-  }
 
   game->outputfile->write((char*)header, sizeof(file_header));
   delete header;
