@@ -22,7 +22,7 @@ public:
   Color getColor();
   void setColor(Color input);
   Color getPlayer();
-  Color getSideColor(short side);
+  Color getSideColor(enum Side side);
   bool operator<(const Tile& other);
 private:
   TileType Side;

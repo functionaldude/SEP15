@@ -58,6 +58,8 @@ int cmd_AddTile::execute(){
     cout << "Invalid coordinates - field not connected to tile" << endl;
   } else if (error == -2){
     cout << "Invalid coordinates - field not empty" << endl;
+  }  else if (error == -4){
+    cout << "Invalid move - connected line colors mismatch" << endl;
   }
   if (error != 0) {
     return -1;

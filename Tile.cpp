@@ -48,61 +48,57 @@ void Tile::setColor(Color input){
   Topcolor = input;
 }
 
-Color Tile::getSideColor(short side){
-  //0 = up, 1 = down, 2 = left, 3 = right
-  if (Side == CROSS) {
-    if (Topcolor == COLOR_RED) {
-      switch (side) {
-        case 0: return COLOR_RED;
-        case 1: return COLOR_RED;
-        case 2: return COLOR_WHITE;
-        case 3: return COLOR_WHITE;
-        default: return COLOR_BLANK;
+Color Tile::getSideColor(enum Side side){
+  switch (Side) {
+    case CROSS:
+      if (Topcolor == COLOR_RED) {
+        switch (side) {
+          case UP: return COLOR_RED;
+          case DOWN: return COLOR_RED;
+          case LEFT: return COLOR_WHITE;
+          case RIGHT: return COLOR_WHITE;
+        }
+      } else {
+        switch (side) {
+          case UP: return COLOR_WHITE;
+          case DOWN: return COLOR_WHITE;
+          case LEFT: return COLOR_RED;
+          case RIGHT: return COLOR_RED;
+        }
       }
-    } else {
-      switch (side) {
-        case 0: return COLOR_WHITE;
-        case 1: return COLOR_WHITE;
-        case 2: return COLOR_RED;
-        case 3: return COLOR_RED;
-        default: return COLOR_BLANK;
+    case CURVE_1:
+      if (Topcolor == COLOR_RED) {
+        switch (side) {
+          case UP: return COLOR_RED;
+          case DOWN: return COLOR_WHITE;
+          case LEFT: return COLOR_RED;
+          case RIGHT: return COLOR_WHITE;
+        }
+      } else {
+        switch (side) {
+          case UP: return COLOR_WHITE;
+          case DOWN: return COLOR_RED;
+          case LEFT: return COLOR_WHITE;
+          case RIGHT: return COLOR_RED;
+        }
       }
-    }
-  } else if (Side == CURVE_1) {
-    if (Topcolor == COLOR_RED) {
-      switch (side) {
-        case 0: return COLOR_RED;
-        case 1: return COLOR_WHITE;
-        case 2: return COLOR_RED;
-        case 3: return COLOR_WHITE;
-        default: return COLOR_BLANK;
+    case CURVE_2:
+      if (Topcolor == COLOR_RED) {
+        switch (side) {
+          case UP: return COLOR_RED;
+          case DOWN: return COLOR_WHITE;
+          case LEFT: return COLOR_WHITE;
+          case RIGHT: return COLOR_RED;
+          default: return COLOR_BLANK;
+        }
+      } else {
+        switch (side) {
+          case UP: return COLOR_WHITE;
+          case DOWN: return COLOR_RED;
+          case LEFT: return COLOR_RED;
+          case RIGHT: return COLOR_WHITE;
+        }
       }
-    } else {
-      switch (side) {
-        case 0: return COLOR_WHITE;
-        case 1: return COLOR_RED;
-        case 2: return COLOR_WHITE;
-        case 3: return COLOR_RED;
-        default: return COLOR_BLANK;
-      }
-    }
-  } else {
-    if (Topcolor == COLOR_RED) {
-      switch (side) {
-        case 0: return COLOR_RED;
-        case 1: return COLOR_WHITE;
-        case 2: return COLOR_WHITE;
-        case 3: return COLOR_RED;
-        default: return COLOR_BLANK;
-      }
-    } else {
-      switch (side) {
-        case 0: return COLOR_WHITE;
-        case 1: return COLOR_RED;
-        case 2: return COLOR_RED;
-        case 3: return COLOR_WHITE;
-        default: return COLOR_BLANK;
-      }
-    }
+    case VOID: return COLOR_BLANK;
   }
 }

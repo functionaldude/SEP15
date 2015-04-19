@@ -27,6 +27,8 @@ protected:
   std::vector<Tile*> tiles;
   std::fstream *outputfile;
   int tile_num;
+  bool checkSides(Tile *input, Tile *neigbours[4]);
+  void togglePlayer();
 
 public:
   Game(std::string *filename);
@@ -34,7 +36,6 @@ public:
   short addTile(Tile* input);
   void run();
   void setRunning(bool input);
-  void togglePlayer();
   Color getActivePlayer();
   dimension *getFieldDimension();
 };

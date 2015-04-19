@@ -123,71 +123,158 @@ short Game::addTile(Tile *input){
     delete input;
     return -1;
   }
-  bool has_neigbour = false;
-  bool valid_neighbour = true;
-  for (auto &iter : tiles){
+
+  //0 = up, 1 = down, 2 = left, 3 = right
+  Tile *neigbour[4] = {nullptr, nullptr, nullptr, nullptr};
+  for (auto &iter :tiles) {
     if (input->getPos()->getX() == iter->getPos()->getX() && input->getPos()->getY() == iter->getPos()->getY()) {
       //already exists
       delete input;
       return -2;
     }
-    if (((input->getPos()->getX() == iter->getPos()->getX() +1 ||
-          input->getPos()->getX() == iter->getPos()->getX() -1) &&
-         input->getPos()->getY() == iter->getPos()->getY()) ||
-        ((input->getPos()->getY() == iter->getPos()->getY() +1 ||
-          input->getPos()->getY() == iter->getPos()->getY() -1) &&
-         input->getPos()->getX() == iter->getPos()->getX()))
-    {
-      has_neigbour = true;
+    if (input->getPos()->getX() + 1 == iter->getPos()->getX()) {
+      neigbour[3] = iter;
+      continue;
+    }
+    if (input->getPos()->getX() - 1 == iter->getPos()->getX()) {
+      neigbour[2] = iter;
+      continue;
+    }
+    if (input->getPos()->getY() + 1 == iter->getPos()->getY()) {
+      neigbour[1] = iter;
+      continue;
+    }
+    if (input->getPos()->getY() - 1 == iter->getPos()->getY()) {
+      neigbour[0] = iter;
+      continue;
     }
   }
-  if (has_neigbour) {
-    //0 = up, 1 = down, 2 = left, 3 = right
-    Tile *neigbour[4] = {nullptr, nullptr, nullptr, nullptr};
-    for (auto &iter :tiles) {
-      if (input->getPos()->getX() + 1 == iter->getPos()->getX()) {
-        neigbour[3] = iter;
-        //continue??
-      }
-      if (input->getPos()->getX() - 1 == iter->getPos()->getX()) {
-        neigbour[2] = iter;
-      }
-      if (input->getPos()->getY() + 1 == iter->getPos()->getY()) {
-        neigbour[1] = iter;
-      }
-      if (input->getPos()->getY() - 1 == iter->getPos()->getY()) {
-        neigbour[0] = iter;
-      }
-    }
-
-    if (input->getType() == CROSS) {
-      if (neigbour[0]) {
-        has_neigbour = true;
-        if (neigbour[0]->getSideColor(1) == COLOR_RED) {
-          input->setColor(COLOR_RED);
-        } else {
-          input->setColor(COLOR_WHITE);
-        }
-      }
-      if (neigbour[1]) {
-        has_neigbour = true;
-      }
-      if (neigbour[2]) {
-        has_neigbour = true;
-      }
-      if (neigbour[3]) {
-        has_neigbour = true;
-      }
-    }
-    if (input->getType() == CURVE_1) {
-
-    }
-  }
-  if (!has_neigbour && tiles.size() != 0) {
+  if (!neigbour[0] && !neigbour[1] && !neigbour[2] && !neigbour[3] && tiles.size() != 0) {
     //no neigbour found
     delete input;
     return -3;
   }
+
+  switch (input->getType()) {
+    case VOID: return -6;
+
+    case CROSS:{
+      if (neigbour[0]) {
+        if (neigbour[0]->getSideColor(DOWN) == COLOR_RED) {
+          input->setColor(COLOR_RED);
+        } else {
+          input->setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neigbour[1]) {
+        if (neigbour[1]->getSideColor(UP) == COLOR_RED) {
+          input->setColor(COLOR_RED);
+        } else {
+          input->setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neigbour[2]) {
+        if (neigbour[2]->getSideColor(RIGHT) == COLOR_RED) {
+          input->setColor(COLOR_WHITE);
+        } else {
+          input->setColor(COLOR_RED);
+        }
+        break;
+      }
+      if (neigbour[3]) {
+        if (neigbour[3]->getSideColor(LEFT) == COLOR_RED) {
+          input->setColor(COLOR_WHITE);
+        } else {
+          input->setColor(COLOR_RED);
+        }
+        break;
+      }
+      break;
+    }
+
+    case CURVE_1:{
+      if (neigbour[0]) {
+        if (neigbour[0]->getSideColor(DOWN) == COLOR_RED) {
+          input->setColor(COLOR_RED);
+        } else {
+          input->setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neigbour[1]) {
+        if (neigbour[1]->getSideColor(UP) == COLOR_RED) {
+          input->setColor(COLOR_WHITE);
+        } else {
+          input->setColor(COLOR_RED);
+        }
+        break;
+      }
+      if (neigbour[2]) {
+        if (neigbour[2]->getSideColor(RIGHT) == COLOR_RED) {
+          input->setColor(COLOR_RED);
+        } else {
+          input->setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neigbour[3]) {
+        if (neigbour[3]->getSideColor(LEFT) == COLOR_RED) {
+          input->setColor(COLOR_WHITE);
+        } else {
+          input->setColor(COLOR_RED);
+        }
+        break;
+      }
+      break;
+    }
+
+    case CURVE_2:{
+      if (neigbour[0]) {
+        if (neigbour[0]->getSideColor(DOWN) == COLOR_RED) {
+          input->setColor(COLOR_RED);
+        } else {
+          input->setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neigbour[1]) {
+        if (neigbour[1]->getSideColor(UP) == COLOR_RED) {
+          input->setColor(COLOR_WHITE);
+        } else {
+          input->setColor(COLOR_RED);
+        }
+        break;
+      }
+      if (neigbour[2]) {
+        if (neigbour[2]->getSideColor(RIGHT) == COLOR_RED) {
+          input->setColor(COLOR_WHITE);
+        } else {
+          input->setColor(COLOR_RED);
+        }
+        break;
+      }
+      if (neigbour[3]) {
+        if (neigbour[3]->getSideColor(LEFT) == COLOR_RED) {
+          input->setColor(COLOR_RED);
+        } else {
+          input->setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      break;
+    }
+  }
+
+  if (tiles.size() == 0) {
+    input->setColor(COLOR_RED);
+  } else if (!checkSides(input, neigbour)) {
+    //colors mismatch
+    delete input;
+    return -4;
+  }
+
   tiles.push_back(input);
   togglePlayer();
   tile_num--;
@@ -227,4 +314,21 @@ dimension *Game::getFieldDimension(){
     }
   }
   return retval;
+}
+
+bool Game::checkSides(Tile *input, Tile *neigbours[4]){
+  //0 = up, 1 = down, 2 = left, 3 = right
+  if (neigbours[0] && input->getSideColor(UP) != neigbours[0]->getSideColor(DOWN)) {
+    return false;
+  }
+  if (neigbours[1] && input->getSideColor(DOWN) != neigbours[1]->getSideColor(UP)) {
+    return false;
+  }
+  if (neigbours[2] && input->getSideColor(LEFT) != neigbours[2]->getSideColor(RIGHT)) {
+    return false;
+  }
+  if (neigbours[3] && input->getSideColor(RIGHT) != neigbours[3]->getSideColor(LEFT)) {
+    return false;
+  }
+  return true;
 }
