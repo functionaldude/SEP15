@@ -45,6 +45,7 @@ void getCMD(string input, arguments &arguments){
 Game::Game(string *filename){
   Activeplayer = COLOR_WHITE;
   Running = false;
+  tile_num = 64;
   if (filename) {
     this->filename = filename;
     constant_write = true;
@@ -68,7 +69,6 @@ Game::Game(string *filename){
 void Game::run(){
   Running = true;
   string input;
-  short error = 0;
   arguments arguments;
   while (Running == true) {
     cout << "sep> ";
@@ -97,7 +97,7 @@ void Game::run(){
         cout << "Error: Unknown command!" << endl;
         continue;
     }
-    error = cmd->execute();
+    cmd->execute();
     delete cmd;
   }
 }
@@ -124,6 +124,7 @@ short Game::addTile(Tile *input){
     return -1;
   }
   bool has_neigbour = false;
+  bool valid_neighbour = true;
   for (auto &iter : tiles){
     if (input->getPos()->getX() == iter->getPos()->getX() && input->getPos()->getY() == iter->getPos()->getY()) {
       //already exists
@@ -140,12 +141,56 @@ short Game::addTile(Tile *input){
       has_neigbour = true;
     }
   }
+  if (has_neigbour) {
+    //0 = up, 1 = down, 2 = left, 3 = right
+    Tile *neigbour[4] = {nullptr, nullptr, nullptr, nullptr};
+    for (auto &iter :tiles) {
+      if (input->getPos()->getX() + 1 == iter->getPos()->getX()) {
+        neigbour[3] = iter;
+        //continue??
+      }
+      if (input->getPos()->getX() - 1 == iter->getPos()->getX()) {
+        neigbour[2] = iter;
+      }
+      if (input->getPos()->getY() + 1 == iter->getPos()->getY()) {
+        neigbour[1] = iter;
+      }
+      if (input->getPos()->getY() - 1 == iter->getPos()->getY()) {
+        neigbour[0] = iter;
+      }
+    }
+
+    if (input->getType() == CROSS) {
+      if (neigbour[0]) {
+        has_neigbour = true;
+        if (neigbour[0]->getSideColor(1) == COLOR_RED) {
+          input->setColor(COLOR_RED);
+        } else {
+          input->setColor(COLOR_WHITE);
+        }
+      }
+      if (neigbour[1]) {
+        has_neigbour = true;
+      }
+      if (neigbour[2]) {
+        has_neigbour = true;
+      }
+      if (neigbour[3]) {
+        has_neigbour = true;
+      }
+    }
+    if (input->getType() == CURVE_1) {
+
+    }
+  }
   if (!has_neigbour && tiles.size() != 0) {
     //no neigbour found
     delete input;
     return -3;
   }
   tiles.push_back(input);
+  togglePlayer();
+  tile_num--;
   return 0;
 }
 

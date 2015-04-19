@@ -50,7 +50,7 @@ int cmd_AddTile::execute(){
   } else {
     tiletype = CURVE_2;
   }
-  Tile *tmp_tile = new Tile(tiletype, game->Activeplayer, tmp_pos);
+  Tile *tmp_tile = new Tile(tiletype, tmp_pos, game->Activeplayer);
   error = game->addTile(tmp_tile);
   if (error == -1) {
     cout << "Invalid coordinates - first tile must be set on (0,0)" << endl;

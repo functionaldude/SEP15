@@ -26,6 +26,7 @@ protected:
   bool constant_write;
   std::vector<Tile*> tiles;
   std::fstream *outputfile;
+  int tile_num;
 
 public:
   Game(std::string *filename);

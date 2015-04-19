@@ -15,16 +15,20 @@ class Position;
 
 class Tile {
 public:
-  Tile(TileType Side, Color Topcolor, Position *pos);
+  Tile(TileType Side, Position *pos, Color player);
   ~Tile();
   Position *getPos();
   TileType getType();
   Color getColor();
+  void setColor(Color input);
+  Color getPlayer();
+  Color getSideColor(short side);
   bool operator<(const Tile& other);
 private:
   TileType Side;
   Color Topcolor;
   Position *pos;
+  Color player;
 };
 
 #endif /* defined(__ass1__Tile__) */
