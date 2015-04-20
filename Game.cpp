@@ -17,6 +17,7 @@
 
 using namespace std;
 
+//command parsing
 void getCMD(string input, arguments *arguments){
   if(input == ""){
     arguments->command = CMD_BLANK;
@@ -44,6 +45,7 @@ void getCMD(string input, arguments *arguments){
   }
 }
 
+//constructor
 Game::Game(string *filename){
   Activeplayer = COLOR_WHITE;
   Running = false;
@@ -68,6 +70,7 @@ Game::Game(string *filename){
   }
 }
 
+//main game function
 void Game::run(){
   Running = true;
   string input;
@@ -132,6 +135,7 @@ Color Game::getActivePlayer(){
   return Activeplayer;
 }
 
+//adds a tile
 int8_t Game::addTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
     delete input;
@@ -170,6 +174,7 @@ int8_t Game::addTile(Tile *input){
   return 0;
 }
 
+//destructor
 Game::~Game(){
   for (auto &iter : tiles) {
     delete iter;
@@ -182,6 +187,7 @@ Game::~Game(){
   tiles.clear();
 }
 
+//returns the game field dimensions in a dimension struct
 dimension *Game::getFieldDimension(){
   dimension *retval = new dimension;
   for (auto &iter : tiles) {
@@ -205,6 +211,7 @@ dimension *Game::getFieldDimension(){
   return retval;
 }
 
+//checks if a Tile placement is valid with neighbour colors
 bool Game::checkSides(Tile *input, tile_neighbours *neighbours){
   if (!neighbours->hasNeighbours()) {
     return true;
@@ -224,6 +231,7 @@ bool Game::checkSides(Tile *input, tile_neighbours *neighbours){
   return true;
 }
 
+//returns a tile at pos x, y
 Tile *Game::getTile(int8_t x, int8_t y){
   for (auto &iter :tiles){
     if (iter->getPos()->isPos(x, y)) {
@@ -233,6 +241,7 @@ Tile *Game::getTile(int8_t x, int8_t y){
   return nullptr;
 }
 
+//returns neighbours of a tile
 tile_neighbours *Game::getNeighbours(Tile *input){
   tile_neighbours *neighbours = new tile_neighbours;
   for (auto &iter : tiles) {
@@ -263,4 +272,21 @@ tile_neighbours *Game::getNeighbours(Tile *input){
     }
   }
   return neighbours;
+}
+
+//returns Tiles with more than 2 neighbours
+std::vector<Tile*> *Game::getEdges(){
+  if (tiles.size() < 2) {
+    return nullptr;
+  }
+  std::vector<Tile*> *edges = new std::vector<Tile*>;
+  tile_neighbours *neighbours = nullptr;
+  for (auto &iter : tiles) {
+    neighbours = getNeighbours(iter);
+    if (neighbours->countNeighbours() > 2) {
+      edges->push_back(iter);
+    }
+    delete neighbours;
+  }
+  return edges;
 }

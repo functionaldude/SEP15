@@ -24,6 +24,7 @@ int Position::getY(){
   return y;
 }
 
+//position parsing
 bool Position::parse(std::string input){
   std::stringstream ss(input);
   int x, y;
@@ -43,16 +44,19 @@ bool Position::parse(std::string input){
   }
 }
 
+//converts position to string
 std::string Position::toString(){
   std::stringstream ss;
   ss << "(" << x << "," << y << ")";
   return ss.str();
 }
 
+//checks if a position is on x, y
 bool Position::isPos(int8_t x, int8_t y){
   return (x == this->x && y == this->y);
 }
 
+//returns true if the input pointer on the same position is
 bool Position::isPos(const Position *input){
   return (input->x == this->x && input->y == this->y);
 }

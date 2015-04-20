@@ -30,6 +30,7 @@ protected:
   bool checkSides(Tile *input, tile_neighbours *neighbours);
   tile_neighbours *getNeighbours(Tile *input);
   void togglePlayer();
+  std::vector<Tile*> *getEdges();
 
 public:
   Game(std::string *filename);

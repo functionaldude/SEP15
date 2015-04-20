@@ -20,14 +20,17 @@ Tile::~Tile(){
   delete pos;
 }
 
+//returns the position pointer
 Position *Tile::getPos(){
   return pos;
 }
 
+//returns the tile type
 TileType Tile::getType(){
   return Side;
 }
 
+//returns topcolor
 Color Tile::getColor(){
   return Topcolor;
 }
@@ -36,11 +39,16 @@ Color Tile::getPlayer(){
   return player;
 }
 
+//sets the topcolor
 void Tile::setColor(Color input){
   Topcolor = input;
 }
 
+//returns the color of the side of the tile
 Color Tile::getSideColor(enum Side side){
+  if (side == UP) {
+    return Topcolor;
+  }
   switch (Side) {
     case CROSS:
       if (Topcolor == COLOR_RED) {
@@ -95,6 +103,7 @@ Color Tile::getSideColor(enum Side side){
   }
 }
 
+//sets the top color according to the neigbours
 void Tile::matchSides(struct tile_neighbours *neighbours){
   //TODO: setColor here is ghetto
   switch (Side) {
