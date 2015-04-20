@@ -21,6 +21,8 @@ public:
   int getX();
   int getY();
   bool parse(std::string input);
+  bool isPos(short x, short y);
+  bool isPos(const Position* input);
   std::string toString();
 };
 

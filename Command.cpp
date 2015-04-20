@@ -121,34 +121,37 @@ int cmd_Write::execute(){
 
   char buffer[2];
 
-  short x = dimensions->minX;
-  short y = dimensions->minY;
-  while (x <= dimensions->maxX && y <= dimensions->maxY) {
-    buffer[0] = 0;
-    buffer[1] = 0;
-    for (auto &iter : game->tiles) {
-      if (iter->getPos()->getX() == x && iter->getPos()->getY() == y) {
-        buffer[0] = iter->getType();
-        buffer[1] = iter->getColor();
-        break;
-      }
-    }
-    game->outputfile->write(buffer, 2);
-    if (x == dimensions->maxX) {
-      x = dimensions->minX;
-      y++;
-    } else {
-      x++;
-    }
-  }
-  //only 1 tile on (0,0)
   if(game->tiles.size() == 1){
+    //only 1 tile on (0,0)
     buffer[0] = game->tiles[0]->getType();
     buffer[1] = game->tiles[0]->getColor();
     game->outputfile->write(buffer, 2);
+  } else {
+    //multiple tiles
+    short x = dimensions->minX;
+    short y = dimensions->minY;
+    while (x <= dimensions->maxX && y <= dimensions->maxY) {
+      buffer[0] = 0;
+      buffer[1] = 0;
+      for (auto &iter : game->tiles) {
+        if (iter->getPos()->isPos(x, y)) {
+          buffer[0] = iter->getType();
+          buffer[1] = iter->getColor();
+          break;
+        }
+      }
+      game->outputfile->write(buffer, 2);
+      if (x == dimensions->maxX) {
+        x = dimensions->minX;
+        y++;
+      } else {
+        x++;
+      }
+    }
   }
 
   delete dimensions;
   game->outputfile->flush();
+  game->outputfile->seekg(0);
   return 0;
 }

@@ -11,6 +11,8 @@
 
 #include <string>
 
+class Tile;
+
 enum Color{
   COLOR_BLANK = 0,
   COLOR_WHITE = 1,
@@ -60,6 +62,14 @@ enum Side{
   DOWN = 1,
   LEFT = 2,
   RIGHT = 3
+};
+
+struct tile_neighbours {
+  Tile *UP = nullptr;
+  Tile *DOWN = nullptr;
+  Tile *LEFT = nullptr;
+  Tile *RIGHT = nullptr;
+  bool neighbour_exists = false;
 };
 
 #endif

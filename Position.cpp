@@ -48,3 +48,11 @@ std::string Position::toString(){
   ss << "(" << x << "," << y << ")";
   return ss.str();
 }
+
+bool Position::isPos(short x, short y){
+  return (x == this->x && y == this->y);
+}
+
+bool Position::isPos(const Position *input){
+  return (input->x == this->x && input->y == this->y);
+}
