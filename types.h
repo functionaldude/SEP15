@@ -49,8 +49,7 @@ struct file_header{
   char maxY;
 }__attribute__((packed));
 
-enum TileType
-{
+enum TileType{
   VOID = 0,
   CROSS = 1,
   CURVE_1 = 2,
@@ -70,6 +69,14 @@ struct tile_neighbours {
   Tile *LEFT = nullptr;
   Tile *RIGHT = nullptr;
 
+  uint_fast8_t countNeighbours(){
+    uint_fast8_t retval = 0;
+    if (UP){retval++;}
+    if (DOWN){retval++;}
+    if (LEFT){retval++;}
+    if (RIGHT){retval++;}
+    return retval;
+  }
   bool hasNeighbours(){
     return (UP || DOWN || LEFT || RIGHT);
   }

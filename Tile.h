@@ -23,7 +23,7 @@ public:
   void setColor(Color input);
   Color getPlayer();
   Color getSideColor(enum Side side);
-  bool operator<(const Tile& other);
+  void matchSides(struct tile_neighbours *neighbours);
 private:
   TileType Side;
   Color Topcolor;

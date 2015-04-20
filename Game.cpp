@@ -124,161 +124,32 @@ int8_t Game::addTile(Tile *input){
     return -1;
   }
 
-  //0 = up, 1 = down, 2 = left, 3 = right
-  tile_neighbours neighbours;
-  for (auto &iter :tiles) {
-    if (input->getPos()->isPos(iter->getPos())) {
-      //already exists
-      delete input;
-      return -2;
-    }
-    if (input->getPos()->getY() == iter->getPos()->getY()) {
-      if (input->getPos()->getX() + 1 == iter->getPos()->getX()) {
-        neighbours.RIGHT = iter;
-        continue;
-      }
-      if (input->getPos()->getX() - 1 == iter->getPos()->getX()) {
-        neighbours.LEFT = iter;
-        continue;
-      }
-    }
-    if (input->getPos()->getX() == input->getPos()->getX()) {
-      if (input->getPos()->getY() + 1 == iter->getPos()->getY()) {
-        neighbours.DOWN = iter;
-        continue;
-      }
-      if (input->getPos()->getY() - 1 == iter->getPos()->getY()) {
-        neighbours.UP = iter;
-        continue;
-      }
-    }
+  tile_neighbours *neighbours = getNeighbours(input);
+
+  if (!neighbours) {
+    //already exists
+    delete input;
+    return -2;
   }
-  if (!neighbours.hasNeighbours() && tiles.size() != 0) {
+  if (!neighbours->hasNeighbours() && tiles.size() != 0) {
     //no neigbour found
+    delete neighbours;
     delete input;
     return -3;
   }
 
-  switch (input->getType()) {
-    case VOID: return -6;
-
-    case CROSS:{
-      if (neighbours.UP) {
-        if (neighbours.UP->getSideColor(DOWN) == COLOR_RED) {
-          input->setColor(COLOR_RED);
-        } else {
-          input->setColor(COLOR_WHITE);
-        }
-        break;
-      }
-      if (neighbours.DOWN) {
-        if (neighbours.DOWN->getSideColor(UP) == COLOR_RED) {
-          input->setColor(COLOR_RED);
-        } else {
-          input->setColor(COLOR_WHITE);
-        }
-        break;
-      }
-      if (neighbours.LEFT) {
-        if (neighbours.LEFT->getSideColor(RIGHT) == COLOR_RED) {
-          input->setColor(COLOR_WHITE);
-        } else {
-          input->setColor(COLOR_RED);
-        }
-        break;
-      }
-      if (neighbours.RIGHT) {
-        if (neighbours.RIGHT->getSideColor(LEFT) == COLOR_RED) {
-          input->setColor(COLOR_WHITE);
-        } else {
-          input->setColor(COLOR_RED);
-        }
-        break;
-      }
-      break;
-    }
-
-    case CURVE_1:{
-      if (neighbours.UP) {
-        if (neighbours.UP->getSideColor(DOWN) == COLOR_RED) {
-          input->setColor(COLOR_RED);
-        } else {
-          input->setColor(COLOR_WHITE);
-        }
-        break;
-      }
-      if (neighbours.DOWN) {
-        if (neighbours.DOWN->getSideColor(UP) == COLOR_RED) {
-          input->setColor(COLOR_WHITE);
-        } else {
-          input->setColor(COLOR_RED);
-        }
-        break;
-      }
-      if (neighbours.LEFT) {
-        if (neighbours.LEFT->getSideColor(RIGHT) == COLOR_RED) {
-          input->setColor(COLOR_RED);
-        } else {
-          input->setColor(COLOR_WHITE);
-        }
-        break;
-      }
-      if (neighbours.RIGHT) {
-        if (neighbours.RIGHT->getSideColor(LEFT) == COLOR_RED) {
-          input->setColor(COLOR_WHITE);
-        } else {
-          input->setColor(COLOR_RED);
-        }
-        break;
-      }
-      break;
-    }
-
-    case CURVE_2:{
-      if (neighbours.UP) {
-        if (neighbours.UP->getSideColor(DOWN) == COLOR_RED) {
-          input->setColor(COLOR_RED);
-        } else {
-          input->setColor(COLOR_WHITE);
-        }
-        break;
-      }
-      if (neighbours.DOWN) {
-        if (neighbours.DOWN->getSideColor(UP) == COLOR_RED) {
-          input->setColor(COLOR_WHITE);
-        } else {
-          input->setColor(COLOR_RED);
-        }
-        break;
-      }
-      if (neighbours.LEFT) {
-        if (neighbours.LEFT->getSideColor(RIGHT) == COLOR_RED) {
-          input->setColor(COLOR_WHITE);
-        } else {
-          input->setColor(COLOR_RED);
-        }
-        break;
-      }
-      if (neighbours.RIGHT) {
-        if (neighbours.RIGHT->getSideColor(LEFT) == COLOR_RED) {
-          input->setColor(COLOR_RED);
-        } else {
-          input->setColor(COLOR_WHITE);
-        }
-        break;
-      }
-      break;
-    }
-  }
-
+  input->matchSides(neighbours);
+  
   if (tiles.size() == 0) {
     input->setColor(COLOR_RED);
-  } else if (!checkSides(input, &neighbours)) {
+  } else if (!checkSides(input, neighbours)) {
     //colors mismatch
+    delete neighbours;
     delete input;
     return -4;
   }
 
+  delete neighbours;
   tiles.push_back(input);
   togglePlayer();
   tile_num--;
@@ -346,4 +217,36 @@ Tile *Game::getTile(int8_t x, int8_t y){
     }
   }
   return nullptr;
+}
+
+tile_neighbours *Game::getNeighbours(Tile *input){
+  tile_neighbours *neighbours = new tile_neighbours;
+  for (auto &iter : tiles) {
+    if (input->getPos()->isPos(iter->getPos())) {
+      //already exists
+      delete neighbours;
+      return nullptr;
+    }
+    if (input->getPos()->getY() == iter->getPos()->getY()) {
+      if (input->getPos()->getX() + 1 == iter->getPos()->getX()) {
+        neighbours->RIGHT = iter;
+        continue;
+      }
+      if (input->getPos()->getX() - 1 == iter->getPos()->getX()) {
+        neighbours->LEFT = iter;
+        continue;
+      }
+    }
+    if (input->getPos()->getX() == input->getPos()->getX()) {
+      if (input->getPos()->getY() + 1 == iter->getPos()->getY()) {
+        neighbours->DOWN = iter;
+        continue;
+      }
+      if (input->getPos()->getY() - 1 == iter->getPos()->getY()) {
+        neighbours->UP = iter;
+        continue;
+      }
+    }
+  }
+  return neighbours;
 }

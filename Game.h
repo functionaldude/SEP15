@@ -28,6 +28,7 @@ protected:
   std::fstream *outputfile;
   int tile_num;
   bool checkSides(Tile *input, tile_neighbours *neighbours);
+  tile_neighbours *getNeighbours(Tile *input);
   void togglePlayer();
 
 public:

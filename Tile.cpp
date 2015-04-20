@@ -24,14 +24,6 @@ Position *Tile::getPos(){
   return pos;
 }
 
-bool Tile::operator<(const Tile &other){
-  if (pos->getX() == other.pos->getX()) {
-    return (pos->getY() < other.pos->getY());
-  } else {
-    return pos->getX() < other.pos->getX();
-  }
-}
-
 TileType Tile::getType(){
   return Side;
 }
@@ -100,5 +92,120 @@ Color Tile::getSideColor(enum Side side){
         }
       }
     case VOID: return COLOR_BLANK;
+  }
+}
+
+void Tile::matchSides(struct tile_neighbours *neighbours){
+  //TODO: setColor here is ghetto
+  switch (Side) {
+    case VOID: return;
+
+    case CROSS:{
+      if (neighbours->UP) {
+        if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) {
+          setColor(COLOR_RED);
+        } else {
+          setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neighbours->DOWN) {
+        if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) {
+          setColor(COLOR_RED);
+        } else {
+          setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neighbours->LEFT) {
+        if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) {
+          setColor(COLOR_WHITE);
+        } else {
+          setColor(COLOR_RED);
+        }
+        break;
+      }
+      if (neighbours->RIGHT) {
+        if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) {
+          setColor(COLOR_WHITE);
+        } else {
+          setColor(COLOR_RED);
+        }
+        break;
+      }
+      break;
+    }
+
+    case CURVE_1:{
+      if (neighbours->UP) {
+        if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) {
+          setColor(COLOR_RED);
+        } else {
+          setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neighbours->DOWN) {
+        if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) {
+          setColor(COLOR_WHITE);
+        } else {
+          setColor(COLOR_RED);
+        }
+        break;
+      }
+      if (neighbours->LEFT) {
+        if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) {
+          setColor(COLOR_RED);
+        } else {
+          setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neighbours->RIGHT) {
+        if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) {
+          setColor(COLOR_WHITE);
+        } else {
+          setColor(COLOR_RED);
+        }
+        break;
+      }
+      break;
+    }
+
+    case CURVE_2:{
+      if (neighbours->UP) {
+        if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) {
+          setColor(COLOR_RED);
+        } else {
+          setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      if (neighbours->DOWN) {
+        if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) {
+          setColor(COLOR_WHITE);
+        } else {
+          setColor(COLOR_RED);
+        }
+        break;
+      }
+      if (neighbours->LEFT) {
+        if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) {
+          setColor(COLOR_WHITE);
+        } else {
+          setColor(COLOR_RED);
+        }
+        break;
+      }
+      if (neighbours->RIGHT) {
+        if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) {
+          setColor(COLOR_RED);
+        } else {
+          setColor(COLOR_WHITE);
+        }
+        break;
+      }
+      break;
+    }
   }
 }
