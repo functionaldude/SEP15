@@ -29,7 +29,6 @@ Command::~Command()
 
 cmd_AddTile::cmd_AddTile(Game *game, struct arguments *args): Command(game, args){}
 int cmd_AddTile::execute(){
-  cout << "Addtile " << (int)args->arg_count << endl;
   int8_t error = 0;
   if (args->arg_count != 2) {
     cout << "Error: Wrong parameter count!" << endl;

@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 #include "Game.h"
 #include "Tile.h"
 #include "Position.h"
@@ -16,29 +17,30 @@
 
 using namespace std;
 
-void getCMD(string input, arguments &arguments){
+void getCMD(string input, arguments *arguments){
   if(input == ""){
-    arguments.command = CMD_BLANK;
+    arguments->command = CMD_BLANK;
     return;
   }
   stringstream iss(input);
   string buf;
   char i = 0;
   for (; iss >> buf; i++) {
-    arguments.arg[i] = new string(buf);
+    arguments->arg[i] = new string(buf);
+    transform(arguments->arg[i]->begin(), arguments->arg[i]->end(), arguments->arg[i]->begin(), ::tolower);
   }
-  arguments.arg_count = i-1;
-  if (*arguments.arg[0] == "AddTile") {
-    arguments.command = CMD_ADDTILE;
+  arguments->arg_count = i-1;
+  if (*arguments->arg[0] == "addtile") {
+    arguments->command = CMD_ADDTILE;
   }
-  else if (*arguments.arg[0] == "write"){
-    arguments.command = CMD_WRITE;
+  else if (*arguments->arg[0] == "write"){
+    arguments->command = CMD_WRITE;
   }
-  else if (*arguments.arg[0] == "quit"){
-    arguments.command = CMD_QUIT;
+  else if (*arguments->arg[0] == "quit"){
+    arguments->command = CMD_QUIT;
   }
   else {
-    arguments.command = CMD_ERROR;
+    arguments->command = CMD_ERROR;
   }
 }
 
@@ -69,36 +71,48 @@ Game::Game(string *filename){
 void Game::run(){
   Running = true;
   string input;
-  arguments arguments;
+  Command *cmd = nullptr;
+  arguments *args_cont = nullptr;
   while (Running == true) {
+    args_cont = new arguments;
     cout << "sep> ";
     //cin >> input;
     getline(cin, input);
-    getCMD(input, arguments);
-    Command *cmd = nullptr;
-    switch (arguments.command) {
+    getCMD(input, args_cont);
+    switch (args_cont->command) {
       case CMD_BLANK:
         continue;
       case CMD_QUIT:
         cout << "Bye!" << endl;
-        delete cmd;
-        delete arguments.arg[0];
-        delete arguments.arg[1];
-        delete arguments.arg[2];
+        if (args_cont) {
+          delete args_cont;
+          args_cont = nullptr;
+        }
+        if (cmd) {
+          delete cmd;
+          cmd = nullptr;
+        }
         Running = false;
         return;
       case CMD_ADDTILE:
-        cmd = new cmd_AddTile(this, &arguments);
+        cmd = new cmd_AddTile(this, args_cont);
         break;
       case CMD_WRITE:
-        cmd = new cmd_Write(this, &arguments);
+        cmd = new cmd_Write(this, args_cont);
         break;
       case CMD_ERROR:
         cout << "Error: Unknown command!" << endl;
         continue;
     }
     cmd->execute();
-    delete cmd;
+    if (args_cont) {
+      delete args_cont;
+      args_cont = nullptr;
+    }
+    if (cmd) {
+      delete cmd;
+      cmd = nullptr;
+    }
   }
 }
 
@@ -237,7 +251,7 @@ tile_neighbours *Game::getNeighbours(Tile *input){
         continue;
       }
     }
-    if (input->getPos()->getX() == input->getPos()->getX()) {
+    if (input->getPos()->getX() == iter->getPos()->getX()) {
       if (input->getPos()->getY() + 1 == iter->getPos()->getY()) {
         neighbours->DOWN = iter;
         continue;

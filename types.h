@@ -31,6 +31,12 @@ struct arguments{
   cmd command;
   std::string *arg[3] = {nullptr, nullptr, nullptr};
   uint8_t arg_count;
+
+  ~arguments(){
+    for (uint_fast8_t cnt = 0; cnt < 3; cnt++){
+      delete arg[cnt];
+    }
+  }
 };
 
 struct dimension{
