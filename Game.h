@@ -33,10 +33,10 @@ protected:
 public:
   Game(std::string *filename);
   ~Game();
-  short addTile(Tile* input);
+  int8_t addTile(Tile* input);
   void run();
   void setRunning(bool input);
-  Tile *getTile(short x, short y);
+  Tile *getTile(int8_t x, int8_t y);
   Color getActivePlayer();
   dimension *getFieldDimension();
 };

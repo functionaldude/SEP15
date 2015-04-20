@@ -10,7 +10,7 @@
 #include <sstream>
 #include "Position.h"
 
-Position::Position(int x, int y) : x(x), y(y)
+Position::Position(int8_t x, int8_t y) : x(x), y(y)
 {
 }
 
@@ -49,7 +49,7 @@ std::string Position::toString(){
   return ss.str();
 }
 
-bool Position::isPos(short x, short y){
+bool Position::isPos(int8_t x, int8_t y){
   return (x == this->x && y == this->y);
 }
 

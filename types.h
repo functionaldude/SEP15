@@ -30,14 +30,14 @@ enum cmd : char{
 struct arguments{
   cmd command;
   std::string *arg[3] = {nullptr, nullptr, nullptr};
-  short arg_count;
+  uint8_t arg_count;
 };
 
 struct dimension{
-  short minX;
-  short maxX;
-  short minY;
-  short maxY;
+  int8_t minX;
+  int8_t maxX;
+  int8_t minY;
+  int8_t maxY;
 };
 
 struct file_header{

@@ -30,7 +30,7 @@ Command::~Command()
 cmd_AddTile::cmd_AddTile(Game *game, struct arguments *args): Command(game, args){}
 int cmd_AddTile::execute(){
   cout << "Addtile " << (int)args->arg_count << endl;
-  short error = 0;
+  int8_t error = 0;
   if (args->arg_count != 2) {
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
@@ -128,8 +128,8 @@ int cmd_Write::execute(){
     game->outputfile->write(buffer, 2);
   } else {
     //multiple tiles
-    short x = dimensions->minX;
-    short y = dimensions->minY;
+    int8_t x = dimensions->minX;
+    int8_t y = dimensions->minY;
     while (x <= dimensions->maxX && y <= dimensions->maxY) {
       buffer[0] = 0;
       buffer[1] = 0;

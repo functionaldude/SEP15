@@ -118,7 +118,7 @@ Color Game::getActivePlayer(){
   return Activeplayer;
 }
 
-short Game::addTile(Tile *input){
+int8_t Game::addTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
     delete input;
     return -1;
@@ -343,7 +343,7 @@ bool Game::checkSides(Tile *input, tile_neighbours *neighbours){
   return true;
 }
 
-Tile *Game::getTile(short x, short y){
+Tile *Game::getTile(int8_t x, int8_t y){
   for (auto &iter :tiles){
     if (iter->getPos()->isPos(x, y)) {
       return iter;

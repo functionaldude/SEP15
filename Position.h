@@ -13,15 +13,15 @@
 
 class Position {
 private:
-  int x;
-  int y;
+  int8_t x;
+  int8_t y;
 public:
-  Position(int x, int y);
+  Position(int8_t x, int8_t y);
   Position();
   int getX();
   int getY();
   bool parse(std::string input);
-  bool isPos(short x, short y);
+  bool isPos(int8_t x, int8_t y);
   bool isPos(const Position* input);
   std::string toString();
 };
