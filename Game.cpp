@@ -24,7 +24,7 @@ void getCMD(string input, arguments *arguments){
   }
   stringstream iss(input);
   string buf;
-  char i = 0;
+  int8_t i = 0;
   for (; iss >> buf; i++) {
     arguments->arg[i] = new string(buf);
     transform(arguments->arg[i]->begin(), arguments->arg[i]->end(), arguments->arg[i]->begin(), ::tolower);

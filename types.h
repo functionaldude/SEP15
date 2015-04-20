@@ -19,7 +19,7 @@ enum Color{
   COLOR_RED = 2
 };
 
-enum cmd : char{
+enum cmd{
   CMD_QUIT = 0,
   CMD_ADDTILE = 1,
   CMD_WRITE = 2,
