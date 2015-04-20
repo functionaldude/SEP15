@@ -69,7 +69,10 @@ struct tile_neighbours {
   Tile *DOWN = nullptr;
   Tile *LEFT = nullptr;
   Tile *RIGHT = nullptr;
-  bool neighbour_exists = false;
+
+  bool hasNeighbours(){
+    return (UP || DOWN || LEFT || RIGHT);
+  }
 };
 
 #endif

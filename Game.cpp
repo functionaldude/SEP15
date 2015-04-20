@@ -135,29 +135,25 @@ int8_t Game::addTile(Tile *input){
     if (input->getPos()->getY() == iter->getPos()->getY()) {
       if (input->getPos()->getX() + 1 == iter->getPos()->getX()) {
         neighbours.RIGHT = iter;
-        neighbours.neighbour_exists = true;
         continue;
       }
       if (input->getPos()->getX() - 1 == iter->getPos()->getX()) {
         neighbours.LEFT = iter;
-        neighbours.neighbour_exists = true;
         continue;
       }
     }
     if (input->getPos()->getX() == input->getPos()->getX()) {
       if (input->getPos()->getY() + 1 == iter->getPos()->getY()) {
         neighbours.DOWN = iter;
-        neighbours.neighbour_exists = true;
         continue;
       }
       if (input->getPos()->getY() - 1 == iter->getPos()->getY()) {
         neighbours.UP = iter;
-        neighbours.neighbour_exists = true;
         continue;
       }
     }
   }
-  if (!neighbours.neighbour_exists && tiles.size() != 0) {
+  if (!neighbours.hasNeighbours() && tiles.size() != 0) {
     //no neigbour found
     delete input;
     return -3;
@@ -325,7 +321,7 @@ dimension *Game::getFieldDimension(){
 }
 
 bool Game::checkSides(Tile *input, tile_neighbours *neighbours){
-  if (!neighbours->neighbour_exists) {
+  if (!neighbours->hasNeighbours()) {
     return true;
   }
   if (neighbours->UP && input->getSideColor(UP) != neighbours->UP->getSideColor(DOWN)) {
