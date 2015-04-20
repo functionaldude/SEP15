@@ -242,6 +242,7 @@ Tile *Game::getTile(int8_t x, int8_t y){
 }
 
 //returns neighbours of a tile
+//TODO: move this to Tile
 tile_neighbours *Game::getNeighbours(Tile *input){
   tile_neighbours *neighbours = new tile_neighbours;
   for (auto &iter : tiles) {
@@ -274,6 +275,7 @@ tile_neighbours *Game::getNeighbours(Tile *input){
   return neighbours;
 }
 
+//TODO: delete this
 vector<Tile*> *Game::getEdges(Tile* input){
   if (tiles.size() < 2) {
     return nullptr;
