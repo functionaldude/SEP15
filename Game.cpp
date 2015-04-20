@@ -169,8 +169,8 @@ int8_t Game::addTile(Tile *input){
 
   delete neighbours;
   tiles.push_back(input);
-  togglePlayer();
   tile_num--;
+  addAutomatic(input);
   return 0;
 }
 
@@ -274,19 +274,112 @@ tile_neighbours *Game::getNeighbours(Tile *input){
   return neighbours;
 }
 
-//returns Tiles with more than 2 neighbours
-std::vector<Tile*> *Game::getEdges(){
+vector<Tile*> *Game::getEdges(Tile* input){
   if (tiles.size() < 2) {
     return nullptr;
   }
-  std::vector<Tile*> *edges = new std::vector<Tile*>;
-  tile_neighbours *neighbours = nullptr;
-  for (auto &iter : tiles) {
-    neighbours = getNeighbours(iter);
-    if (neighbours->countNeighbours() > 2) {
-      edges->push_back(iter);
-    }
-    delete neighbours;
+  vector<Tile*> *edges = new std::vector<Tile*>;
+  Tile *found = getTile(input->getPos()->getX()+1, input->getPos()->getY());
+  if (found) {
+    edges->push_back(found);
+  } else {
+    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX()+1, input->getPos()->getY()), Activeplayer, this));
+  }
+  found = getTile(input->getPos()->getX()-1, input->getPos()->getY());
+  if (found) {
+    edges->push_back(found);
+  } else {
+    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX()-1, input->getPos()->getY()), Activeplayer, this));
+  }
+  found = getTile(input->getPos()->getX(), input->getPos()->getY() +1);
+  if (found) {
+    edges->push_back(found);
+  } else {
+    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX(), input->getPos()->getY() +1), Activeplayer, this));
+  }
+  found = getTile(input->getPos()->getX(), input->getPos()->getY() -1);
+  if (found) {
+    edges->push_back(found);
+  } else {
+    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX(), input->getPos()->getY() -1), Activeplayer, this));
   }
   return edges;
+}
+
+bool Game::tryTile(Tile *input){
+  if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
+    return false;
+  }
+  tile_neighbours *neighbours = getNeighbours(input);
+  if (!neighbours) {
+    //already exists
+    return false;
+  }
+  if (!neighbours->hasNeighbours() && tiles.size() != 0) {
+    //no neigbour found
+    delete neighbours;
+    return false;
+  }
+  input->matchSides(neighbours);
+  if (!checkSides(input, neighbours)) {
+    //colors mismatch
+    delete neighbours;
+    return false;
+  }
+  delete neighbours;
+  return true;
+}
+
+void Game::addAutomatic(Tile * input){
+  vector<Tile*> *array = getEdges(input);
+  if (!array) {
+    return;
+  }
+  tile_neighbours *neighbours = nullptr;
+  int8_t tests = 0;
+  TileType testtype = VOID;
+  Tile *testtile = nullptr;
+  for (auto &iter : *array){
+    if (iter->getType() == VOID) {
+      neighbours = getNeighbours(iter);
+      int8_t cnt_neighbour = neighbours->countNeighbours();
+      if (cnt_neighbour > 1) {
+        testtile = new Tile(CROSS, new Position(*iter->getPos()), Activeplayer, this);
+        if (tryTile(testtile)) {
+          tests++;
+          testtype = testtile->getType();
+        }
+        delete testtile;
+        testtile = new Tile(CURVE_1, new Position(*iter->getPos()), Activeplayer, this);
+        if (tryTile(testtile)) {
+          tests++;
+          testtype = testtile->getType();
+        }
+        delete testtile;
+        testtile = new Tile(CURVE_2, new Position(*iter->getPos()), Activeplayer, this);
+        if (tryTile(testtile)) {
+          tests++;
+          testtype = testtile->getType();
+        }
+        delete testtile;
+        if (tests == 1 && testtype != VOID) {
+          addTile(new Tile(testtype, new Position(*iter->getPos()), Activeplayer, this));
+        }
+        tests = 0;
+        testtype = VOID;
+      }
+      delete neighbours;
+    }
+  }
+
+  for (auto &iter : *array){
+    if (iter->getType() == VOID) {
+      delete iter;
+    }
+  }
+  delete array;
+}
+
+vector<Tile*> *Game::getTiles(){
+  return &tiles;
 }

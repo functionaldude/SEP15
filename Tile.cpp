@@ -6,13 +6,18 @@
 //  Copyright (c) 2015 G-TEAM. All rights reserved.
 //
 
+#include <vector>
 #include "Tile.h"
 #include "Position.h"
+#include "Game.h"
 
-Tile::Tile(TileType Side, Position *pos, Color player) :
+using namespace std;
+
+Tile::Tile(TileType Side, Position *pos, Color player, Game *parent) :
   Side(Side),
   pos(pos),
-  player(player)
+  player(player),
+  parent(parent)
 {
 }
 
@@ -218,3 +223,35 @@ void Tile::matchSides(struct tile_neighbours *neighbours){
     }
   }
 }
+
+//vector<Tile*> *Tile::getEdges(){
+//  if (parent->getTiles()->size() < 2) {
+//    return nullptr;
+//  }
+//  vector<Tile*> *edges = new std::vector<Tile*>;
+//  Tile *found = parent->getTile(pos->getX()+1, pos->getY());
+//  if (found) {
+//    edges->push_back(found);
+//  } else {
+//    edges->push_back(new Tile(VOID, new Position(pos->getX()+1, pos->getY()), parent->getActivePlayer(), parent));
+//  }
+//  found = getTile(input->getPos()->getX()-1, input->getPos()->getY());
+//  if (found) {
+//    edges->push_back(found);
+//  } else {
+//    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX()-1, input->getPos()->getY()), Activeplayer, parent));
+//  }
+//  found = getTile(input->getPos()->getX(), input->getPos()->getY() +1);
+//  if (found) {
+//    edges->push_back(found);
+//  } else {
+//    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX(), input->getPos()->getY() +1), Activeplayer, parent));
+//  }
+//  found = getTile(input->getPos()->getX(), input->getPos()->getY() -1);
+//  if (found) {
+//    edges->push_back(found);
+//  } else {
+//    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX(), input->getPos()->getY() -1), Activeplayer, parent));
+//  }
+//  return edges;
+//}

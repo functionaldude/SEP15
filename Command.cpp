@@ -49,7 +49,7 @@ int cmd_AddTile::execute(){
   } else {
     tiletype = CURVE_2;
   }
-  Tile *tmp_tile = new Tile(tiletype, tmp_pos, game->Activeplayer);
+  Tile *tmp_tile = new Tile(tiletype, tmp_pos, game->Activeplayer, game);
   error = game->addTile(tmp_tile);
   if (error == -1) {
     cout << "Invalid coordinates - first tile must be set on (0,0)" << endl;
@@ -63,7 +63,8 @@ int cmd_AddTile::execute(){
   if (error != 0) {
     return -1;
   }
-
+  game->togglePlayer();
+  
   //autosave if -g
   if (game->constant_write) {
     Command *save = new cmd_Write(game, args);

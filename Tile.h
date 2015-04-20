@@ -12,10 +12,11 @@
 #include "types.h"
 
 class Position;
+class Game;
 
 class Tile {
 public:
-  Tile(TileType Side, Position *pos, Color player);
+  Tile(TileType Side, Position *pos, Color player, Game *parent);
   ~Tile();
   Position *getPos();
   TileType getType();
@@ -24,11 +25,14 @@ public:
   Color getPlayer();
   Color getSideColor(enum Side side);
   void matchSides(struct tile_neighbours *neighbours);
+  Game *getParent();
+  std::vector<Tile*> *getEdges();
 private:
   TileType Side;
   Color Topcolor;
   Position *pos;
   Color player;
+  Game *parent;
 };
 
 #endif /* defined(__ass1__Tile__) */

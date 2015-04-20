@@ -29,18 +29,21 @@ protected:
   int tile_num;
   bool checkSides(Tile *input, tile_neighbours *neighbours);
   tile_neighbours *getNeighbours(Tile *input);
-  void togglePlayer();
-  std::vector<Tile*> *getEdges();
+  std::vector<Tile*> *getEdges(Tile *input);
+  void addAutomatic(Tile *input);
+  bool tryTile(Tile *input);
 
 public:
   Game(std::string *filename);
   ~Game();
   int8_t addTile(Tile* input);
   void run();
+  void togglePlayer();
   void setRunning(bool input);
   Tile *getTile(int8_t x, int8_t y);
   Color getActivePlayer();
   dimension *getFieldDimension();
+  std::vector<Tile*> *getTiles();
 };
 
 #endif /* defined(__ass1__Game__) */

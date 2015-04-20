@@ -16,6 +16,11 @@ Position::Position(int8_t x, int8_t y) : x(x), y(y)
 
 Position::Position(){}
 
+Position::Position(const Position &obj){
+  x = obj.x;
+  y = obj.y;
+}
+
 int Position::getX(){
   return x;
 }

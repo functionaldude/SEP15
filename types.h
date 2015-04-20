@@ -86,6 +86,9 @@ struct tile_neighbours {
   bool hasNeighbours(){
     return (UP || DOWN || LEFT || RIGHT);
   }
+  bool hasParalellNeighbours(){
+    return (UP && DOWN && !LEFT && !RIGHT) || (LEFT && RIGHT && !UP && !DOWN);
+  }
 };
 
 #endif

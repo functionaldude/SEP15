@@ -18,6 +18,7 @@ private:
 public:
   Position(int8_t x, int8_t y);
   Position();
+  Position(const Position &obj);
   int getX();
   int getY();
   bool parse(std::string input);
