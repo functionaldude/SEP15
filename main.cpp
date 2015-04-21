@@ -47,20 +47,20 @@ int main(int argc, char **argv)
   cout << (int)trax->addTile(new Tile(CROSS, new Position(0,0), trax->getActivePlayer(), trax)) << endl;
 
   //curve
-//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(1,0), trax->getActivePlayer(), trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,0), trax->getActivePlayer(), trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(-1,0), trax->getActivePlayer(), trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(-2,0), trax->getActivePlayer(), trax)) << endl;
+  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(1,0), trax->getActivePlayer(), trax)) << endl;
+  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,0), trax->getActivePlayer(), trax)) << endl;
+  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(-1,0), trax->getActivePlayer(), trax)) << endl;
+  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(-2,0), trax->getActivePlayer(), trax)) << endl;
 
   //line
-  cout << (int)trax->addTile(new Tile(CROSS, new Position(1,0), trax->getActivePlayer(), trax)) << endl;
-  cout << (int)trax->addTile(new Tile(CROSS, new Position(-1,0), trax->getActivePlayer(), trax)) << endl;
-  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,0), trax->getActivePlayer(), trax)) << endl;
-  cout << (int)trax->addTile(new Tile(CROSS, new Position(2,1), trax->getActivePlayer(), trax)) << endl;
-  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,2), trax->getActivePlayer(), trax)) << endl;
-  cout << (int)trax->addTile(new Tile(CROSS, new Position(3,2), trax->getActivePlayer(), trax)) << endl;
-  cout << (int)trax->addTile(new Tile(CROSS, new Position(4,2), trax->getActivePlayer(), trax)) << endl;
-  cout << (int)trax->addTile(new Tile(CROSS, new Position(5,2), trax->getActivePlayer(), trax)) << endl;
+//  cout << (int)trax->addTile(new Tile(CROSS, new Position(1,0), trax->getActivePlayer(), trax)) << endl;
+//  cout << (int)trax->addTile(new Tile(CROSS, new Position(-1,0), trax->getActivePlayer(), trax)) << endl;
+//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,0), trax->getActivePlayer(), trax)) << endl;
+//  cout << (int)trax->addTile(new Tile(CROSS, new Position(2,1), trax->getActivePlayer(), trax)) << endl;
+//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,2), trax->getActivePlayer(), trax)) << endl;
+//  cout << (int)trax->addTile(new Tile(CROSS, new Position(3,2), trax->getActivePlayer(), trax)) << endl;
+//  cout << (int)trax->addTile(new Tile(CROSS, new Position(4,2), trax->getActivePlayer(), trax)) << endl;
+//  cout << (int)trax->addTile(new Tile(CROSS, new Position(5,2), trax->getActivePlayer(), trax)) << endl;
 //  cout << (int)trax->addTile(new Tile(CROSS, new Position(6,2), trax->getActivePlayer(), trax)) << endl;
   //1
 

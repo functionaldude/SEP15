@@ -28,8 +28,8 @@ protected:
   int tile_num;
   bool over;
   void addAutomatic(Tile *input);
-  bool checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin);
-  bool checkLineWin(Color color, Tile *input, Tile *prev);
+  static bool checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin);
+  static bool checkLineWin(Color color, Tile *input, Tile *prev);
 
 public:
   Game(std::string *filename);

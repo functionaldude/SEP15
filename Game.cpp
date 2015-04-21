@@ -10,6 +10,8 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include <thread>
+#include <future>
 #include "Game.h"
 #include "Tile.h"
 #include "Position.h"
@@ -151,16 +153,32 @@ int8_t Game::addTile(Tile *input){
     tiles.push_back(input);
     tile_num--;
     addAutomatic(input);
-    bool win_red = checkLoopWin(COLOR_RED, input, nullptr, input->getPos());
-    bool win_white = checkLoopWin(COLOR_WHITE, input, nullptr, input->getPos());
-    win_red = checkLineWin(COLOR_RED, input, nullptr);
-    win_white = checkLineWin(COLOR_WHITE, input, nullptr);
-    if (win_red && win_white) {
-      return 3;
-    } else if (win_red) {
-      return 2;
-    } else if (win_white) {
-      return 1;
+
+    if (tiles.size() >=5) {
+      future<bool> fut_win_red_loop = async(&Game::checkLoopWin, COLOR_RED, input, nullptr, input->getPos());
+      future<bool> fut_win_white_loop = async(&Game::checkLoopWin, COLOR_WHITE, input, nullptr, input->getPos());
+      bool win_red_loop = fut_win_red_loop.get();
+      bool win_white_loop = fut_win_white_loop.get();
+
+      if (win_red_loop && win_white_loop) {
+        return 3;
+      } else if (win_red_loop) {
+        return 2;
+      } else if (win_white_loop) {
+        return 1;
+      }
+    }
+
+    if (tiles.size() >= 8) {
+      bool win_red_line = checkLineWin(COLOR_RED, input, nullptr);
+      bool win_white_line = checkLineWin(COLOR_WHITE, input, nullptr);
+      if (win_red_line && win_white_line) {
+        return 3;
+      } else if (win_red_line) {
+        return 2;
+      } else if (win_white_line) {
+        return 1;
+      }
     }
   } else {
     delete input;
@@ -319,9 +337,6 @@ bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin){
   if (prev && origin->isPos(input->getPos())) {
     return true;
   }
-  if (tiles.size() < 5) {
-    return false;
-  }
   Tile *next = nullptr;
   tile_neighbours *neighbours = input->getNeighbours();
   if (neighbours->countNeighbours() < 2) {
@@ -359,9 +374,6 @@ bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin){
 
 bool Game::checkLineWin(Color color, Tile *input, Tile *prev){
   if (!input) {
-    return false;
-  }
-  if (tiles.size() < 8) {
     return false;
   }
   static dimension dim;
