@@ -45,13 +45,11 @@ int main(int argc, char **argv)
 
   //testtiles
   cout << (int)trax.addTile(new Tile(CROSS, new Position(0,0), trax.getActivePlayer(), &trax)) << endl;
-  cout << (int)trax.addTile(new Tile(CROSS, new Position(1,0), trax.getActivePlayer(), &trax)) << endl;
-  cout << (int)trax.addTile(new Tile(CROSS, new Position(2,0), trax.getActivePlayer(), &trax)) << endl;
-  cout << (int)trax.addTile(new Tile(CROSS, new Position(3,0), trax.getActivePlayer(), &trax)) << endl;
-  cout << (int)trax.addTile(new Tile(CURVE_1, new Position(4,0), trax.getActivePlayer(), &trax)) << endl;
-  cout << (int)trax.addTile(new Tile(CURVE_2, new Position(-1,0), trax.getActivePlayer(), &trax)) << endl;
-  cout << (int)trax.addTile(new Tile(CROSS, new Position(-1,-1), trax.getActivePlayer(), &trax)) << endl;
-  cout << (int)trax.addTile(new Tile(CROSS, new Position(4,-1), trax.getActivePlayer(), &trax)) << endl;
+  cout << (int)trax.addTile(new Tile(CURVE_2, new Position(1,0), trax.getActivePlayer(), &trax)) << endl;
+  cout << (int)trax.addTile(new Tile(CURVE_2, new Position(2,0), trax.getActivePlayer(), &trax)) << endl;
+  cout << (int)trax.addTile(new Tile(CURVE_1, new Position(-1,0), trax.getActivePlayer(), &trax)) << endl;
+  cout << (int)trax.addTile(new Tile(CURVE_1, new Position(-2,0), trax.getActivePlayer(), &trax)) << endl;
+
 
 
   try {

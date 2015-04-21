@@ -126,11 +126,23 @@ Color Game::getActivePlayer(){
 
 //adds a tile
 int8_t Game::addTile(Tile *input){
+  if (tile_num == 0) {
+    return 4;
+  }
   int retval = 0;
   if ((retval = tryTile(input)) == 0) {
     tiles.push_back(input);
     tile_num--;
     addAutomatic(input);
+    bool win_red = checkLoopWin(COLOR_RED, input, nullptr, input->getPos());
+    bool win_white = checkLoopWin(COLOR_WHITE, input, nullptr, input->getPos());
+    if (win_red && win_white) {
+      return 3;
+    } else if (win_red) {
+      return 2;
+    } else if (win_white) {
+      return 1;
+    }
   } else {
     delete input;
   }
@@ -186,11 +198,17 @@ int8_t Game::tryTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY() != 0) {
     return -1;
   }
-  tile_neighbours *neighbours = input->getNeighbours();
-  if (!neighbours) {
-    //already exists
-    return -2;
+  for (auto &iter : tiles){
+    if (input->getPos()->isPos(iter->getPos())) {
+      //already exists
+      return -2;
+    }
   }
+  tile_neighbours *neighbours = input->getNeighbours();
+//  if (!neighbours) {
+//    //already exists
+//    return -2;
+//  }
   if (!neighbours->hasNeighbours() && tiles.size() != 0) {
     //no neigbour found
     delete neighbours;
@@ -258,4 +276,46 @@ void Game::addAutomatic(Tile * input){
 
 vector<Tile*> *Game::getTiles(){
   return &tiles;
+}
+
+bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin){
+  if (prev && origin->isPos(input->getPos())) {
+    return true;
+  }
+  if (tiles.size() < 5) {
+    return false;
+  }
+  Tile *next = nullptr;
+  tile_neighbours *neighbours = input->getNeighbours();
+  if (neighbours->countNeighbours() < 2) {
+    delete neighbours;
+    return false;
+  }
+  if (prev) {
+    if (neighbours->UP && !(neighbours->UP->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color) {
+      next = neighbours->UP;
+    } else if (neighbours->LEFT && !(neighbours->LEFT->getPos()->isPos(prev->getPos())) && input->getSideColor(LEFT) == color) {
+      next = neighbours->LEFT;
+    } else  if (neighbours->DOWN && !(neighbours->DOWN->getPos()->isPos(prev->getPos())) && input->getSideColor(DOWN) == color){
+      next = neighbours->DOWN;
+    } else if (neighbours->RIGHT && !(neighbours->RIGHT->getPos()->isPos(prev->getPos())) && input->getSideColor(RIGHT) == color){
+      next = neighbours->RIGHT;
+    }
+  } else {
+    if (neighbours->UP && input->getSideColor(UP) == color) {
+      next = neighbours->UP;
+    } else if (neighbours->LEFT && input->getSideColor(LEFT) == color) {
+      next = neighbours->LEFT;
+    } else  if (neighbours->DOWN && input->getSideColor(DOWN) == color){
+      next = neighbours->DOWN;
+    } else if (neighbours->RIGHT && input->getSideColor(RIGHT) == color){
+      next = neighbours->RIGHT;
+    }
+  }
+
+  delete neighbours;
+  if (!next) {
+    return false;
+  }
+  return checkLoopWin(color, next, input, origin);
 }

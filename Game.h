@@ -27,6 +27,7 @@ protected:
   std::vector<Tile*> tiles;
   int tile_num;
   void addAutomatic(Tile *input);
+  bool checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin);
 
 public:
   Game(std::string *filename);

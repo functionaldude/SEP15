@@ -59,14 +59,29 @@ int cmd_AddTile::execute(){
     cout << "Invalid coordinates - field not empty" << endl;
   }  else if (error == -4){
     cout << "Invalid move - connected line colors mismatch" << endl;
+  } else if (error == 1){
+    cout << "Player white wins!" << endl;
+  } else if (error == 2){
+    cout << "Player red wins!" << endl;
+  } else if (error == 3){
+    if (game->Activeplayer == COLOR_RED) {
+      cout << "Player red wins!" << endl;
+    } else {
+      cout << "Player white wins!" << endl;
+    }
+  } else if (error == 4){
+    cout << "No more tiles left. Game ends in a draw!" << endl;
   }
-  if (error != 0) {
+  if (error < 0) {
     return -1;
   }
   game->togglePlayer();
   
   //autosave if -g
   if (game->constant_write) {
+    *args->arg[0] = "write";
+    *args->arg[1] = "auto";
+    args->arg_count = 1;
     Command *save = new cmd_Write(game, args);
     save->execute();
     delete save;
@@ -76,7 +91,7 @@ int cmd_AddTile::execute(){
 
 cmd_Write::cmd_Write(Game *game, struct arguments *args): Command(game, args){}
 int cmd_Write::execute(){
-  if (!game->constant_write && args->arg_count != 1) {
+  if (args->arg_count != 1) {
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
@@ -84,22 +99,15 @@ int cmd_Write::execute(){
     cout << "Board is empty!" << endl;
     return -1;
   }
-  string *filename = new string(*args->arg[1]);
-  if (!game->outputfile) {
-    game->filename = filename;
-    game->outputfile = new fstream(*filename, ios::out | ios::binary);
-  } else if (!game->constant_write && *filename != *game->filename){
-    game->outputfile->close();
-    delete game->outputfile;
-    delete game->filename;
-    game->filename = filename;
-    game->outputfile = new fstream(*filename, ios::out | ios::binary);
-  } else {
-    delete filename;
+  string *filename = args->arg[1];
+  fstream *outputfile;
+  if (game->constant_write && *filename == "auto") {
+    filename = game->filename;
   }
 
-  if (!game->outputfile->is_open()) {
-    cout << "Cannot write file " << *game->filename << endl;
+  outputfile = new fstream(*filename, ios::out | ios::binary);
+  if (!outputfile->is_open()) {
+    cout << "Cannot write file " << *filename << endl;
     return -1;
   }
 
@@ -113,7 +121,7 @@ int cmd_Write::execute(){
   header->maxX = dimensions->maxX;
   header->maxY = dimensions->maxY;
 
-  game->outputfile->write((char*)header, sizeof(file_header));
+  outputfile->write((char*)header, sizeof(file_header));
   delete header;
 
   char buffer[2] ;
@@ -122,7 +130,7 @@ int cmd_Write::execute(){
     //only 1 tile on (0,0)
     buffer[0] = game->tiles[0]->getType();
     buffer[1] = game->tiles[0]->getColor();
-    game->outputfile->write(buffer, 2);
+    outputfile->write(buffer, 2);
   } else {
     //multiple tiles
     int8_t x = dimensions->minX;
@@ -137,7 +145,7 @@ int cmd_Write::execute(){
           break;
         }
       }
-      game->outputfile->write(buffer, 2);
+      outputfile->write(buffer, 2);
       if (x == dimensions->maxX) {
         x = dimensions->minX;
         y++;
@@ -148,7 +156,7 @@ int cmd_Write::execute(){
   }
 
   delete dimensions;
-  game->outputfile->flush();
-  game->outputfile->seekg(0);
+  outputfile->close();
+  delete outputfile;
   return 0;
 }
