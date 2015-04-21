@@ -44,11 +44,6 @@ Color Tile::getPlayer(){
   return player;
 }
 
-//sets the topcolor
-void Tile::setColor(Color input){
-  Topcolor = input;
-}
-
 //returns the color of the side of the tile
 Color Tile::getSideColor(enum Side side){
   if (side == UP) {
@@ -114,7 +109,6 @@ void Tile::matchSides(){
     Topcolor = COLOR_RED;
     return;
   }
-  //TODO: setColor here is ghetto
   tile_neighbours *neighbours = getNeighbours();
   switch (Side) {
     case VOID: return;
@@ -122,33 +116,33 @@ void Tile::matchSides(){
     case CROSS:{
       if (neighbours->UP) {
         if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         } else {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         }
         break;
       }
       if (neighbours->DOWN) {
         if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         } else {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         }
         break;
       }
       if (neighbours->LEFT) {
         if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         } else {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         }
         break;
       }
       if (neighbours->RIGHT) {
         if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         } else {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         }
         break;
       }
@@ -158,33 +152,33 @@ void Tile::matchSides(){
     case CURVE_1:{
       if (neighbours->UP) {
         if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         } else {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         }
         break;
       }
       if (neighbours->DOWN) {
         if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         } else {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         }
         break;
       }
       if (neighbours->LEFT) {
         if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         } else {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         }
         break;
       }
       if (neighbours->RIGHT) {
         if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         } else {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         }
         break;
       }
@@ -194,33 +188,33 @@ void Tile::matchSides(){
     case CURVE_2:{
       if (neighbours->UP) {
         if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         } else {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         }
         break;
       }
       if (neighbours->DOWN) {
         if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         } else {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         }
         break;
       }
       if (neighbours->LEFT) {
         if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         } else {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         }
         break;
       }
       if (neighbours->RIGHT) {
         if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) {
-          setColor(COLOR_RED);
+          Topcolor = COLOR_RED;
         } else {
-          setColor(COLOR_WHITE);
+          Topcolor = COLOR_WHITE;
         }
         break;
       }

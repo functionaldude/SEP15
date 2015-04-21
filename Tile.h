@@ -21,7 +21,6 @@ public:
   Position *getPos();
   TileType getType();
   Color getColor();
-  void setColor(Color input);
   Color getPlayer();
   Color getSideColor(enum Side side);
   void matchSides();
