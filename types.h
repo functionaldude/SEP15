@@ -40,10 +40,10 @@ struct arguments{
 };
 
 struct dimension{
-  int8_t minX;
-  int8_t maxX;
-  int8_t minY;
-  int8_t maxY;
+  int8_t minX = 0;
+  int8_t maxX = 0;
+  int8_t minY = 0;
+  int8_t maxY = 0;
 };
 
 struct file_header{

@@ -119,7 +119,7 @@ int cmd_Write::execute(){
   game->outputfile->write((char*)header, sizeof(file_header));
   delete header;
 
-  char buffer[2];
+  char buffer[2] ;
 
   if(game->tiles.size() == 1){
     //only 1 tile on (0,0)
