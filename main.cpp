@@ -44,11 +44,15 @@ int main(int argc, char **argv)
   Game trax(filename);
 
   //testtiles
-//  cout << trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(0,0))) << endl;
-//  cout << trax.addTile(new Tile(CROSS, COLOR_RED, new Position(-1,0))) << endl;
-//  cout << trax.addTile(new Tile(CURVE_1, COLOR_WHITE, new Position(2,0))) << endl;
-//  cout << trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(4,0))) << endl;
-//  cout << trax.addTile(new Tile(CROSS, COLOR_WHITE, new Position(0,1))) << endl;
+//  cout << (int)trax.addTile(new Tile(CROSS, new Position(0,0), trax.getActivePlayer(), &trax)) << endl;
+//  cout << (int)trax.addTile(new Tile(CROSS, new Position(1,0), trax.getActivePlayer(), &trax)) << endl;
+//  cout << (int)trax.addTile(new Tile(CROSS, new Position(2,0), trax.getActivePlayer(), &trax)) << endl;
+//  cout << (int)trax.addTile(new Tile(CROSS, new Position(3,0), trax.getActivePlayer(), &trax)) << endl;
+//  cout << (int)trax.addTile(new Tile(CURVE_1, new Position(4,0), trax.getActivePlayer(), &trax)) << endl;
+//  cout << (int)trax.addTile(new Tile(CURVE_2, new Position(-1,0), trax.getActivePlayer(), &trax)) << endl;
+//  cout << (int)trax.addTile(new Tile(CROSS, new Position(-1,-1), trax.getActivePlayer(), &trax)) << endl;
+//  cout << (int)trax.addTile(new Tile(CROSS, new Position(4,-1), trax.getActivePlayer(), &trax)) << endl;
+
 
   trax.run();
 
