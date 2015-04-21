@@ -29,6 +29,7 @@ protected:
   bool over;
   void addAutomatic(Tile *input);
   bool checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin);
+  bool checkLineWin(Color color, Tile *input, Tile *prev);
 
 public:
   Game(std::string *filename);

@@ -141,6 +141,8 @@ int8_t Game::addTile(Tile *input){
     addAutomatic(input);
     bool win_red = checkLoopWin(COLOR_RED, input, nullptr, input->getPos());
     bool win_white = checkLoopWin(COLOR_WHITE, input, nullptr, input->getPos());
+    win_red = checkLineWin(COLOR_RED, input, nullptr);
+    win_white = checkLineWin(COLOR_WHITE, input, nullptr);
     if (win_red && win_white) {
       return 3;
     } else if (win_red) {
@@ -199,6 +201,7 @@ Tile *Game::getTile(int8_t x, int8_t y){
   return nullptr;
 }
 
+//checks shit
 int8_t Game::tryTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY() != 0) {
     return -1;
@@ -210,10 +213,6 @@ int8_t Game::tryTile(Tile *input){
     }
   }
   tile_neighbours *neighbours = input->getNeighbours();
-//  if (!neighbours) {
-//    //already exists
-//    return -2;
-//  }
   if (!neighbours->hasNeighbours() && tiles.size() != 0) {
     //no neigbour found
     delete neighbours;
@@ -327,4 +326,98 @@ bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin){
     return false;
   }
   return checkLoopWin(color, next, input, origin);
+}
+
+bool Game::checkLineWin(Color color, Tile *input, Tile *prev){
+  if (!input) {
+    return false;
+  }
+  if (tiles.size() < 8) {
+    return false;
+  }
+  static dimension dim;
+  static Tile *firstnext;
+  static Tile *origin;
+  static bool onedirection;
+  static int dir_cnt;
+  if (!prev) {
+    //first init
+    origin = input;
+    onedirection = false;
+    dir_cnt = 0;
+    firstnext = nullptr;
+  }
+  bool retval = false;
+
+  Tile *next = nullptr;
+  tile_neighbours *neighbours = input->getNeighbours();
+
+  if (dir_cnt == 2 && onedirection) {
+    dir_cnt--;
+    onedirection = false;
+    input = origin;
+    prev = firstnext;
+  }
+
+  if (prev) {
+    if (neighbours->UP && !(neighbours->UP->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color) {
+      next = neighbours->UP;
+    }
+    else if (neighbours->LEFT && !(neighbours->LEFT->getPos()->isPos(prev->getPos())) && input->getSideColor(LEFT) == color) {
+      next = neighbours->LEFT;
+    }
+    else  if (neighbours->DOWN && !(neighbours->DOWN->getPos()->isPos(prev->getPos())) && input->getSideColor(DOWN) == color){
+      next = neighbours->DOWN;
+    }
+    else if (neighbours->RIGHT && !(neighbours->RIGHT->getPos()->isPos(prev->getPos())) && input->getSideColor(RIGHT) == color){
+      next = neighbours->RIGHT;
+    }
+  } else {
+    //first
+    if (neighbours->UP && input->getSideColor(UP) == color) {dir_cnt++;}
+    if (neighbours->LEFT && input->getSideColor(LEFT) == color) {dir_cnt++;}
+    if (neighbours->DOWN && input->getSideColor(DOWN) == color){dir_cnt++;}
+    if (neighbours->RIGHT && input->getSideColor(RIGHT) == color){dir_cnt++;}
+
+    if (neighbours->UP && input->getSideColor(UP) == color) {
+      next = neighbours->UP;
+    }
+    else if (neighbours->LEFT && input->getSideColor(LEFT) == color) {
+      next = neighbours->LEFT;
+    }
+    else  if (neighbours->DOWN && input->getSideColor(DOWN) == color){
+      next = neighbours->DOWN;
+    }
+    else if (neighbours->RIGHT && input->getSideColor(RIGHT) == color){
+      next = neighbours->RIGHT;
+    }
+    firstnext = next;
+  }
+  delete neighbours;
+
+  int8_t x = input->getPos()->getX();
+  int8_t y = input->getPos()->getY();
+
+  if (x < dim.minX) {dim.minX = x;}
+  if (x > dim.maxX) {dim.maxX = x;}
+  if (y < dim.minY) {dim.minY = y;}
+  if (y > dim.maxY) {dim.maxY = y;}
+
+  if (dir_cnt) {
+    if (dim.maxX - dim.minX > 6) {
+      return true;
+    }
+    if (dim.maxY - dim.minY > 6) {
+      return true;
+    }
+  }
+
+
+  if (!next && dir_cnt == 2) {
+    onedirection = true;
+  }
+  
+  retval = checkLineWin(color, next, input);
+
+  return retval;
 }

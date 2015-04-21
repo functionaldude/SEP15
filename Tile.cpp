@@ -104,7 +104,7 @@ Color Tile::getSideColor(enum Side side){
           case RIGHT: return COLOR_WHITE;
         }
       }
-    case VOID: return COLOR_BLANK;
+    default: return COLOR_BLANK;
   }
 }
 
@@ -278,11 +278,6 @@ vector<Tile*> *Tile::getEdges(){
 tile_neighbours *Tile::getNeighbours(){
   tile_neighbours *neighbours = new tile_neighbours;
   for (auto &iter : *parent->getTiles()) {
-//    if (pos->isPos(iter->pos)) {
-//      //already exists
-//      delete neighbours;
-//      return nullptr;
-//    }
     if (pos->getY() == iter->pos->getY()) {
       if (pos->getX() + 1 == iter->pos->getX()) {
         neighbours->RIGHT = iter;
