@@ -76,7 +76,6 @@ int cmd_AddTile::execute(){
 
 cmd_Write::cmd_Write(Game *game, struct arguments *args): Command(game, args){}
 int cmd_Write::execute(){
-  cout << "write " << (int)args->arg_count << endl;
   if (!game->constant_write && args->arg_count != 1) {
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
@@ -103,8 +102,6 @@ int cmd_Write::execute(){
     cout << "Cannot write file " << *game->filename << endl;
     return -1;
   }
-
-  cout << "file: " << *game->filename << endl;
 
   file_header *header = new file_header;
   dimension *dimensions = game->getFieldDimension();
