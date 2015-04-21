@@ -110,6 +110,10 @@ Color Tile::getSideColor(enum Side side){
 
 //sets the top color according to the neigbours
 void Tile::matchSides(){
+  if (parent->getTiles()->size() == 0) {
+    Topcolor = COLOR_RED;
+    return;
+  }
   //TODO: setColor here is ghetto
   tile_neighbours *neighbours = getNeighbours();
   switch (Side) {

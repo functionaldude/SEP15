@@ -137,51 +137,15 @@ Color Game::getActivePlayer(){
 
 //adds a tile
 int8_t Game::addTile(Tile *input){
-  if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
+  int retval = 0;
+  if ((retval = tryTile(input)) == 0) {
+    tiles.push_back(input);
+    tile_num--;
+    addAutomatic(input);
+  } else {
     delete input;
-    return -1;
   }
-
-  tile_neighbours *neighbours = input->getNeighbours();
-
-  if (!neighbours) {
-    //already exists
-    delete input;
-    return -2;
-  }
-  if (!neighbours->hasNeighbours() && tiles.size() != 0) {
-    //no neigbour found
-    delete neighbours;
-    delete input;
-    return -3;
-  }
-
-  input->matchSides();
-
-  if (tiles.size() == 0) {
-    input->setColor(COLOR_RED);
-  } else if (!input->checkSides()) {
-    //colors mismatch
-    delete neighbours;
-    delete input;
-    return -4;
-  }
-
-  delete neighbours;
-  tiles.push_back(input);
-  tile_num--;
-  addAutomatic(input);
-  return 0;
-
-//  int retval = 0;
-//  if ((retval = tryTile(input)) == 0) {
-//    tiles.push_back(input);
-//    tile_num--;
-//    addAutomatic(input);
-//  } else {
-//    delete input;
-//  }
-//  return retval;
+  return retval;
 }
 
 //destructor
@@ -232,7 +196,7 @@ Tile *Game::getTile(int8_t x, int8_t y){
 }
 
 int8_t Game::tryTile(Tile *input){
-  if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
+  if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY() != 0) {
     return -1;
   }
   tile_neighbours *neighbours = input->getNeighbours();
