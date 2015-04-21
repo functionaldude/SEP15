@@ -26,6 +26,7 @@ protected:
   bool constant_write;
   std::vector<Tile*> tiles;
   int tile_num;
+  bool over;
   void addAutomatic(Tile *input);
   bool checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin);
 
@@ -39,6 +40,7 @@ public:
   void setRunning(bool input);
   Tile *getTile(int8_t x, int8_t y);
   Color getActivePlayer();
+  void GameOver();
   dimension *getFieldDimension();
   std::vector<Tile*> *getTiles();
 };

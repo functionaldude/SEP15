@@ -74,9 +74,12 @@ int cmd_AddTile::execute(){
   }
   if (error < 0) {
     return -1;
+  } else if (error > 0){
+    game->GameOver();
+  } else {
+    game->togglePlayer();
   }
-  game->togglePlayer();
-  
+
   //autosave if -g
   if (game->constant_write) {
     *args->arg[0] = "write";

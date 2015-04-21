@@ -50,15 +50,12 @@ int main(int argc, char **argv)
   cout << (int)trax.addTile(new Tile(CURVE_1, new Position(-1,0), trax.getActivePlayer(), &trax)) << endl;
   cout << (int)trax.addTile(new Tile(CURVE_1, new Position(-2,0), trax.getActivePlayer(), &trax)) << endl;
 
-
-
   try {
     trax.run();
   } catch (std::bad_alloc &ba) {
     cout << "Error: Out of Memory!" << endl;
-    return -3;
+    return -1;
   }
-
 
   return 0;
 }

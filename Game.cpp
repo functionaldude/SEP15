@@ -49,6 +49,7 @@ void getCMD(string input, arguments *arguments){
 Game::Game(string *filename){
   Activeplayer = COLOR_WHITE;
   Running = false;
+  over = false;
   tile_num = 64;
   if (filename) {
     this->filename = filename;
@@ -66,6 +67,10 @@ void Game::run(){
   Command *cmd = nullptr;
   arguments *args_cont = nullptr;
   while (Running == true) {
+    if (over) {
+      Running = false;
+      break;
+    }
     args_cont = new arguments;
     cout << "sep> ";
     //cin >> input;
@@ -276,6 +281,10 @@ void Game::addAutomatic(Tile * input){
 
 vector<Tile*> *Game::getTiles(){
   return &tiles;
+}
+
+void Game::GameOver(){
+  over = true;
 }
 
 bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin){
