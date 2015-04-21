@@ -27,14 +27,13 @@ protected:
   std::vector<Tile*> tiles;
   std::fstream *outputfile;
   int tile_num;
-  bool checkSides(Tile *input, tile_neighbours *neighbours);
   void addAutomatic(Tile *input);
-  bool tryTile(Tile *input);
 
 public:
   Game(std::string *filename);
   ~Game();
   int8_t addTile(Tile* input);
+  int8_t tryTile(Tile *input);
   void run();
   void togglePlayer();
   void setRunning(bool input);

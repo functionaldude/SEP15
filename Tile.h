@@ -24,10 +24,11 @@ public:
   void setColor(Color input);
   Color getPlayer();
   Color getSideColor(enum Side side);
-  void matchSides(struct tile_neighbours *neighbours);
+  void matchSides();
   Game *getParent();
   std::vector<Tile*> *getEdges();
   tile_neighbours *getNeighbours();
+  bool checkSides();
 private:
   TileType Side;
   Color Topcolor;

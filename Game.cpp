@@ -156,11 +156,11 @@ int8_t Game::addTile(Tile *input){
     return -3;
   }
 
-  input->matchSides(neighbours);
-  
+  input->matchSides();
+
   if (tiles.size() == 0) {
     input->setColor(COLOR_RED);
-  } else if (!checkSides(input, neighbours)) {
+  } else if (!input->checkSides()) {
     //colors mismatch
     delete neighbours;
     delete input;
@@ -172,6 +172,16 @@ int8_t Game::addTile(Tile *input){
   tile_num--;
   addAutomatic(input);
   return 0;
+
+//  int retval = 0;
+//  if ((retval = tryTile(input)) == 0) {
+//    tiles.push_back(input);
+//    tile_num--;
+//    addAutomatic(input);
+//  } else {
+//    delete input;
+//  }
+//  return retval;
 }
 
 //destructor
@@ -211,26 +221,6 @@ dimension *Game::getFieldDimension(){
   return retval;
 }
 
-//checks if a Tile placement is valid with neighbour colors
-bool Game::checkSides(Tile *input, tile_neighbours *neighbours){
-  if (!neighbours->hasNeighbours()) {
-    return true;
-  }
-  if (neighbours->UP && input->getSideColor(UP) != neighbours->UP->getSideColor(DOWN)) {
-    return false;
-  }
-  if (neighbours->DOWN && input->getSideColor(DOWN) != neighbours->DOWN->getSideColor(UP)) {
-    return false;
-  }
-  if (neighbours->LEFT && input->getSideColor(LEFT) != neighbours->LEFT->getSideColor(RIGHT)) {
-    return false;
-  }
-  if (neighbours->RIGHT && input->getSideColor(RIGHT) != neighbours->RIGHT->getSideColor(LEFT)) {
-    return false;
-  }
-  return true;
-}
-
 //returns a tile at pos x, y
 Tile *Game::getTile(int8_t x, int8_t y){
   for (auto &iter :tiles){
@@ -241,28 +231,28 @@ Tile *Game::getTile(int8_t x, int8_t y){
   return nullptr;
 }
 
-bool Game::tryTile(Tile *input){
+int8_t Game::tryTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
-    return false;
+    return -1;
   }
   tile_neighbours *neighbours = input->getNeighbours();
   if (!neighbours) {
     //already exists
-    return false;
+    return -2;
   }
   if (!neighbours->hasNeighbours() && tiles.size() != 0) {
     //no neigbour found
     delete neighbours;
-    return false;
+    return -3;
   }
-  input->matchSides(neighbours);
-  if (!checkSides(input, neighbours)) {
+  input->matchSides();
+  if (!input->checkSides()) {
     //colors mismatch
     delete neighbours;
-    return false;
+    return -4;
   }
   delete neighbours;
-  return true;
+  return 0;
 }
 
 void Game::addAutomatic(Tile * input){
@@ -280,19 +270,19 @@ void Game::addAutomatic(Tile * input){
       int8_t cnt_neighbour = neighbours->countNeighbours();
       if (cnt_neighbour > 1) {
         testtile = new Tile(CROSS, new Position(*iter->getPos()), Activeplayer, this);
-        if (tryTile(testtile)) {
+        if (tryTile(testtile) == 0) {
           tests++;
           testtype = testtile->getType();
         }
         delete testtile;
         testtile = new Tile(CURVE_1, new Position(*iter->getPos()), Activeplayer, this);
-        if (tryTile(testtile)) {
+        if (tryTile(testtile) == 0) {
           tests++;
           testtype = testtile->getType();
         }
         delete testtile;
         testtile = new Tile(CURVE_2, new Position(*iter->getPos()), Activeplayer, this);
-        if (tryTile(testtile)) {
+        if (tryTile(testtile) == 0) {
           tests++;
           testtype = testtile->getType();
         }

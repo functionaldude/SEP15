@@ -109,8 +109,9 @@ Color Tile::getSideColor(enum Side side){
 }
 
 //sets the top color according to the neigbours
-void Tile::matchSides(struct tile_neighbours *neighbours){
+void Tile::matchSides(){
   //TODO: setColor here is ghetto
+  tile_neighbours *neighbours = getNeighbours();
   switch (Side) {
     case VOID: return;
 
@@ -222,6 +223,7 @@ void Tile::matchSides(struct tile_neighbours *neighbours){
       break;
     }
   }
+  delete neighbours;
 }
 
 //TODO: use this func instead of parent version
@@ -287,4 +289,27 @@ tile_neighbours *Tile::getNeighbours(){
     }
   }
   return neighbours;
+}
+
+bool Tile::checkSides(){
+  tile_neighbours *neighbours = getNeighbours();
+  bool retval = true;
+  if (!neighbours->hasNeighbours()) {
+    delete neighbours;
+    return retval;
+  }
+  if (neighbours->UP && this->getSideColor(UP) != neighbours->UP->getSideColor(DOWN)) {
+    retval = false;
+  }
+  if (neighbours->DOWN && this->getSideColor(DOWN) != neighbours->DOWN->getSideColor(UP)) {
+    retval = false;
+  }
+  if (neighbours->LEFT && this->getSideColor(LEFT) != neighbours->LEFT->getSideColor(RIGHT)) {
+    retval = false;
+  }
+  if (neighbours->RIGHT && this->getSideColor(RIGHT) != neighbours->RIGHT->getSideColor(LEFT)) {
+    retval = false;
+  }
+  delete neighbours;
+  return retval;
 }
