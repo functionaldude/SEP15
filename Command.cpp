@@ -34,8 +34,7 @@ int cmd_AddTile::execute(){
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
-  Position *tmp_pos;
-  tmp_pos = new Position();
+  Position *tmp_pos = new Position();
   if (!tmp_pos->parse(*args->arg[1])) {
     cout << "Invalid parameters" << endl;
     delete tmp_pos;
