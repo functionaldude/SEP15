@@ -25,7 +25,6 @@ protected:
   std::string *filename;
   bool constant_write;
   std::vector<Tile*> tiles;
-  std::fstream *outputfile;
   int tile_num;
   void addAutomatic(Tile *input);
 

@@ -230,37 +230,49 @@ void Tile::matchSides(){
   delete neighbours;
 }
 
-//TODO: use this func instead of parent version
 vector<Tile*> *Tile::getEdges(){
   if (parent->getTiles()->size() < 2) {
     return nullptr;
   }
-  vector<Tile*> *edges = new std::vector<Tile*>;
-  Tile *found = parent->getTile(pos->getX()+1, pos->getY());
-  if (found) {
-    edges->push_back(found);
-  } else {
-    edges->push_back(new Tile(VOID, new Position(pos->getX()+1, pos->getY()), parent->getActivePlayer(), parent));
+  vector<Tile*> *edges = nullptr;
+  Tile *found = nullptr;
+  try {
+    edges = new std::vector<Tile*>;
+    found = parent->getTile(pos->getX()+1, pos->getY());
+    if (found) {
+      edges->push_back(found);
+    } else {
+      edges->push_back(new Tile(VOID, new Position(pos->getX()+1, pos->getY()), parent->getActivePlayer(), parent));
+    }
+    found = parent->getTile(pos->getX()-1, pos->getY());
+    if (found) {
+      edges->push_back(found);
+    } else {
+      edges->push_back(new Tile(VOID, new Position(pos->getX()-1, pos->getY()), parent->getActivePlayer(), parent));
+    }
+    found = parent->getTile(pos->getX(), pos->getY() +1);
+    if (found) {
+      edges->push_back(found);
+    } else {
+      edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() +1), parent->getActivePlayer(), parent));
+    }
+    found = parent->getTile(pos->getX(), pos->getY() -1);
+    if (found) {
+      edges->push_back(found);
+    } else {
+      edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() -1), parent->getActivePlayer(), parent));
+    }
+    return edges;
+  } catch (std::bad_alloc &ba) {
+    if (edges) {
+      for (auto &iter : *edges) {
+        delete iter;
+      }
+      delete edges;
+    }
+    throw ba;
   }
-  found = parent->getTile(pos->getX()-1, pos->getY());
-  if (found) {
-    edges->push_back(found);
-  } else {
-    edges->push_back(new Tile(VOID, new Position(pos->getX()-1, pos->getY()), parent->getActivePlayer(), parent));
-  }
-  found = parent->getTile(pos->getX(), pos->getY() +1);
-  if (found) {
-    edges->push_back(found);
-  } else {
-    edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() +1), parent->getActivePlayer(), parent));
-  }
-  found = parent->getTile(pos->getX(), pos->getY() -1);
-  if (found) {
-    edges->push_back(found);
-  } else {
-    edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() -1), parent->getActivePlayer(), parent));
-  }
-  return edges;
+  return nullptr;
 }
 
 tile_neighbours *Tile::getNeighbours(){

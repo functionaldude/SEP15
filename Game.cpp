@@ -53,20 +53,9 @@ Game::Game(string *filename){
   if (filename) {
     this->filename = filename;
     constant_write = true;
-    outputfile = new fstream(*filename, ios::out | ios::binary);
-    if (!outputfile->is_open()) {
-      //TODO: find out what to do in this case
-      cout << "Cannot write file " << *filename << endl;
-      delete filename;
-      delete outputfile;
-      outputfile = nullptr;
-      this->filename = nullptr;
-      constant_write =false;
-    }
   } else {
     this->filename = nullptr;
     constant_write = false;
-    outputfile = nullptr;
   }
 }
 
@@ -153,9 +142,7 @@ Game::~Game(){
   for (auto &iter : tiles) {
     delete iter;
   }
-  if (outputfile) {
-    outputfile->close();
-    delete outputfile;
+  if (filename) {
     delete filename;
   }
   tiles.clear();
