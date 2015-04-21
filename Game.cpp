@@ -142,7 +142,7 @@ int8_t Game::addTile(Tile *input){
     return -1;
   }
 
-  tile_neighbours *neighbours = getNeighbours(input);
+  tile_neighbours *neighbours = input->getNeighbours();
 
   if (!neighbours) {
     //already exists
@@ -241,78 +241,11 @@ Tile *Game::getTile(int8_t x, int8_t y){
   return nullptr;
 }
 
-//returns neighbours of a tile
-//TODO: move this to Tile
-tile_neighbours *Game::getNeighbours(Tile *input){
-  tile_neighbours *neighbours = new tile_neighbours;
-  for (auto &iter : tiles) {
-    if (input->getPos()->isPos(iter->getPos())) {
-      //already exists
-      delete neighbours;
-      return nullptr;
-    }
-    if (input->getPos()->getY() == iter->getPos()->getY()) {
-      if (input->getPos()->getX() + 1 == iter->getPos()->getX()) {
-        neighbours->RIGHT = iter;
-        continue;
-      }
-      if (input->getPos()->getX() - 1 == iter->getPos()->getX()) {
-        neighbours->LEFT = iter;
-        continue;
-      }
-    }
-    if (input->getPos()->getX() == iter->getPos()->getX()) {
-      if (input->getPos()->getY() + 1 == iter->getPos()->getY()) {
-        neighbours->DOWN = iter;
-        continue;
-      }
-      if (input->getPos()->getY() - 1 == iter->getPos()->getY()) {
-        neighbours->UP = iter;
-        continue;
-      }
-    }
-  }
-  return neighbours;
-}
-
-//TODO: delete this
-vector<Tile*> *Game::getEdges(Tile* input){
-  if (tiles.size() < 2) {
-    return nullptr;
-  }
-  vector<Tile*> *edges = new std::vector<Tile*>;
-  Tile *found = getTile(input->getPos()->getX()+1, input->getPos()->getY());
-  if (found) {
-    edges->push_back(found);
-  } else {
-    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX()+1, input->getPos()->getY()), Activeplayer, this));
-  }
-  found = getTile(input->getPos()->getX()-1, input->getPos()->getY());
-  if (found) {
-    edges->push_back(found);
-  } else {
-    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX()-1, input->getPos()->getY()), Activeplayer, this));
-  }
-  found = getTile(input->getPos()->getX(), input->getPos()->getY() +1);
-  if (found) {
-    edges->push_back(found);
-  } else {
-    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX(), input->getPos()->getY() +1), Activeplayer, this));
-  }
-  found = getTile(input->getPos()->getX(), input->getPos()->getY() -1);
-  if (found) {
-    edges->push_back(found);
-  } else {
-    edges->push_back(new Tile(VOID, new Position(input->getPos()->getX(), input->getPos()->getY() -1), Activeplayer, this));
-  }
-  return edges;
-}
-
 bool Game::tryTile(Tile *input){
   if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY()) {
     return false;
   }
-  tile_neighbours *neighbours = getNeighbours(input);
+  tile_neighbours *neighbours = input->getNeighbours();
   if (!neighbours) {
     //already exists
     return false;
@@ -333,7 +266,7 @@ bool Game::tryTile(Tile *input){
 }
 
 void Game::addAutomatic(Tile * input){
-  vector<Tile*> *array = getEdges(input);
+  vector<Tile*> *array = input->getEdges();
   if (!array) {
     return;
   }
@@ -343,7 +276,7 @@ void Game::addAutomatic(Tile * input){
   Tile *testtile = nullptr;
   for (auto &iter : *array){
     if (iter->getType() == VOID) {
-      neighbours = getNeighbours(iter);
+      neighbours = iter->getNeighbours();
       int8_t cnt_neighbour = neighbours->countNeighbours();
       if (cnt_neighbour > 1) {
         testtile = new Tile(CROSS, new Position(*iter->getPos()), Activeplayer, this);

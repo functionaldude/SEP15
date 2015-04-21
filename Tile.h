@@ -27,6 +27,7 @@ public:
   void matchSides(struct tile_neighbours *neighbours);
   Game *getParent();
   std::vector<Tile*> *getEdges();
+  tile_neighbours *getNeighbours();
 private:
   TileType Side;
   Color Topcolor;

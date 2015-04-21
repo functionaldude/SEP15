@@ -28,8 +28,6 @@ protected:
   std::fstream *outputfile;
   int tile_num;
   bool checkSides(Tile *input, tile_neighbours *neighbours);
-  tile_neighbours *getNeighbours(Tile *input);
-  std::vector<Tile*> *getEdges(Tile *input);
   void addAutomatic(Tile *input);
   bool tryTile(Tile *input);
 

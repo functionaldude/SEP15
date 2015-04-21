@@ -256,3 +256,35 @@ vector<Tile*> *Tile::getEdges(){
   }
   return edges;
 }
+
+tile_neighbours *Tile::getNeighbours(){
+  tile_neighbours *neighbours = new tile_neighbours;
+  for (auto &iter : *parent->getTiles()) {
+    if (pos->isPos(iter->pos)) {
+      //already exists
+      delete neighbours;
+      return nullptr;
+    }
+    if (pos->getY() == iter->pos->getY()) {
+      if (pos->getX() + 1 == iter->pos->getX()) {
+        neighbours->RIGHT = iter;
+        continue;
+      }
+      if (pos->getX() - 1 == iter->pos->getX()) {
+        neighbours->LEFT = iter;
+        continue;
+      }
+    }
+    if (pos->getX() == iter->pos->getX()) {
+      if (pos->getY() + 1 == iter->pos->getY()) {
+        neighbours->DOWN = iter;
+        continue;
+      }
+      if (pos->getY() - 1 == iter->pos->getY()) {
+        neighbours->UP = iter;
+        continue;
+      }
+    }
+  }
+  return neighbours;
+}
