@@ -34,7 +34,8 @@ int cmd_AddTile::execute(){
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
-  Position *tmp_pos = new Position();
+  Position *tmp_pos;
+  tmp_pos = new Position();
   if (!tmp_pos->parse(*args->arg[1])) {
     cout << "Invalid parameters" << endl;
     delete tmp_pos;
@@ -49,7 +50,13 @@ int cmd_AddTile::execute(){
   } else {
     tiletype = CURVE_2;
   }
-  Tile *tmp_tile = new Tile(tiletype, tmp_pos, game->Activeplayer, game);
+  Tile *tmp_tile;
+  try {
+    tmp_tile = new Tile(tiletype, tmp_pos, game->Activeplayer, game);
+  } catch (std::bad_alloc &ba) {
+    delete tmp_pos;
+    throw ba;
+  }
   error = game->addTile(tmp_tile);
   if (error == -1) {
     cout << "Invalid coordinates - first tile must be set on (0,0)" << endl;
@@ -114,8 +121,19 @@ int cmd_Write::execute(){
     return -1;
   }
 
-  file_header *header = new file_header;
-  dimension *dimensions = game->getFieldDimension();
+  file_header *header = nullptr;
+  dimension *dimensions = nullptr;
+  try {
+    header = new file_header;
+    dimensions = game->getFieldDimension();
+  } catch (bad_alloc &ba) {
+    if (header) {
+      delete header;
+    }
+    outputfile->close();
+    delete outputfile;
+    throw ba;
+  }
 
   header->player = game->Activeplayer;
 

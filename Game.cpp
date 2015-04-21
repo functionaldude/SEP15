@@ -78,6 +78,7 @@ void Game::run(){
     getCMD(input, args_cont);
     switch (args_cont->command) {
       case CMD_BLANK:
+        delete args_cont;
         continue;
       case CMD_QUIT:
         cout << "Bye!" << endl;
@@ -92,13 +93,24 @@ void Game::run(){
         Running = false;
         return;
       case CMD_ADDTILE:
-        cmd = new cmd_AddTile(this, args_cont);
+        try {
+          cmd = new cmd_AddTile(this, args_cont);
+        } catch (bad_alloc &ba) {
+          delete args_cont;
+          throw ba;
+        }
         break;
       case CMD_WRITE:
-        cmd = new cmd_Write(this, args_cont);
+        try {
+          cmd = new cmd_Write(this, args_cont);
+        } catch (bad_alloc &ba) {
+          delete args_cont;
+          throw ba;
+        }
         break;
       case CMD_ERROR:
         cout << "Error: Unknown command!" << endl;
+        delete args_cont;
         continue;
     }
     cmd->execute();
@@ -229,53 +241,70 @@ int8_t Game::tryTile(Tile *input){
 }
 
 void Game::addAutomatic(Tile * input){
-  vector<Tile*> *array = input->getEdges();
-  if (!array) {
-    return;
-  }
-  tile_neighbours *neighbours = nullptr;
-  int8_t tests = 0;
-  TileType testtype = VOID;
+  vector<Tile*> *array = nullptr;
   Tile *testtile = nullptr;
-  for (auto &iter : *array){
-    if (iter->getType() == VOID) {
-      neighbours = iter->getNeighbours();
-      int8_t cnt_neighbour = neighbours->countNeighbours();
-      if (cnt_neighbour > 1) {
-        testtile = new Tile(CROSS, new Position(*iter->getPos()), Activeplayer, this);
-        if (tryTile(testtile) == 0) {
-          tests++;
-          testtype = testtile->getType();
+  try {
+    array = input->getEdges();
+    if (!array) {
+      return;
+    }
+    int8_t retval;
+    tile_neighbours *neighbours = nullptr;
+    int8_t tests = 0;
+    TileType testtype = VOID;
+    for (auto &iter : *array){
+      if (iter->getType() == VOID) {
+        neighbours = iter->getNeighbours();
+        int8_t cnt_neighbour = neighbours->countNeighbours();
+        if (cnt_neighbour > 1) {
+          testtile = new Tile(CROSS, new Position(*iter->getPos()), Activeplayer, this);
+          if (tryTile(testtile) == 0) {
+            tests++;
+            testtype = testtile->getType();
+          }
+          delete testtile;
+          testtile = new Tile(CURVE_1, new Position(*iter->getPos()), Activeplayer, this);
+          if (tryTile(testtile) == 0) {
+            tests++;
+            testtype = testtile->getType();
+          }
+          delete testtile;
+          testtile = new Tile(CURVE_2, new Position(*iter->getPos()), Activeplayer, this);
+          if (tryTile(testtile) == 0) {
+            tests++;
+            testtype = testtile->getType();
+          }
+          delete testtile;
+          if (tests == 1 && testtype != VOID) {
+            retval = addTile(new Tile(testtype, new Position(*iter->getPos()), Activeplayer, this));
+          }
+          tests = 0;
+          testtype = VOID;
         }
-        delete testtile;
-        testtile = new Tile(CURVE_1, new Position(*iter->getPos()), Activeplayer, this);
-        if (tryTile(testtile) == 0) {
-          tests++;
-          testtype = testtile->getType();
-        }
-        delete testtile;
-        testtile = new Tile(CURVE_2, new Position(*iter->getPos()), Activeplayer, this);
-        if (tryTile(testtile) == 0) {
-          tests++;
-          testtype = testtile->getType();
-        }
-        delete testtile;
-        if (tests == 1 && testtype != VOID) {
-          addTile(new Tile(testtype, new Position(*iter->getPos()), Activeplayer, this));
-        }
-        tests = 0;
-        testtype = VOID;
+        delete neighbours;
       }
-      delete neighbours;
     }
-  }
 
-  for (auto &iter : *array){
-    if (iter->getType() == VOID) {
-      delete iter;
+    for (auto &iter : *array){
+      if (iter->getType() == VOID) {
+        delete iter;
+      }
     }
+    delete array;
+  } catch (bad_alloc &ba) {
+    if (array) {
+      for (auto &iter : *array){
+        if (iter->getType() == VOID) {
+          delete iter;
+        }
+      }
+      delete array;
+    }
+    if (testtile) {
+      delete testtile;
+    }
+    throw ba;
   }
-  delete array;
 }
 
 vector<Tile*> *Game::getTiles(){
