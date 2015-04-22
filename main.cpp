@@ -4,8 +4,8 @@
 // Group: Group 2, study assistant Christoph Hack
 //
 // Authors: Alexander Grass 1331106
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Amel Hamidovic 1330013
+// Zoltan Sasvari 1330435
 //------------------------------------------------------------------------------
 //
 
@@ -46,49 +46,6 @@ int main(int argc, char **argv)
   }
 
   Game *trax = new Game(filename);
-
-  //testtiles
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(0,0),  trax)) << endl;
-
-  //curve
-//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(1,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(-1,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(-2,0),  trax)) << endl;
-
-  //line
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(1,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(-1,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(2,1),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,2),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(3,2),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(4,2),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(5,2),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(6,2),  trax)) << endl;
-  //1
-
-
-  //line2
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(1,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(2,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(3,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(4,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(5,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(6,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(7,0),  trax)) << endl;
-  //2
-
-  //doubleloop
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(-1,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(0,-1),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(1,-1),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(1,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_2, new Position(2,0),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(2,1),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CROSS, new Position(1,1),  trax)) << endl;
-//  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(1,2),  trax)) << endl;
-
 
   try 
   {

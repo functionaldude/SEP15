@@ -4,13 +4,13 @@
 // Group: Group 2, study assistant Christoph Hack
 //
 // Authors: Alexander Grass 1331106
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Amel Hamidovic 1330013
+// Zoltan Sasvari 1330435
 //------------------------------------------------------------------------------
 //
 
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef GAME_H
+#define GAME_H
 
 #include "Types.h"
 #include <vector>
@@ -19,34 +19,132 @@
 class Tile;
 class Position;
 
+//------------------------------------------------------------------------------
+//  Game class for coordinating the game
+//
+
 class Game 
 {
+
+  //---------------------------------------------------------------------------
+  // Friend for Command Class for adding Tiles on the field
+  //
   friend class CmdAddTile;
+  
+  //---------------------------------------------------------------------------
+  // Friend for Command Class for writing game output
+  //
   friend class CmdWrite;
 
   protected:
+    
+    //-------------------------------------------------------------------------
+    // Color of the active player
+    //
     Color activeplayer_;
+    
+    //-------------------------------------------------------------------------
+    // Is set true if game is running
+    //
     bool running_;
+
+    //-------------------------------------------------------------------------
+    // String with the outputfile name
+    //
     std::string *filename_;
+    
+    //-------------------------------------------------------------------------
+    // Is set true if game was launched in graphical mode
+    //
     bool constant_write_;
+
+    //-------------------------------------------------------------------------
+    // Vector with placed Tiles
+    //
     std::vector<Tile*> tiles_;
+    
+    //-------------------------------------------------------------------------
+    // Amount of Tiles avaible in the Game 
+    //
     int tile_num_;
+    
+    //-------------------------------------------------------------------------
+    // Bool which is set true if someone wins
+    //
     bool over_;
+    
+    //-------------------------------------------------------------------------
+    // Method for placing automatic Tiles
+    // @param users input
+    // @return Tile at certain position
+    //
     void addAutomatic(Tile *input);
-    static bool checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin);
+    
+    //-------------------------------------------------------------------------
+    // Method for checking if someone won according to a loop
+    // @param color current color
+    // @param input useres input
+    // @param prev previous tile
+    // @param origin first position
+    // @return true if won 
+    //
+    static bool checkLoopWin(Color color, Tile *input, Tile *prev, 
+                            Position *origin);
+    
+    //-------------------------------------------------------------------------
+    // Method for checking if someone won according to a line of 8 Tiles
+    // @param color current color
+    // @param input useres input
+    // @param prev previous tile
+    // @return if won 
+    //
     static bool checkLineWin(Color color, Tile *input, Tile *prev);
 
   public:
+
+    //-------------------------------------------------------------------------
+    // Constructor
+    //
     Game(std::string *filename);
+    
+    //-------------------------------------------------------------------------
+    // Destructor
+    //
     ~Game();
+    
+    //-------------------------------------------------------------------------
+    // Method for adding a Tile
+    // @param user input
+    // @return Returns 
     int8_t addTile(Tile* input);
+    
+    //-------------------------------------------------------------------------
+    // Method for trying if it's possible to place a Tile at this position
+    // @param users input
+    // @return 
     int8_t tryTile(Tile *input);
+    
+    //-------------------------------------------------------------------------
+    // Method for running the Game
+    //
     void run();
+    
+    //-------------------------------------------------------------------------
+    // Method for toggling the player
+    //
     void togglePlayer();
-    Tile *getTile(int8_t x, int8_t y);
+    
+    //-------------------------------------------------------------------------
+    // Method for ending the game
+    //
     void gameOver();
+
+    //-------------------------------------------------------------------------
+    // Getter Methods
+    //
+    Tile *getTile(int8_t x, int8_t y);
     Dimension *getFieldDimension();
     std::vector<Tile*> *getTiles();
 };
 
-#endif //GAME_H_INCLUDED
+#endif // GAME_H

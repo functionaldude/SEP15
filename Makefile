@@ -4,7 +4,7 @@ SOURCES    = $(wildcard *.cpp)
 OBJECTS    = $(patsubst %,%,${SOURCES:.cpp=.o})
 CXX        = g++
 CXXFLAGS   = -Wall -g -c -std=c++11 -o
-LDFLAGS    = -static-libstdc++
+LDFLAGS    = -pthread
 LDLIBS     =
 #-------------------------------------------------------------------------------
 

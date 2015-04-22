@@ -4,8 +4,8 @@
 // Group: Group 2, study assistant Christoph Hack
 //
 // Authors: Alexander Grass 1331106
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Amel Hamidovic 1330013
+// Zoltan Sasvari 1330435
 //------------------------------------------------------------------------------
 //
 

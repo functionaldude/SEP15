@@ -4,13 +4,13 @@
 // Group: Group 2, study assistant Christoph Hack
 //
 // Authors: Alexander Grass 1331106
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Amel Hamidovic 1330013
+// Zoltan Sasvari 1330435
 //------------------------------------------------------------------------------
 //
 
-#ifndef __ass1__Tile__
-#define __ass1__Tile__
+#ifndef TILE_H
+#define TILE_H
 
 #include "Types.h"
 
@@ -39,4 +39,4 @@ class Tile
     Game *parent_;
 };
 
-#endif /* defined(__ass1__Tile__) */
+#endif // TILE_H

@@ -4,13 +4,13 @@
 // Group: Group 2, study assistant Christoph Hack
 //
 // Authors: Alexander Grass 1331106
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Amel Hamidovic 1330013
+// Zoltan Sasvari 1330435
 //------------------------------------------------------------------------------
 //
 
-#ifndef SEP15_Types_h
-#define SEP15_Types_h
+#ifndef TYPES_H 
+#define TYPES_H
 
 #include <string>
 
@@ -112,4 +112,4 @@ struct TileNeighbours
   }
 };
 
-#endif
+#endif // TYPES_H

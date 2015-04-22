@@ -4,12 +4,12 @@
 // Group: Group 2, study assistant Christoph Hack
 //
 // Authors: Alexander Grass 1331106
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Amel Hamidovic 1330013
+// Zoltan Sasvari 1330435
 //------------------------------------------------------------------------------
 //
-#ifndef __ass1__Position__
-#define __ass1__Position__
+#ifndef POSITION_H
+#define POSITION_H
 
 #include <string>
 
@@ -30,4 +30,4 @@ class Position
     bool isPos(const Position* input);
 };
 
-#endif /* defined(__ass1__Position__) */
+#endif // POSITION_H
