@@ -57,6 +57,8 @@ int cmd_AddTile::execute(){
     throw ba;
   }
   error = game->addTile(tmp_tile);
+
+  //TODO: rewrite this in switch
   if (error == -1) {
     cout << "Invalid coordinates - first tile must be set on (0,0)" << endl;
   } else if (error == -3){
@@ -85,7 +87,6 @@ int cmd_AddTile::execute(){
   } else {
     game->togglePlayer();
   }
-
   //autosave if -g
   if (game->constant_write) {
     *args->arg[0] = "write";

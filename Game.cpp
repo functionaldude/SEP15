@@ -155,10 +155,19 @@ int8_t Game::addTile(Tile *input){
     addAutomatic(input);
 
     if (tiles.size() >=5) {
-      future<bool> fut_win_red_loop = async(&Game::checkLoopWin, COLOR_RED, input, nullptr, input->getPos());
-      future<bool> fut_win_white_loop = async(&Game::checkLoopWin, COLOR_WHITE, input, nullptr, input->getPos());
-      bool win_red_loop = fut_win_red_loop.get();
-      bool win_white_loop = fut_win_white_loop.get();
+      future<bool> fut_win_red_loop;
+      future<bool> fut_win_white_loop;
+      bool win_red_loop;
+      bool win_white_loop;
+      try {
+        fut_win_red_loop = async(&Game::checkLoopWin, COLOR_RED, input, nullptr, input->getPos());
+        fut_win_white_loop = async(&Game::checkLoopWin, COLOR_WHITE, input, nullptr, input->getPos());
+        win_red_loop = fut_win_red_loop.get();
+        win_white_loop = fut_win_white_loop.get();
+      } catch (system_error) {
+        win_red_loop = checkLoopWin(COLOR_RED, input, nullptr, input->getPos());
+        win_white_loop = checkLoopWin(COLOR_WHITE, input, nullptr, input->getPos());
+      }
 
       if (win_red_loop && win_white_loop) {
         return 3;
@@ -266,7 +275,6 @@ void Game::addAutomatic(Tile * input){
     if (!array) {
       return;
     }
-    int8_t retval;
     tile_neighbours *neighbours = nullptr;
     int8_t tests = 0;
     TileType testtype = VOID;
@@ -294,7 +302,7 @@ void Game::addAutomatic(Tile * input){
           }
           delete testtile;
           if (tests == 1 && testtype != VOID) {
-            retval = addTile(new Tile(testtype, new Position(*iter->getPos()), Activeplayer, this));
+            addTile(new Tile(testtype, new Position(*iter->getPos()), Activeplayer, this));
           }
           tests = 0;
           testtype = VOID;
