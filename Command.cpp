@@ -27,17 +27,17 @@ Command::~Command()
 {
 }
 
-CmdAddTile::cmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
+CmdAddTile::CmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
 int CmdAddTile::execute()
 {
   int8_t error = 0;
-  if (args->arg_count != 2) 
+  if (args_->arg_count != 2)
   {
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
   Position *tmp_pos = new Position();
-  if (!tmp_pos->parse(*args->arg[1])) 
+  if (!tmp_pos->parse(*args_->arg[1]))
   {
     cout << "Invalid parameters" << endl;
     delete tmp_pos;
@@ -45,11 +45,11 @@ int CmdAddTile::execute()
   }
   //TODO: this is ghetto
   TileType tiletype;
-  if (*args->arg[2] == "+") 
+  if (*args_->arg[2] == "+")
   {
     tiletype = CROSS;
   } 
-  else if (*args->arg[2] == "/")
+  else if (*args_->arg[2] == "/")
   {
     tiletype = CURVE_1;
   } 
@@ -61,14 +61,14 @@ int CmdAddTile::execute()
   
   try 
   {
-    tmp_tile = new Tile(tiletype, tmp_pos, game);
+    tmp_tile = new Tile(tiletype, tmp_pos, game_);
   } 
   catch (std::bad_alloc &ba) 
   {
     delete tmp_pos;
     throw;
   }
-  error = game->addTile(tmp_tile);
+  error = game_->addTile(tmp_tile);
 
   //TODO: rewrite this in switch
   if (error == -1) {
@@ -96,7 +96,7 @@ int CmdAddTile::execute()
   } 
   else if (error == 3)
   {
-    if (game->Activeplayer == COLOR_RED) 
+    if (game_->activeplayer_ == COLOR_RED) 
     {
       cout << "Player red wins!" << endl;
     } 
@@ -115,43 +115,43 @@ int CmdAddTile::execute()
   } 
   else if (error > 0)
   {
-    game->GameOver();
+    game_->gameOver();
   } 
   else 
   {
-    game->togglePlayer();
+    game_->togglePlayer();
   }
   //autosave if -g
-  if (game->constant_write) 
+  if (game_->constant_write_)
   {
-    *args->arg[0] = "write";
-    *args->arg[1] = "auto";
-    args->arg_count = 1;
-    Command *save = new CmdWrite(game, args);
+    *args_->arg[0] = "write";
+    *args_->arg[1] = "auto";
+    args_->arg_count = 1;
+    Command *save = new CmdWrite(game_, args_);
     save->execute();
     delete save;
   }
   return 0;
 }
 
-CmdWrite::cmdWrite(Game *game, struct Arguments *args): Command(game, args){}
+CmdWrite::CmdWrite(Game *game, struct Arguments *args): Command(game, args){}
 int CmdWrite::execute()
 {
-  if (args->arg_count != 1) 
+  if (args_->arg_count != 1) 
   {
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
-  if (game->tiles.size() == 0) 
+  if (game_->tiles_.size() == 0) 
   {
     cout << "Board is empty!" << endl;
     return -1;
   }
-  string *filename = args->arg[1];
+  string *filename = args_->arg[1];
   fstream *outputfile;
-  if (game->constant_write && *filename == "auto") 
+  if (game_->constant_write_ && *filename == "auto")
   {
-    filename = game->filename;
+    filename = game_->filename_;
   }
 
   outputfile = new fstream(*filename, ios::out | ios::binary);
@@ -166,8 +166,8 @@ int CmdWrite::execute()
   
   try 
   {
-    header = new file_header;
-    dimensions = game->getFieldDimension();
+    header = new FileHeader;
+    dimensions = game_->getFieldDimension();
   } 
   catch (bad_alloc &ba) 
   {
@@ -180,7 +180,7 @@ int CmdWrite::execute()
     throw;
   }
 
-  header->player = game->Activeplayer;
+  header->player = game_->activeplayer_;
 
   header->min_x = dimensions->min_x;
   header->min_y = dimensions->min_y;
@@ -192,11 +192,11 @@ int CmdWrite::execute()
 
   char buffer[2] ;
 
-  if(game->tiles.size() == 1)
+  if(game_->tiles_.size() == 1)
   {
     //only 1 tile on (0,0)
-    buffer[0] = game->tiles[0]->getType();
-    buffer[1] = game->tiles[0]->getColor();
+    buffer[0] = game_->tiles_[0]->getType();
+    buffer[1] = game_->tiles_[0]->getColor();
     outputfile->write(buffer, 2);
   } 
   else 
@@ -208,7 +208,7 @@ int CmdWrite::execute()
     {
       buffer[0] = 0;
       buffer[1] = 0;
-      for (auto &iter : game->tiles) 
+      for (auto &iter : game_->tiles_)
       {
         if (iter->getPos()->isPos(x, y)) 
         {
@@ -220,7 +220,7 @@ int CmdWrite::execute()
       outputfile->write(buffer, 2);
       if (x == dimensions->max_x) 
       {
-        x = dimensions->min_X;
+        x = dimensions->min_x;
         y++;
       } 
       else 

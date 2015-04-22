@@ -29,7 +29,7 @@ class Tile
     void matchSides();
     Game *getParent();
     std::vector<Tile*> *getEdges();
-    tile_neighbours *getNeighbours();
+    TileNeighbours *getNeighbours();
     bool checkSides();
     
   private:

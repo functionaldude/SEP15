@@ -93,7 +93,7 @@ void Game::run()
     cout << "sep> ";
     //cin >> input;
     getline(cin, input);
-    getCMD(input, args_cont);
+    getCmd(input, args_cont);
     switch (args_cont->command) 
     {
       case CMD_BLANK:
@@ -175,11 +175,11 @@ int8_t Game::addTile(Tile *input)
   int retval = 0;
   if ((retval = tryTile(input)) == 0) 
   {
-    tiles.push_back(input);
-    tile_num--;
+    tiles_.push_back(input);
+    tile_num_--;
     addAutomatic(input);
 
-    if (tiles.size() >=5)
+    if (tiles_.size() >=5)
     {
       future<bool> fut_win_red_loop;
       future<bool> fut_win_white_loop;
@@ -211,7 +211,7 @@ int8_t Game::addTile(Tile *input)
       }
     }
 
-    if (tiles.size() >= 8)
+    if (tiles_.size() >= 8)
     {
       bool win_red_line = checkLineWin(COLOR_RED, input, nullptr);
       bool win_white_line = checkLineWin(COLOR_WHITE, input, nullptr);
@@ -239,22 +239,22 @@ int8_t Game::addTile(Tile *input)
 //destructor
 Game::~Game()
 {
-  for (auto &iter : tiles) 
+  for (auto &iter : tiles_)
   {
     delete iter;
   }
-  if (filename)
+  if (filename_)
   {
-    delete filename;
+    delete filename_;
   }
-  tiles.clear();
+  tiles_.clear();
 }
 
 //returns the game field dimensions in a dimension struct
-dimension *Game::getFieldDimension()
+Dimension *Game::getFieldDimension()
 {
-  dimension *retval = new dimension;
-  for (auto &iter : tiles)
+  Dimension *retval = new Dimension;
+  for (auto &iter : tiles_)
   {
     if (retval->max_x < iter->getPos()->getX())
     {
@@ -267,7 +267,7 @@ dimension *Game::getFieldDimension()
   }
   retval->min_x = retval->max_x;
   retval->min_y = retval->max_y;
-  for (auto &iter : tiles)
+  for (auto &iter : tiles_)
   {
     if (retval->min_x > iter->getPos()->getX())
     {
@@ -284,7 +284,7 @@ dimension *Game::getFieldDimension()
 //returns a tile at pos x, y
 Tile *Game::getTile(int8_t x, int8_t y)
 {
-  for (auto &iter :tiles)
+  for (auto &iter :tiles_)
   {
     if (iter->getPos()->isPos(x, y))
     {
@@ -297,11 +297,11 @@ Tile *Game::getTile(int8_t x, int8_t y)
 //checks shit
 int8_t Game::tryTile(Tile *input)
 {
-  if (tiles.size() == 0 && (input->getPos()->getX() != 0 || input->getPos()->getY() != 0))
+  if (tiles_.size() == 0 && (input->getPos()->getX() != 0 || input->getPos()->getY() != 0))
   {
     return -1;
   }
-  for (auto &iter : tiles)
+  for (auto &iter : tiles_)
   {
     if (input->getPos()->isPos(iter->getPos()))
     {
@@ -309,8 +309,8 @@ int8_t Game::tryTile(Tile *input)
       return -2;
     }
   }
-  tile_neighbours *neighbours = input->getNeighbours();
-  if (!neighbours->hasNeighbours() && tiles.size() != 0)
+  TileNeighbours *neighbours = input->getNeighbours();
+  if (!neighbours->hasNeighbours() && tiles_.size() != 0)
   {
     //no neigbour found
     delete neighbours;
@@ -338,7 +338,7 @@ void Game::addAutomatic(Tile * input)
     {
       return;
     }
-    tile_neighbours *neighbours = nullptr;
+    TileNeighbours *neighbours = nullptr;
     int8_t tests = 0;
     TileType testtype = VOID;
     for (auto &iter : *array)
@@ -413,12 +413,12 @@ void Game::addAutomatic(Tile * input)
 
 vector<Tile*> *Game::getTiles()
 {
-  return &tiles;
+  return &tiles_;
 }
 
-void Game::GameOver()
+void Game::gameOver()
 {
-  over = true;
+  over_ = true;
 }
 
 bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin)
@@ -428,7 +428,7 @@ bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin)
     return true;
   }
   Tile *next = nullptr;
-  tile_neighbours *neighbours = input->getNeighbours();
+  TileNeighbours *neighbours = input->getNeighbours();
   if (neighbours->countNeighbours() < 2) 
   {
     delete neighbours;
@@ -436,40 +436,40 @@ bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin)
   }
   if (prev) 
   {
-    if (neighbours->UP && !(neighbours->UP->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color) 
+    if (neighbours->up && !(neighbours->up->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color)
     {
-      next = neighbours->UP;
+      next = neighbours->up;
     } 
-    else if (neighbours->LEFT && !(neighbours->LEFT->getPos()->isPos(prev->getPos())) && input->getSideColor(LEFT) == color) 
+    else if (neighbours->left && !(neighbours->left->getPos()->isPos(prev->getPos())) && input->getSideColor(LEFT) == color)
     {
-      next = neighbours->LEFT;
+      next = neighbours->left;
     } 
-    else  if (neighbours->DOWN && !(neighbours->DOWN->getPos()->isPos(prev->getPos())) && input->getSideColor(DOWN) == color)
+    else  if (neighbours->down && !(neighbours->down->getPos()->isPos(prev->getPos())) && input->getSideColor(DOWN) == color)
     {
-      next = neighbours->DOWN;
+      next = neighbours->down;
     } 
-    else if (neighbours->RIGHT && !(neighbours->RIGHT->getPos()->isPos(prev->getPos())) && input->getSideColor(RIGHT) == color)
+    else if (neighbours->right && !(neighbours->right->getPos()->isPos(prev->getPos())) && input->getSideColor(RIGHT) == color)
     {
-      next = neighbours->RIGHT;
+      next = neighbours->right;
     }
   } 
   else 
   {
-    if (neighbours->UP && input->getSideColor(UP) == color) 
+    if (neighbours->up && input->getSideColor(UP) == color)
     {
-      next = neighbours->UP;
+      next = neighbours->up;
     } 
-    else if (neighbours->LEFT && input->getSideColor(LEFT) == color) 
+    else if (neighbours->left && input->getSideColor(LEFT) == color)
     {
-      next = neighbours->LEFT;
+      next = neighbours->left;
     } 
-    else  if (neighbours->DOWN && input->getSideColor(DOWN) == color)
+    else  if (neighbours->down && input->getSideColor(DOWN) == color)
     {
-      next = neighbours->DOWN;
+      next = neighbours->down;
     } 
-    else if (neighbours->RIGHT && input->getSideColor(RIGHT) == color)
+    else if (neighbours->right && input->getSideColor(RIGHT) == color)
     {
-      next = neighbours->RIGHT;
+      next = neighbours->right;
     }
   }
 
@@ -487,7 +487,7 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   {
     return false;
   }
-  static dimension dim;
+  static Dimension dim;
   static Tile *firstnext;
   static Tile *origin;
   static bool onedirection;
@@ -563,18 +563,18 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   int8_t x = input->getPos()->getX();
   int8_t y = input->getPos()->getY();
 
-  if (x < dim.minX) {dim.minX = x;}
-  if (x > dim.maxX) {dim.maxX = x;}
-  if (y < dim.minY) {dim.minY = y;}
-  if (y > dim.maxY) {dim.maxY = y;}
+  if (x < dim.min_x) {dim.min_x = x;}
+  if (x > dim.max_x) {dim.max_x = x;}
+  if (y < dim.min_y) {dim.min_y = y;}
+  if (y > dim.max_y) {dim.max_y = y;}
 
   if (dir_cnt) 
   {
-    if (dim.maxX - dim.minX > 6) 
+    if (dim.max_x - dim.min_x > 6)
     {
       return true;
     }
-    if (dim.maxY - dim.minY > 6) 
+    if (dim.max_y - dim.min_y > 6)
     {
       return true;
     }

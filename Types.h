@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// types.h
+// Types.h
 //
 // Group: Group 2, study assistant Christoph Hack
 //
@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 //
 
-#ifndef SEP15_types_h
-#define SEP15_types_h
+#ifndef SEP15_Types_h
+#define SEP15_Types_h
 
 #include <string>
 
@@ -38,7 +38,7 @@ struct Arguments
   std::string *arg[3] = {nullptr, nullptr, nullptr};
   uint8_t arg_count;
 
-  ~arguments()
+  ~Arguments()
   {
     for (uint_fast8_t cnt = 0; cnt < 3; cnt++)
     {
@@ -51,8 +51,8 @@ struct Dimension
 {
   int8_t min_x = 0;
   int8_t max_y = 0;
-  int8_t min_x = 0;
-  int8_t max_y = 0;
+  int8_t min_y = 0;
+  int8_t max_x = 0;
 };
 
 struct FileHeader

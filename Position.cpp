@@ -21,8 +21,8 @@ Position::Position(){}
 
 Position::Position(const Position &obj)
 {
-  x_ = obj.x;
-  y_ = obj.y;
+  x_ = obj.x_;
+  y_ = obj.y_;
 }
 
 int Position::getX()
@@ -66,5 +66,5 @@ bool Position::isPos(int8_t x, int8_t y)
 //returns true if the input pointer on the same position is
 bool Position::isPos(const Position *input)
 {
-  return (input->x == x_ && input->y == y_);
+  return (input->x_ == x_ && input->y_ == y_);
 }
