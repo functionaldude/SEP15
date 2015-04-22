@@ -81,9 +81,9 @@ void Game::run()
   running_ = true;
   string input;
   Command *cmd = nullptr;
-  while (running_ == true) 
+  while (likely(Running))
   {
-    if (over_) 
+    if (unlikely(over_))
     {
       running_ = false;
       break;
@@ -140,12 +140,12 @@ void Game::run()
         continue;
     }
     cmd->execute();
-    if (args_cont) 
+    if (likely(args_cont))
     {
       delete args_cont;
       args_cont = nullptr;
     }
-    if (cmd) 
+    if (likely(cmd))
     {
       delete cmd;
       cmd = nullptr;
@@ -286,7 +286,7 @@ Tile *Game::getTile(int8_t x, int8_t y)
 {
   for (auto &iter :tiles_)
   {
-    if (iter->getPos()->isPos(x, y))
+    if (unlikely(iter->getPos()->isPos(x, y)))
     {
       return iter;
     }
@@ -297,27 +297,27 @@ Tile *Game::getTile(int8_t x, int8_t y)
 //checks shit
 int8_t Game::tryTile(Tile *input)
 {
-  if (tiles_.size() == 0 && (input->getPos()->getX() != 0 || input->getPos()->getY() != 0))
+  if (unlikely(tiles_.size() == 0 && !input->getPos()->isPos(0, 0)))
   {
     return -1;
   }
   for (auto &iter : tiles_)
   {
-    if (input->getPos()->isPos(iter->getPos()))
+    if (unlikely(input->getPos()->isPos(iter->getPos())))
     {
       //already exists
       return -2;
     }
   }
   TileNeighbours *neighbours = input->getNeighbours();
-  if (!neighbours->hasNeighbours() && tiles_.size() != 0)
+  if (unlikely(!neighbours->hasNeighbours() && tiles_.size() != 0))
   {
     //no neigbour found
     delete neighbours;
     return -3;
   }
   input->matchSides();
-  if (!input->checkSides())
+  if (unlikely(!input->checkSides()))
   {
     //colors mismatch
     delete neighbours;
@@ -334,7 +334,7 @@ void Game::addAutomatic(Tile * input)
   try
   {
     array = input->getEdges();
-    if (!array)
+    if (unlikely(!array))
     {
       return;
     }
@@ -434,7 +434,7 @@ bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin)
     delete neighbours;
     return false;
   }
-  if (prev) 
+  if (likely(prev))
   {
     if (neighbours->up && !(neighbours->up->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color)
     {
@@ -492,7 +492,7 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   static Tile *origin;
   static bool onedirection;
   static int dir_cnt;
-  if (!prev) 
+  if (unlikely(!prev))
   {
     //first init
     origin = input;
@@ -513,7 +513,7 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
     prev = firstnext;
   }
 
-  if (prev) 
+  if (likely(prev))
   {
     if (neighbours->up && !(neighbours->up->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color) 
     {
@@ -568,7 +568,7 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   if (y < dim.min_y) {dim.min_y = y;}
   if (y > dim.max_y) {dim.max_y = y;}
 
-  if (dir_cnt) 
+  if (likely(dir_cnt))
   {
     if (dim.max_x - dim.min_x > 6)
     {
