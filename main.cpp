@@ -29,14 +29,19 @@ int main(int argc, char **argv)
 {
   string *filename = nullptr;
   //chack for arguments
-  if (argc > 3) {
+  if (argc > 3) 
+  {
     cout << "Usage: <" << string(argv[0]) << ">" << endl;
     return 2;
   }
-  if (argc > 1 && !strcmp(argv[1], "-g")) {
-    if (argv[2] == nullptr) {
+  if (argc > 1 && !strcmp(argv[1], "-g")) 
+  {
+    if (argv[2] == nullptr) 
+    {
       //error
-    } else {
+    } 
+    else 
+    {
       filename = new std::string(argv[2]);
     }
   }
@@ -86,9 +91,12 @@ int main(int argc, char **argv)
 //  cout << (int)trax->addTile(new Tile(CURVE_1, new Position(1,2),  trax)) << endl;
 
 
-  try {
+  try 
+  {
     trax->run();
-  } catch (std::bad_alloc &ba) {
+  } 
+  catch (std::bad_alloc &ba) 
+  {
     delete trax;
     cout << "Error: Out of Memory!" << endl;
     return -1;

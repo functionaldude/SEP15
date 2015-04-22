@@ -11,19 +11,21 @@
 
 #include <string>
 
-class Position {
-private:
-  int8_t x;
-  int8_t y;
-public:
-  Position(int8_t x, int8_t y);
-  Position();
-  Position(const Position &obj);
-  int getX();
-  int getY();
-  bool parse(std::string input);
-  bool isPos(int8_t x, int8_t y);
-  bool isPos(const Position* input);
+class Position 
+{
+  private:
+    int8_t x;
+    int8_t y;
+  
+  public:
+    Position(int8_t x, int8_t y);
+    Position();
+    Position(const Position &obj);
+    int getX();
+    int getY();
+    bool parse(std::string input);
+    bool isPos(int8_t x, int8_t y);
+    bool isPos(const Position* input);
 };
 
 #endif /* defined(__ass1__Position__) */

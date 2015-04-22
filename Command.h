@@ -19,12 +19,13 @@ class Game;
 
 class Command
 {
-protected:
-  Game *game;
-  arguments *args;
-public:
-  Command(Game *game, struct arguments *args);
-  virtual ~Command();
+  protected:
+    Game *game;
+    arguments *args;
+  
+  public:
+    Command(Game *game, struct arguments *args);
+    virtual ~Command();
 
   //--------------------------------------------------------------------------
   // Executes the command.
@@ -32,18 +33,21 @@ public:
   // @param params Possible parameters neede for the execution
   // @return Integer representing the success of the action
 
-  virtual int execute() = 0;
+    virtual int execute() = 0;
 };
 
-class cmd_AddTile : public Command {
-public:
-  cmd_AddTile(Game *game, struct arguments *args);
-  int execute() override;
+class cmd_AddTile : public Command 
+{
+  public:
+    cmd_AddTile(Game *game, struct arguments *args);
+    int execute() override;
 };
 
-class cmd_Write : public Command {
-public:
-  cmd_Write(Game *game, struct arguments *args);
-  int execute() override;
+class cmd_Write : public Command 
+{
+  public:
+    cmd_Write(Game *game, struct arguments *args);
+    int execute() override;
 };
+
 #endif //COMMAND_H_INCLUDED

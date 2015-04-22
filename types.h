@@ -13,40 +13,47 @@
 
 class Tile;
 
-enum Color{
+enum Color
+{
   COLOR_BLANK = 0,
   COLOR_WHITE = 1,
   COLOR_RED = 2
 };
 
-enum cmd{
+enum cmd
+{
   CMD_QUIT = 0,
   CMD_ADDTILE = 1,
   CMD_WRITE = 2,
   CMD_ERROR = 3,
-  CMD_BLANK = 4,
+  CMD_BLANK = 4
 };
 
-struct arguments{
+struct arguments
+{
   cmd command;
   std::string *arg[3] = {nullptr, nullptr, nullptr};
   uint8_t arg_count;
 
-  ~arguments(){
-    for (uint_fast8_t cnt = 0; cnt < 3; cnt++){
+  ~arguments()
+  {
+    for (uint_fast8_t cnt = 0; cnt < 3; cnt++)
+    {
       delete arg[cnt];
     }
   }
 };
 
-struct dimension{
+struct dimension
+{
   int8_t minX = 0;
   int8_t maxX = 0;
   int8_t minY = 0;
   int8_t maxY = 0;
 };
 
-struct file_header{
+struct file_header
+{
   unsigned char magic_num[4] = {'T', 'R', 'A', 'X'};
   unsigned char player;
   char minX;
@@ -55,27 +62,31 @@ struct file_header{
   char maxY;
 }__attribute__((packed));
 
-enum TileType{
+enum TileType
+{
   VOID = 0,
   CROSS = 1,
   CURVE_1 = 2,
   CURVE_2 = 3
 };
 
-enum Side{
+enum Side
+{
   UP = 0,
   DOWN = 1,
   LEFT = 2,
   RIGHT = 3
 };
 
-struct tile_neighbours {
+struct tile_neighbours 
+{
   Tile *UP = nullptr;
   Tile *DOWN = nullptr;
   Tile *LEFT = nullptr;
   Tile *RIGHT = nullptr;
 
-  uint_fast8_t countNeighbours(){
+  uint_fast8_t countNeighbours()
+  {
     uint_fast8_t retval = 0;
     if (UP){retval++;}
     if (DOWN){retval++;}
@@ -83,7 +94,8 @@ struct tile_neighbours {
     if (RIGHT){retval++;}
     return retval;
   }
-  bool hasNeighbours(){
+  bool hasNeighbours()
+  {
     return (UP || DOWN || LEFT || RIGHT);
   }
 };
