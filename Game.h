@@ -64,12 +64,12 @@ class Game
     std::vector<Tile*> tiles_;
     
     //-------------------------------------------------------------------------
-    // Amount of Tiles avaible in the Game 
+    // Amount of remaining Tiles avaible in the Game
     //
     int tile_num_;
     
     //-------------------------------------------------------------------------
-    // Bool which is set true if someone wins
+    // Bool which is set true if someone wins or game is draw
     //
     bool over_;
     
@@ -82,8 +82,8 @@ class Game
     
     //-------------------------------------------------------------------------
     // Method for checking if someone won according to a loop
-    // @param color current color
-    // @param input useres input
+    // @param color checked color
+    // @param input input tile
     // @param prev previous tile
     // @param origin first position
     // @return true if won 
@@ -93,8 +93,8 @@ class Game
     
     //-------------------------------------------------------------------------
     // Method for checking if someone won according to a line of 8 Tiles
-    // @param color current color
-    // @param input useres input
+    // @param color checked color
+    // @param input input tile
     // @param prev previous tile
     // @return if won 
     //
