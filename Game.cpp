@@ -81,7 +81,7 @@ void Game::run()
   running_ = true;
   string input;
   Command *cmd = nullptr;
-  while (likely(Running))
+  while (likely(running_))
   {
     if (unlikely(over_))
     {
