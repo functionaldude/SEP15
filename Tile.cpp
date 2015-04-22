@@ -126,7 +126,7 @@ Color Tile::getSideColor(enum Side side)
   }
 }
 
-//sets the top color according to the neigbours
+
 void Tile::matchSides()
 {
   if (unlikely(parent_->getTiles()->size() == 0))
