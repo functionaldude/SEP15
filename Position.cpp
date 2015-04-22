@@ -15,6 +15,9 @@
 #include <sstream>
 #include "Position.h"
 
+using std::string;
+using std::stringstream;
+
 Position::Position(int8_t x, int8_t y) : x_(x), y_(y)
 {
 }
@@ -38,9 +41,9 @@ int Position::getY()
 }
 
 
-bool Position::parse(std::string input)
+bool Position::parse(string input)
 {
-  std::stringstream ss(input);
+  stringstream ss(input);
   int x, y;
   char left_bracket = 0;
   char delimiter = 0;

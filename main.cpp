@@ -16,7 +16,10 @@
 #include "Types.h"
 #include "Tile.h"
 
-using namespace std;
+using std::string;
+using std::cout;
+using std::endl;
+
 //------------------------------------------------------------------------------
 // main function
 // entry point for execution

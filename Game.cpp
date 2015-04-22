@@ -20,7 +20,16 @@
 #include "Position.h"
 #include "Command.h"
 
-using namespace std;
+using std::cout;
+using std::string;
+using std::future;
+using std::stringstream;
+using std::cin;
+using std::endl;
+using std::async;
+using std::bad_alloc;
+using std::vector;
+using std::system_error;
 
 //command parsing
 void getCmd(string input, Arguments *arguments)

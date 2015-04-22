@@ -16,7 +16,12 @@
 #include "Game.h"
 #include "Types.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::fstream;
+using std::ios;
+using std::bad_alloc;
 
 Command::Command(Game *game, struct Arguments *args):
   game_(game),

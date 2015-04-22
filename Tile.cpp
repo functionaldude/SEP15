@@ -16,7 +16,7 @@
 #include "Position.h"
 #include "Game.h"
 
-using namespace std;
+using std::vector;
 
 Tile::Tile(TileType side, Position *pos, Game *parent) :
   side_(side),
