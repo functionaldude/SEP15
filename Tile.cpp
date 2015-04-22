@@ -101,7 +101,7 @@ Color Tile::getSideColor(enum Side side){
 
 //sets the top color according to the neigbours
 void Tile::matchSides(){
-  if (parent->getTiles()->size() == 0) {
+  if (unlikely(parent->getTiles()->size() == 0)) {
     Topcolor = COLOR_RED;
     return;
   }
@@ -294,7 +294,7 @@ tile_neighbours *Tile::getNeighbours(){
 bool Tile::checkSides(){
   tile_neighbours *neighbours = getNeighbours();
   bool retval = true;
-  if (!neighbours->hasNeighbours()) {
+  if (unlikely(!neighbours->hasNeighbours())) {
     delete neighbours;
     return retval;
   }

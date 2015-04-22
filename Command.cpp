@@ -14,6 +14,7 @@
 #include "Position.h"
 #include "Tile.h"
 #include "Game.h"
+#include "types.h"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ Command::~Command()
 cmd_AddTile::cmd_AddTile(Game *game, struct arguments *args): Command(game, args){}
 int cmd_AddTile::execute(){
   int8_t error = 0;
-  if (args->arg_count != 2) {
+  if (unlikely(args->arg_count != 2)) {
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
@@ -116,7 +117,7 @@ int cmd_Write::execute(){
   }
 
   outputfile = new fstream(*filename, ios::out | ios::binary);
-  if (!outputfile->is_open()) {
+  if (unlikely(!outputfile->is_open())) {
     cout << "Cannot write file " << *filename << endl;
     return -1;
   }
