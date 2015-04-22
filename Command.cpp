@@ -1,25 +1,26 @@
 //------------------------------------------------------------------------------
-// Filename: Command.cpp
-// Description: Class representing a general command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: 42
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Command.cpp
+//
+// Group: Group 2, study assistant Christoph Hack
+//
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
 //------------------------------------------------------------------------------
-
+//
 #include <iostream>
 #include <fstream>
 #include "Command.h"
 #include "Position.h"
 #include "Tile.h"
 #include "Game.h"
+#include "types.h"
 
 using namespace std;
 
-Command::Command(Game *game, struct arguments *args):
-  game(game),
-  args(args)
+Command::Command(Game *game, struct Arguments *args):
+  game_(game),
+  args_(args)
 {
 }
 
@@ -27,17 +28,17 @@ Command::~Command()
 {
 }
 
-cmd_AddTile::cmd_AddTile(Game *game, struct arguments *args): Command(game, args){}
-int cmd_AddTile::execute()
+CmdAddTile::CmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
+int CmdAddTile::execute()
 {
   int8_t error = 0;
-  if (args->arg_count != 2) 
+  if (unlikely(args_->arg_count != 2))
   {
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
   Position *tmp_pos = new Position();
-  if (!tmp_pos->parse(*args->arg[1])) 
+  if (!tmp_pos->parse(*args_->arg[1]))
   {
     cout << "Invalid parameters" << endl;
     delete tmp_pos;
@@ -45,11 +46,11 @@ int cmd_AddTile::execute()
   }
   //TODO: this is ghetto
   TileType tiletype;
-  if (*args->arg[2] == "+") 
+  if (*args_->arg[2] == "+")
   {
     tiletype = CROSS;
   } 
-  else if (*args->arg[2] == "/")
+  else if (*args_->arg[2] == "/")
   {
     tiletype = CURVE_1;
   } 
@@ -61,14 +62,14 @@ int cmd_AddTile::execute()
   
   try 
   {
-    tmp_tile = new Tile(tiletype, tmp_pos, game);
+    tmp_tile = new Tile(tiletype, tmp_pos, game_);
   } 
   catch (std::bad_alloc &ba) 
   {
     delete tmp_pos;
     throw;
   }
-  error = game->addTile(tmp_tile);
+  error = game_->addTile(tmp_tile);
 
   //TODO: rewrite this in switch
   if (error == -1) {
@@ -96,7 +97,7 @@ int cmd_AddTile::execute()
   } 
   else if (error == 3)
   {
-    if (game->Activeplayer == COLOR_RED) 
+    if (game_->activeplayer_ == COLOR_RED) 
     {
       cout << "Player red wins!" << endl;
     } 
@@ -115,59 +116,59 @@ int cmd_AddTile::execute()
   } 
   else if (error > 0)
   {
-    game->GameOver();
+    game_->gameOver();
   } 
   else 
   {
-    game->togglePlayer();
+    game_->togglePlayer();
   }
   //autosave if -g
-  if (game->constant_write) 
+  if (game_->constant_write_)
   {
-    *args->arg[0] = "write";
-    *args->arg[1] = "auto";
-    args->arg_count = 1;
-    Command *save = new cmd_Write(game, args);
+    *args_->arg[0] = "write";
+    *args_->arg[1] = "auto";
+    args_->arg_count = 1;
+    Command *save = new CmdWrite(game_, args_);
     save->execute();
     delete save;
   }
   return 0;
 }
 
-cmd_Write::cmd_Write(Game *game, struct arguments *args): Command(game, args){}
-int cmd_Write::execute()
+CmdWrite::CmdWrite(Game *game, struct Arguments *args): Command(game, args){}
+int CmdWrite::execute()
 {
-  if (args->arg_count != 1) 
+  if (args_->arg_count != 1) 
   {
     cout << "Error: Wrong parameter count!" << endl;
     return -1;
   }
-  if (game->tiles.size() == 0) 
+  if (game_->tiles_.size() == 0) 
   {
     cout << "Board is empty!" << endl;
     return -1;
   }
-  string *filename = args->arg[1];
+  string *filename = args_->arg[1];
   fstream *outputfile;
-  if (game->constant_write && *filename == "auto") 
+  if (game_->constant_write_ && *filename == "auto")
   {
-    filename = game->filename;
+    filename = game_->filename_;
   }
 
   outputfile = new fstream(*filename, ios::out | ios::binary);
-  if (!outputfile->is_open()) 
+  if (unlikely(!outputfile->is_open()))
   {
     cout << "Cannot write file " << *filename << endl;
     return -1;
   }
 
-  file_header *header = nullptr;
-  dimension *dimensions = nullptr;
+  FileHeader *header = nullptr;
+  Dimension *dimensions = nullptr;
   
   try 
   {
-    header = new file_header;
-    dimensions = game->getFieldDimension();
+    header = new FileHeader;
+    dimensions = game_->getFieldDimension();
   } 
   catch (bad_alloc &ba) 
   {
@@ -180,35 +181,35 @@ int cmd_Write::execute()
     throw;
   }
 
-  header->player = game->Activeplayer;
+  header->player = game_->activeplayer_;
 
-  header->minX = dimensions->minX;
-  header->minY = dimensions->minY;
-  header->maxX = dimensions->maxX;
-  header->maxY = dimensions->maxY;
+  header->min_x = dimensions->min_x;
+  header->min_y = dimensions->min_y;
+  header->max_x = dimensions->max_x;
+  header->max_y = dimensions->max_y;
 
-  outputfile->write((char*)header, sizeof(file_header));
+  outputfile->write((char*)header, sizeof(FileHeader));
   delete header;
 
   char buffer[2] ;
 
-  if(game->tiles.size() == 1)
+  if(game_->tiles_.size() == 1)
   {
     //only 1 tile on (0,0)
-    buffer[0] = game->tiles[0]->getType();
-    buffer[1] = game->tiles[0]->getColor();
+    buffer[0] = game_->tiles_[0]->getType();
+    buffer[1] = game_->tiles_[0]->getColor();
     outputfile->write(buffer, 2);
   } 
   else 
   {
     //multiple tiles
-    int8_t x = dimensions->minX;
-    int8_t y = dimensions->minY;
-    while (x <= dimensions->maxX && y <= dimensions->maxY) 
+    int8_t x = dimensions->min_x;
+    int8_t y = dimensions->min_y;
+    while (x <= dimensions->max_x && y <= dimensions->max_y) 
     {
       buffer[0] = 0;
       buffer[1] = 0;
-      for (auto &iter : game->tiles) 
+      for (auto &iter : game_->tiles_)
       {
         if (iter->getPos()->isPos(x, y)) 
         {
@@ -218,9 +219,9 @@ int cmd_Write::execute()
         }
       }
       outputfile->write(buffer, 2);
-      if (x == dimensions->maxX) 
+      if (x == dimensions->max_x) 
       {
-        x = dimensions->minX;
+        x = dimensions->min_x;
         y++;
       } 
       else 

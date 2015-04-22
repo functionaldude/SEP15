@@ -1,15 +1,18 @@
+//------------------------------------------------------------------------------
+// Game.h
 //
-//  Game.h
-//  ass1
+// Group: Group 2, study assistant Christoph Hack
 //
-//  Created by Zoltán Sasvári on 15.03.15.
-//  Copyright (c) 2015 G-TEAM. All rights reserved.
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
+//------------------------------------------------------------------------------
 //
 
-#ifndef __ass1__Game__
-#define __ass1__Game__
+#ifndef _GAME_H_
+#define _GAME_H_
 
-#include "types.h"
+#include "Types.h"
 #include <vector>
 #include <string>
 
@@ -18,17 +21,17 @@ class Position;
 
 class Game 
 {
-  friend class cmd_AddTile;
-  friend class cmd_Write;
+  friend class CmdAddTile;
+  friend class CmdWrite;
 
   protected:
-    Color Activeplayer;
-    bool Running;
-    std::string *filename;
-    bool constant_write;
-    std::vector<Tile*> tiles;
-    int tile_num;
-    bool over;
+    Color activeplayer_;
+    bool running_;
+    std::string *filename_;
+    bool constant_write_;
+    std::vector<Tile*> tiles_;
+    int tile_num_;
+    bool over_;
     void addAutomatic(Tile *input);
     static bool checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin);
     static bool checkLineWin(Color color, Tile *input, Tile *prev);
@@ -41,9 +44,9 @@ class Game
     void run();
     void togglePlayer();
     Tile *getTile(int8_t x, int8_t y);
-    void GameOver();
-    dimension *getFieldDimension();
+    void gameOver();
+    Dimension *getFieldDimension();
     std::vector<Tile*> *getTiles();
 };
 
-#endif /* defined(__ass1__Game__) */
+#endif //GAME_H_INCLUDED

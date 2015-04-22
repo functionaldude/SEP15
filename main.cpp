@@ -1,12 +1,11 @@
 //------------------------------------------------------------------------------
 // main.cpp
 //
-// Group: Group 43, study assistant: Max Mustertutor
+// Group: Group 2, study assistant Christoph Hack
 //
-// Authors: Super Student 1 (0800001)
-// Super Student 2 (0800002)
-// Super Student 3 (0800003)
-// Super Student 4 (0800004)
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
 //------------------------------------------------------------------------------
 //
 
@@ -14,7 +13,7 @@
 #include <string.h>
 #include "Game.h"
 #include "Position.h"
-#include "types.h"
+#include "Types.h"
 #include "Tile.h"
 
 using namespace std;
@@ -29,7 +28,7 @@ int main(int argc, char **argv)
 {
   string *filename = nullptr;
   //chack for arguments
-  if (argc > 3) 
+  if (unlikely(argc > 3))
   {
     cout << "Usage: <" << string(argv[0]) << ">" << endl;
     return 2;

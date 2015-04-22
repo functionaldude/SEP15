@@ -1,16 +1,19 @@
+//------------------------------------------------------------------------------
+// Position.cpp
 //
-//  Position.cpp
-//  ass1
+// Group: Group 2, study assistant Christoph Hack
 //
-//  Created by Zoltán Sasvári on 15.03.15.
-//  Copyright (c) 2015 G-TEAM. All rights reserved.
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
+//------------------------------------------------------------------------------
 //
 
 #include <string>
 #include <sstream>
 #include "Position.h"
 
-Position::Position(int8_t x, int8_t y) : x(x), y(y)
+Position::Position(int8_t x, int8_t y) : x_(x), y_(y)
 {
 }
 
@@ -18,18 +21,18 @@ Position::Position(){}
 
 Position::Position(const Position &obj)
 {
-  x = obj.x;
-  y = obj.y;
+  x_ = obj.x_;
+  y_ = obj.y_;
 }
 
 int Position::getX()
 {
-  return x;
+  return x_;
 }
 
 int Position::getY()
 {
-  return y;
+  return y_;
 }
 
 //position parsing
@@ -42,11 +45,10 @@ bool Position::parse(std::string input)
   char right_bracket = 0;
 
   if ((ss >> left_bracket >> x >> delimiter >> y >> right_bracket) &&
-             (left_bracket == '(') &&
-             (right_bracket == ')'))
+    (left_bracket == '(') && (right_bracket == ')'))
   {
-    this->x = x;
-    this->y = y;
+    x_ = x;
+    y_ = y;
     return true;
   }
   else
@@ -58,11 +60,11 @@ bool Position::parse(std::string input)
 //checks if a position is on x, y
 bool Position::isPos(int8_t x, int8_t y)
 {
-  return (x == this->x && y == this->y);
+  return (x == x_ && y == y_);
 }
 
 //returns true if the input pointer on the same position is
 bool Position::isPos(const Position *input)
 {
-  return (input->x == this->x && input->y == this->y);
+  return (input->x_ == x_ && input->y_ == y_);
 }

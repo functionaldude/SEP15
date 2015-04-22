@@ -1,30 +1,30 @@
 //------------------------------------------------------------------------------
-// Filename: Command.h
-// Description: Class representing a general command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: 42
-// Created: 08.08.2011
-// Last change: 02.09.2011
+// Command.h
+//
+// Group: Group 2, study assistant Christoph Hack
+//
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
 //------------------------------------------------------------------------------
-
+//
 #ifndef COMMAND_H_INCLUDED
 #define COMMAND_H_INCLUDED
 
 #include <string>
 #include <vector>
-#include "types.h"
+#include "Types.h"
 
 class Game;
 
 class Command
 {
   protected:
-    Game *game;
-    arguments *args;
+    Game *game_;
+    Arguments *args_;
   
   public:
-    Command(Game *game, struct arguments *args);
+    Command(Game *game, struct Arguments *args);
     virtual ~Command();
 
   //--------------------------------------------------------------------------
@@ -36,17 +36,17 @@ class Command
     virtual int execute() = 0;
 };
 
-class cmd_AddTile : public Command 
+class CmdAddTile : public Command 
 {
   public:
-    cmd_AddTile(Game *game, struct arguments *args);
+    CmdAddTile(Game *game, struct Arguments *args);
     int execute() override;
 };
 
-class cmd_Write : public Command 
+class CmdWrite : public Command 
 {
   public:
-    cmd_Write(Game *game, struct arguments *args);
+    CmdWrite(Game *game, struct Arguments *args);
     int execute() override;
 };
 

@@ -1,9 +1,12 @@
+//------------------------------------------------------------------------------
+// Tile.cpp
 //
-//  Tile.cpp
-//  ass1
+// Group: Group 2, study assistant Christoph Hack
 //
-//  Created by Zoltán Sasvári on 15.03.15.
-//  Copyright (c) 2015 G-TEAM. All rights reserved.
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
+//------------------------------------------------------------------------------
 //
 
 #include <vector>
@@ -13,35 +16,35 @@
 
 using namespace std;
 
-Tile::Tile(TileType Side, Position *pos, Game *parent) :
-  Side(Side),
-  pos(pos),
-  parent(parent)
+Tile::Tile(TileType side, Position *pos, Game *parent) :
+  side_(side),
+  pos_(pos),
+  parent_(parent)
 {
-  Topcolor = COLOR_BLANK;
+  topcolor_ = COLOR_BLANK;
 }
 
 Tile::~Tile()
 {
-  delete pos;
+  delete pos_;
 }
 
 //returns the position pointer
 Position *Tile::getPos()
 {
-  return pos;
+  return pos_;
 }
 
 //returns the tile type
 TileType Tile::getType()
 {
-  return Side;
+  return side_;
 }
 
 //returns topcolor
 Color Tile::getColor()
 {
-  return Topcolor;
+  return topcolor_;
 }
 
 //returns the color of the side of the tile
@@ -49,12 +52,12 @@ Color Tile::getSideColor(enum Side side)
 {
   if (side == UP) 
   {
-    return Topcolor;
+    return topcolor_;
   }
-  switch (Side) 
+  switch (side_) 
   {
     case CROSS:
-      if (Topcolor == COLOR_RED) 
+      if (topcolor_ == COLOR_RED) 
       {
         switch (side) 
         {
@@ -75,7 +78,7 @@ Color Tile::getSideColor(enum Side side)
         }
       }
     case CURVE_1:
-      if (Topcolor == COLOR_RED) 
+      if (topcolor_ == COLOR_RED) 
       {
         switch (side) 
         {
@@ -96,7 +99,7 @@ Color Tile::getSideColor(enum Side side)
         }
       }
     case CURVE_2:
-      if (Topcolor == COLOR_RED) 
+      if (topcolor_ == COLOR_RED) 
       {
         switch (side) 
         {
@@ -124,63 +127,63 @@ Color Tile::getSideColor(enum Side side)
 //sets the top color according to the neigbours
 void Tile::matchSides()
 {
-  if (parent->getTiles()->size() == 0) 
+  if (unlikely(parent_->getTiles()->size() == 0))
   {
-    Topcolor = COLOR_RED;
+    topcolor_ = COLOR_RED;
     return;
   }
-  tile_neighbours *neighbours = getNeighbours();
-  switch (Side) 
+  TileNeighbours *neighbours = getNeighbours();
+  switch (side_) 
   {
     case VOID: return;
 
     case CROSS:
     {
-      if (neighbours->UP) 
+      if (neighbours->up)
       {
-        if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) 
+        if (neighbours->up->getSideColor(DOWN) == COLOR_RED)
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         } 
         else 
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         }
         break;
       }
-      if (neighbours->DOWN) 
+      if (neighbours->down)
       {
-        if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) 
+        if (neighbours->down->getSideColor(UP) == COLOR_RED)
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         } 
         else 
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         }
         break;
       }
-      if (neighbours->LEFT) 
+      if (neighbours->left)
       {
-        if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) 
+        if (neighbours->left->getSideColor(RIGHT) == COLOR_RED)
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         } 
         else 
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         }
         break;
       }
-      if (neighbours->RIGHT) 
+      if (neighbours->right)
       {
-        if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) 
+        if (neighbours->right->getSideColor(LEFT) == COLOR_RED)
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         } 
         else 
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         }
         break;
       }
@@ -189,51 +192,51 @@ void Tile::matchSides()
 
     case CURVE_1:
     {
-      if (neighbours->UP) 
+      if (neighbours->up)
       {
-        if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) 
+        if (neighbours->up->getSideColor(DOWN) == COLOR_RED)
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         } 
         else 
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         }
         break;
       }
-      if (neighbours->DOWN) 
+      if (neighbours->down)
       {
-        if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) 
+        if (neighbours->down->getSideColor(UP) == COLOR_RED)
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         } 
         else 
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         }
         break;
       }
-      if (neighbours->LEFT) 
+      if (neighbours->left)
       {
-        if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) 
+        if (neighbours->left->getSideColor(RIGHT) == COLOR_RED)
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         } 
         else 
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         }
         break;
       }
-      if (neighbours->RIGHT) 
+      if (neighbours->right)
       {
-        if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) 
+        if (neighbours->right->getSideColor(LEFT) == COLOR_RED)
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         } 
         else 
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         }
         break;
       }
@@ -242,51 +245,51 @@ void Tile::matchSides()
 
     case CURVE_2:
     {
-      if (neighbours->UP) 
+      if (neighbours->up)
       {
-        if (neighbours->UP->getSideColor(DOWN) == COLOR_RED) 
+        if (neighbours->up->getSideColor(DOWN) == COLOR_RED)
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         } 
         else 
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         }
         break;
       }
-      if (neighbours->DOWN) 
+      if (neighbours->down)
       {
-        if (neighbours->DOWN->getSideColor(UP) == COLOR_RED) 
+        if (neighbours->down->getSideColor(UP) == COLOR_RED)
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         } 
         else 
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         }
         break;
       }
-      if (neighbours->LEFT) 
+      if (neighbours->left)
       {
-        if (neighbours->LEFT->getSideColor(RIGHT) == COLOR_RED) 
+        if (neighbours->left->getSideColor(RIGHT) == COLOR_RED)
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         } 
         else 
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         }
         break;
       }
-      if (neighbours->RIGHT) 
+      if (neighbours->right)
       {
-        if (neighbours->RIGHT->getSideColor(LEFT) == COLOR_RED) 
+        if (neighbours->right->getSideColor(LEFT) == COLOR_RED)
         {
-          Topcolor = COLOR_RED;
+          topcolor_ = COLOR_RED;
         } 
         else 
         {
-          Topcolor = COLOR_WHITE;
+          topcolor_ = COLOR_WHITE;
         }
         break;
       }
@@ -298,7 +301,7 @@ void Tile::matchSides()
 
 vector<Tile*> *Tile::getEdges()
 {
-  if (parent->getTiles()->size() < 2) 
+  if (parent_->getTiles()->size() < 2) 
   {
     return nullptr;
   }
@@ -306,41 +309,41 @@ vector<Tile*> *Tile::getEdges()
   try 
   {
     edges = new std::vector<Tile*>;
-    Tile *found = parent->getTile(pos->getX()+1, pos->getY());
+    Tile *found = parent_->getTile(pos_->getX()+1, pos_->getY());
     if (found) 
     {
       edges->push_back(found);
     } 
     else 
     {
-      edges->push_back(new Tile(VOID, new Position(pos->getX()+1, pos->getY()), parent));
+      edges->push_back(new Tile(VOID, new Position(pos_->getX()+1, pos_->getY()), parent_));
     }
-    found = parent->getTile(pos->getX()-1, pos->getY());
+    found = parent_->getTile(pos_->getX()-1, pos_->getY());
     if (found) 
     {
       edges->push_back(found);
     } 
     else 
     {
-      edges->push_back(new Tile(VOID, new Position(pos->getX()-1, pos->getY()), parent));
+      edges->push_back(new Tile(VOID, new Position(pos_->getX()-1, pos_->getY()), parent_));
     }
-    found = parent->getTile(pos->getX(), pos->getY() +1);
+    found = parent_->getTile(pos_->getX(), pos_->getY() +1);
     if (found) 
     {
       edges->push_back(found);
     } 
     else 
     {
-      edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() +1), parent));
+      edges->push_back(new Tile(VOID, new Position(pos_->getX(), pos_->getY() +1), parent_));
     }
-    found = parent->getTile(pos->getX(), pos->getY() -1);
+    found = parent_->getTile(pos_->getX(), pos_->getY() -1);
     if (found) 
     {
       edges->push_back(found);
     } 
     else 
     {
-      edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() -1), parent));
+      edges->push_back(new Tile(VOID, new Position(pos_->getX(), pos_->getY() -1), parent_));
     }
     return edges;
   } 
@@ -359,34 +362,34 @@ vector<Tile*> *Tile::getEdges()
   return nullptr;
 }
 
-tile_neighbours *Tile::getNeighbours()
+TileNeighbours *Tile::getNeighbours()
 {
-  tile_neighbours *neighbours = new tile_neighbours;
-  for (auto &iter : *parent->getTiles()) 
+  TileNeighbours *neighbours = new TileNeighbours;
+  for (auto &iter : *parent_->getTiles()) 
   {
-    if (pos->getY() == iter->pos->getY()) 
+    if (pos_->getY() == iter->pos_->getY()) 
     {
-      if (pos->getX() + 1 == iter->pos->getX()) 
+      if (pos_->getX() + 1 == iter->pos_->getX()) 
       {
-        neighbours->RIGHT = iter;
+        neighbours->right = iter;
         continue;
       }
-      if (pos->getX() - 1 == iter->pos->getX()) 
+      if (pos_->getX() - 1 == iter->pos_->getX()) 
       {
-        neighbours->LEFT = iter;
+        neighbours->left = iter;
         continue;
       }
     }
-    if (pos->getX() == iter->pos->getX()) 
+    if (pos_->getX() == iter->pos_->getX()) 
     {
-      if (pos->getY() + 1 == iter->pos->getY()) 
+      if (pos_->getY() + 1 == iter->pos_->getY()) 
       {
-        neighbours->DOWN = iter;
+        neighbours->down = iter;
         continue;
       }
-      if (pos->getY() - 1 == iter->pos->getY()) 
+      if (pos_->getY() - 1 == iter->pos_->getY())
       {
-        neighbours->UP = iter;
+        neighbours->up = iter;
         continue;
       }
     }
@@ -396,26 +399,26 @@ tile_neighbours *Tile::getNeighbours()
 
 bool Tile::checkSides()
 {
-  tile_neighbours *neighbours = getNeighbours();
+  TileNeighbours *neighbours = getNeighbours();
   bool retval = true;
-  if (!neighbours->hasNeighbours()) 
+  if (unlikely(!neighbours->hasNeighbours()))
   {
     delete neighbours;
     return retval;
   }
-  if (neighbours->UP && this->getSideColor(UP) != neighbours->UP->getSideColor(DOWN)) 
+  if (neighbours->up && this->getSideColor(UP) != neighbours->up->getSideColor(DOWN))
   {
     retval = false;
   }
-  if (neighbours->DOWN && this->getSideColor(DOWN) != neighbours->DOWN->getSideColor(UP)) 
+  if (neighbours->down && this->getSideColor(DOWN) != neighbours->down->getSideColor(UP))
   {
     retval = false;
   }
-  if (neighbours->LEFT && this->getSideColor(LEFT) != neighbours->LEFT->getSideColor(RIGHT)) 
+  if (neighbours->left && this->getSideColor(LEFT) != neighbours->left->getSideColor(RIGHT))
   {
     retval = false;
   }
-  if (neighbours->RIGHT && this->getSideColor(RIGHT) != neighbours->RIGHT->getSideColor(LEFT)) 
+  if (neighbours->right && this->getSideColor(RIGHT) != neighbours->right->getSideColor(LEFT))
   {
     retval = false;
   }
