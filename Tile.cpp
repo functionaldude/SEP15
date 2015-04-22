@@ -130,7 +130,7 @@ void Tile::matchSides()
     return;
   }
   TileNeighbours *neighbours = getNeighbours();
-  switch (Side) 
+  switch (side_) 
   {
     case VOID: return;
 
