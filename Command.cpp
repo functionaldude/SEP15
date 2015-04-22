@@ -17,7 +17,7 @@
 
 using namespace std;
 
-Command::Command(Game *game, struct arguments *args):
+Command::Command(Game *game, struct Arguments *args):
   game_(game),
   args_(args)
 {
@@ -27,7 +27,7 @@ Command::~Command()
 {
 }
 
-cmdAddTile::cmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
+CmdAddTile::cmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
 int CmdAddTile::execute()
 {
   int8_t error = 0;
@@ -134,7 +134,7 @@ int CmdAddTile::execute()
   return 0;
 }
 
-cmdWrite::cmdWrite(Game *game, struct arguments *args): Command(game, args){}
+CmdWrite::cmdWrite(Game *game, struct Arguments *args): Command(game, args){}
 int CmdWrite::execute()
 {
   if (args->arg_count != 1) 
@@ -161,8 +161,8 @@ int CmdWrite::execute()
     return -1;
   }
 
-  file_header *header = nullptr;
-  dimension *dimensions = nullptr;
+  FileHeader *header = nullptr;
+  Dimension *dimensions = nullptr;
   
   try 
   {
@@ -182,12 +182,12 @@ int CmdWrite::execute()
 
   header->player = game->Activeplayer;
 
-  header->minX = dimensions->minX;
-  header->minY = dimensions->minY;
-  header->maxX = dimensions->maxX;
-  header->maxY = dimensions->maxY;
+  header->min_x = dimensions->min_x;
+  header->min_y = dimensions->min_y;
+  header->max_x = dimensions->max_x;
+  header->max_y = dimensions->max_y;
 
-  outputfile->write((char*)header, sizeof(file_header));
+  outputfile->write((char*)header, sizeof(FileHeader));
   delete header;
 
   char buffer[2] ;
@@ -202,9 +202,9 @@ int CmdWrite::execute()
   else 
   {
     //multiple tiles
-    int8_t x = dimensions->minX;
-    int8_t y = dimensions->minY;
-    while (x <= dimensions->maxX && y <= dimensions->maxY) 
+    int8_t x = dimensions->min_x;
+    int8_t y = dimensions->min_y;
+    while (x <= dimensions->max_x && y <= dimensions->max_y) 
     {
       buffer[0] = 0;
       buffer[1] = 0;
@@ -218,9 +218,9 @@ int CmdWrite::execute()
         }
       }
       outputfile->write(buffer, 2);
-      if (x == dimensions->maxX) 
+      if (x == dimensions->max_x) 
       {
-        x = dimensions->minX;
+        x = dimensions->min_X;
         y++;
       } 
       else 

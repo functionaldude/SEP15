@@ -41,8 +41,8 @@ class Game
     void run();
     void togglePlayer();
     Tile *getTile(int8_t x, int8_t y);
-    void GameOver();
-    dimension *getFieldDimension();
+    void gameOver();
+    Dimension *getFieldDimension();
     std::vector<Tile*> *getTiles();
 };
 

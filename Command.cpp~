@@ -17,7 +17,7 @@
 
 using namespace std;
 
-Command::Command(Game *game, struct arguments *args):
+Command::Command(Game *game, struct Arguments *args):
   game_(game),
   args_(args)
 {
@@ -27,8 +27,8 @@ Command::~Command()
 {
 }
 
-cmdAddTile::cmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
-int cmd_AddTile::execute()
+CmdAddTile::cmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
+int CmdAddTile::execute()
 {
   int8_t error = 0;
   if (args->arg_count != 2) 
@@ -134,8 +134,8 @@ int cmd_AddTile::execute()
   return 0;
 }
 
-cmd_Write::cmd_Write(Game *game, struct arguments *args): Command(game, args){}
-int cmd_Write::execute()
+CmdWrite::cmdWrite(Game *game, struct Arguments *args): Command(game, args){}
+int CmdWrite::execute()
 {
   if (args->arg_count != 1) 
   {
@@ -161,8 +161,8 @@ int cmd_Write::execute()
     return -1;
   }
 
-  file_header *header = nullptr;
-  dimension *dimensions = nullptr;
+  FileHeader *header = nullptr;
+  Dimension *dimensions = nullptr;
   
   try 
   {
@@ -187,7 +187,7 @@ int cmd_Write::execute()
   header->maxX = dimensions->maxX;
   header->maxY = dimensions->maxY;
 
-  outputfile->write((char*)header, sizeof(file_header));
+  outputfile->write((char*)header, sizeof(FileHeader));
   delete header;
 
   char buffer[2] ;

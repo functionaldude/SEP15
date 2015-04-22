@@ -21,10 +21,10 @@ class Command
 {
   protected:
     Game *game_;
-    arguments *args_;
+    Arguments *args_;
   
   public:
-    Command(Game *game, struct arguments *args);
+    Command(Game *game, struct Arguments *args);
     virtual ~Command();
 
   //--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ class CmdAddTile : public Command
 class CmdWrite : public Command 
 {
   public:
-    CmdWrite(Game *game, struct arguments *args);
+    CmdWrite(Game *game, struct Arguments *args);
     int execute() override;
 };
 

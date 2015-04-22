@@ -57,37 +57,37 @@ void getCmd(string input, Arguments *arguments)
 //constructor
 Game::Game(string *filename)
 {
-  Activeplayer = COLOR_WHITE;
-  Running = false;
-  over = false;
-  tile_num = 64;
+  activeplayer_ = COLOR_WHITE;
+  running_ = false;
+  over_ = false;
+  tile_num_ = 64;
   if (filename) 
   {
-    this->filename = filename;
-    constant_write = true;
+    filename_ = filename;
+    constant_write_ = true;
   } 
   else 
   {
-    this->filename = nullptr;
-    constant_write = false;
+    filename_ = nullptr;
+    constant_write_ = false;
   }
 }
 
 //main game function
 void Game::run()
 {
-  Running = true;
+  running_ = true;
   string input;
   Command *cmd = nullptr;
-  while (Running == true) 
+  while (running_ == true) 
   {
-    if (over) 
+    if (over_) 
     {
-      Running = false;
+      running_ = false;
       break;
     }
-    arguments *args_cont = nullptr;
-    args_cont = new arguments;
+    Arguments *args_cont = nullptr;
+    args_cont = new Arguments;
     cout << "sep> ";
     //cin >> input;
     getline(cin, input);
@@ -109,12 +109,12 @@ void Game::run()
           delete cmd;
           cmd = nullptr;
         }
-        Running = false;
+        running_ = false;
         return;
       case CMD_ADDTILE:
         try 
         {
-          cmd = new cmd_AddTile(this, args_cont);
+          cmd = new CmdAddTile(this, args_cont);
         } 
         catch (bad_alloc &ba) 
         {
@@ -125,7 +125,7 @@ void Game::run()
       case CMD_WRITE:
         try 
         {
-          cmd = new cmd_Write(this, args_cont);
+          cmd = new CmdWrite(this, args_cont);
         } catch (bad_alloc &ba) 
         {
           delete args_cont;
@@ -153,20 +153,20 @@ void Game::run()
 
 void Game::togglePlayer()
 {
-  if (Activeplayer == COLOR_WHITE) 
+  if (activeplayer_ == COLOR_WHITE) 
   {
-    Activeplayer = COLOR_RED;
+    activeplayer_ = COLOR_RED;
   }
   else 
   {
-    Activeplayer = COLOR_WHITE;
+    activeplayer_ = COLOR_WHITE;
   }
 }
 
 //adds a tile
 int8_t Game::addTile(Tile *input)
 {
-  if (tile_num == 0) 
+  if (tile_num_ == 0) 
   {
     return 4;
   }
@@ -254,26 +254,26 @@ dimension *Game::getFieldDimension()
   dimension *retval = new dimension;
   for (auto &iter : tiles)
   {
-    if (retval->maxX < iter->getPos()->getX())
+    if (retval->max_x < iter->getPos()->getX())
     {
-      retval->maxX = iter->getPos()->getX();
+      retval->max_x = iter->getPos()->getX();
     }
-    if (retval->maxY < iter->getPos()->getY())
+    if (retval->max_y < iter->getPos()->getY())
     {
-      retval->maxY = iter->getPos()->getY();
+      retval->max_y = iter->getPos()->getY();
     }
   }
-  retval->minX = retval->maxX;
-  retval->minY = retval->maxY;
+  retval->min_x = retval->max_x;
+  retval->min_y = retval->max_y;
   for (auto &iter : tiles)
   {
-    if (retval->minX > iter->getPos()->getX())
+    if (retval->min_x > iter->getPos()->getX())
     {
-      retval->minX = iter->getPos()->getX();
+      retval->min_x = iter->getPos()->getX();
     }
-    if (retval->minY > iter->getPos()->getY())
+    if (retval->min_y > iter->getPos()->getY())
     {
-      retval->minY = iter->getPos()->getY();
+      retval->min_y = iter->getPos()->getY();
     }
   }
   return retval;
@@ -501,7 +501,7 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   bool retval = false;
 
   Tile *next = nullptr;
-  tile_neighbours *neighbours = input->getNeighbours();
+  TileNeighbours *neighbours = input->getNeighbours();
 
   if (dir_cnt == 2 && onedirection) 
   {
@@ -513,46 +513,46 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
 
   if (prev) 
   {
-    if (neighbours->UP && !(neighbours->UP->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color) 
+    if (neighbours->up && !(neighbours->up->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color) 
     {
-      next = neighbours->UP;
+      next = neighbours->up;
     }
-    else if (neighbours->LEFT && !(neighbours->LEFT->getPos()->isPos(prev->getPos())) && input->getSideColor(LEFT) == color) 
+    else if (neighbours->left && !(neighbours->left->getPos()->isPos(prev->getPos())) && input->getSideColor(LEFT) == color) 
     {
-      next = neighbours->LEFT;
+      next = neighbours->left;
     }
-    else  if (neighbours->DOWN && !(neighbours->DOWN->getPos()->isPos(prev->getPos())) && input->getSideColor(DOWN) == color)
+    else  if (neighbours->down && !(neighbours->down->getPos()->isPos(prev->getPos())) && input->getSideColor(DOWN) == color)
     {
-      next = neighbours->DOWN;
+      next = neighbours->down;
     }
-    else if (neighbours->RIGHT && !(neighbours->RIGHT->getPos()->isPos(prev->getPos())) && input->getSideColor(RIGHT) == color)
+    else if (neighbours->right && !(neighbours->right->getPos()->isPos(prev->getPos())) && input->getSideColor(RIGHT) == color)
     {
-      next = neighbours->RIGHT;
+      next = neighbours->right;
     }
   } 
   else 
   {
     //first
-    if (neighbours->UP && input->getSideColor(UP) == color) {dir_cnt++;}
-    if (neighbours->LEFT && input->getSideColor(LEFT) == color) {dir_cnt++;}
-    if (neighbours->DOWN && input->getSideColor(DOWN) == color){dir_cnt++;}
-    if (neighbours->RIGHT && input->getSideColor(RIGHT) == color){dir_cnt++;}
+    if (neighbours->up && input->getSideColor(UP) == color) {dir_cnt++;}
+    if (neighbours->left && input->getSideColor(LEFT) == color) {dir_cnt++;}
+    if (neighbours->down && input->getSideColor(DOWN) == color){dir_cnt++;}
+    if (neighbours->right && input->getSideColor(RIGHT) == color){dir_cnt++;}
 
-    if (neighbours->UP && input->getSideColor(UP) == color) 
+    if (neighbours->up && input->getSideColor(UP) == color) 
     {
-      next = neighbours->UP;
+      next = neighbours->up;
     }
-    else if (neighbours->LEFT && input->getSideColor(LEFT) == color) 
+    else if (neighbours->left && input->getSideColor(LEFT) == color) 
     {
-      next = neighbours->LEFT;
+      next = neighbours->left;
     }
-    else  if (neighbours->DOWN && input->getSideColor(DOWN) == color)
+    else  if (neighbours->down && input->getSideColor(DOWN) == color)
     {
-      next = neighbours->DOWN;
+      next = neighbours->down;
     }
-    else if (neighbours->RIGHT && input->getSideColor(RIGHT) == color)
+    else if (neighbours->right && input->getSideColor(RIGHT) == color)
     {
-      next = neighbours->RIGHT;
+      next = neighbours->right;
     }
     firstnext = next;
   }

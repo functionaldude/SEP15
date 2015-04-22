@@ -13,8 +13,8 @@
 
 using namespace std;
 
-Tile::Tile(TileType Side, Position *pos, Game *parent) :
-  side_(Side),
+Tile::Tile(TileType side, Position *pos, Game *parent) :
+  side_(side),
   pos_(pos),
   parent_(parent)
 {
@@ -23,19 +23,19 @@ Tile::Tile(TileType Side, Position *pos, Game *parent) :
 
 Tile::~Tile()
 {
-  delete pos;
+  delete pos_;
 }
 
 //returns the position pointer
 Position *Tile::getPos()
 {
-  return pos;
+  return pos_;
 }
 
 //returns the tile type
 TileType Tile::getType()
 {
-  return Side;
+  return side_;
 }
 
 //returns topcolor
@@ -49,12 +49,12 @@ Color Tile::getSideColor(enum Side side)
 {
   if (side == UP) 
   {
-    return topcolor;
+    return topcolor_;
   }
-  switch (Side) 
+  switch (side_) 
   {
     case CROSS:
-      if (Topcolor == COLOR_RED) 
+      if (topcolor_ == COLOR_RED) 
       {
         switch (side) 
         {
@@ -75,7 +75,7 @@ Color Tile::getSideColor(enum Side side)
         }
       }
     case CURVE_1:
-      if (Topcolor == COLOR_RED) 
+      if (topcolor_ == COLOR_RED) 
       {
         switch (side) 
         {
@@ -96,7 +96,7 @@ Color Tile::getSideColor(enum Side side)
         }
       }
     case CURVE_2:
-      if (Topcolor == COLOR_RED) 
+      if (topcolor_ == COLOR_RED) 
       {
         switch (side) 
         {
@@ -129,7 +129,7 @@ void Tile::matchSides()
     topcolor_ = COLOR_RED;
     return;
   }
-  tile_neighbours *neighbours = getNeighbours();
+  TileNeighbours *neighbours = getNeighbours();
   switch (Side) 
   {
     case VOID: return;

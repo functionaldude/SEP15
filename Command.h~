@@ -20,8 +20,8 @@ class Game;
 class Command
 {
   protected:
-    Game *game;
-    arguments *args;
+    Game *game_;
+    arguments *args_;
   
   public:
     Command(Game *game, struct arguments *args);
