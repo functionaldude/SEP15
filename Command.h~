@@ -36,17 +36,17 @@ class Command
     virtual int execute() = 0;
 };
 
-class cmd_AddTile : public Command 
+class CmdAddTile : public Command 
 {
   public:
-    cmd_AddTile(Game *game, struct arguments *args);
+    CmdAddTile(Game *game, struct Arguments *args);
     int execute() override;
 };
 
-class cmd_Write : public Command 
+class CmdWrite : public Command 
 {
   public:
-    cmd_Write(Game *game, struct arguments *args);
+    CmdWrite(Game *game, struct arguments *args);
     int execute() override;
 };
 

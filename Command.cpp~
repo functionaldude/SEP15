@@ -18,8 +18,8 @@
 using namespace std;
 
 Command::Command(Game *game, struct arguments *args):
-  game(game),
-  args(args)
+  game_(game),
+  args_(args)
 {
 }
 
@@ -27,7 +27,7 @@ Command::~Command()
 {
 }
 
-cmd_AddTile::cmd_AddTile(Game *game, struct arguments *args): Command(game, args){}
+cmdAddTile::cmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
 int cmd_AddTile::execute()
 {
   int8_t error = 0;
@@ -48,13 +48,17 @@ int cmd_AddTile::execute()
   if (*args->arg[2] == "+") 
   {
     tiletype = CROSS;
-  } else if (*args->arg[2] == "/")
+  } 
+  else if (*args->arg[2] == "/")
   {
     tiletype = CURVE_1;
-  } else {
+  } 
+  else 
+  {
     tiletype = CURVE_2;
   }
   Tile *tmp_tile;
+  
   try 
   {
     tmp_tile = new Tile(tiletype, tmp_pos, game);
@@ -123,7 +127,7 @@ int cmd_AddTile::execute()
     *args->arg[0] = "write";
     *args->arg[1] = "auto";
     args->arg_count = 1;
-    Command *save = new cmd_Write(game, args);
+    Command *save = new CmdWrite(game, args);
     save->execute();
     delete save;
   }
@@ -159,6 +163,7 @@ int cmd_Write::execute()
 
   file_header *header = nullptr;
   dimension *dimensions = nullptr;
+  
   try 
   {
     header = new file_header;

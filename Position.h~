@@ -14,8 +14,8 @@
 class Position 
 {
   private:
-    int8_t x_;
-    int8_t y_;
+    int8_t x;
+    int8_t y;
   
   public:
     Position(int8_t x, int8_t y);

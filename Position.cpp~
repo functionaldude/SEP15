@@ -42,10 +42,11 @@ bool Position::parse(std::string input)
   char right_bracket = 0;
 
   if ((ss >> left_bracket >> x >> delimiter >> y >> right_bracket) &&
-    (left_bracket == '(') && (right_bracket == ')'))
+             (left_bracket == '(') &&
+             (right_bracket == ')'))
   {
-    x_ = x;
-    y_ = y;
+    this->x = x;
+    this->y = y;
     return true;
   }
   else
@@ -57,11 +58,11 @@ bool Position::parse(std::string input)
 //checks if a position is on x, y
 bool Position::isPos(int8_t x, int8_t y)
 {
-  return (x == x_ && y == y_);
+  return (x == this->x && y == this->y);
 }
 
 //returns true if the input pointer on the same position is
 bool Position::isPos(const Position *input)
 {
-  return (input->x == x_ && input->y == y_);
+  return (input->x == this->x && input->y == this->y);
 }

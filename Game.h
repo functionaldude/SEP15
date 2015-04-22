@@ -18,17 +18,17 @@ class Position;
 
 class Game 
 {
-  friend class cmd_AddTile;
-  friend class cmd_Write;
+  friend class CmdAddTile;
+  friend class CmdWrite;
 
   protected:
-    Color Activeplayer;
-    bool Running;
-    std::string *filename;
-    bool constant_write;
-    std::vector<Tile*> tiles;
-    int tile_num;
-    bool over;
+    Color activeplayer_;
+    bool running_;
+    std::string *filename_;
+    bool constant_write_;
+    std::vector<Tile*> tiles_;
+    int tile_num_;
+    bool over_;
     void addAutomatic(Tile *input);
     static bool checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin);
     static bool checkLineWin(Color color, Tile *input, Tile *prev);

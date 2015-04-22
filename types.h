@@ -62,7 +62,7 @@ struct FileHeader
   char max_y;
 }__attribute__((packed));
 
-enum TileType
+enum TileType 
 {
   VOID = 0,
   CROSS = 1,
@@ -78,7 +78,7 @@ enum Side
   RIGHT = 3
 };
 
-struct TileHeighbours 
+struct TileNeighbours 
 {
   Tile *up = nullptr;
   Tile *down = nullptr;

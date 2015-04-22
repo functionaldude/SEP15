@@ -17,7 +17,7 @@ class Game;
 class Tile 
 {
   public:
-    Tile(TileType side, Position *pos, Game *parent);
+    Tile(TileType Side, Position *pos, Game *parent);
     ~Tile();
     Position *getPos();
     TileType getType();
@@ -30,10 +30,10 @@ class Tile
     bool checkSides();
     
   private:
-    TileType side_;
-    Color topcolor_;
-    Position *pos_;
-    Game *parent_;
+    TileType Side;
+    Color Topcolor;
+    Position *pos;
+    Game *parent;
 };
 
 #endif /* defined(__ass1__Tile__) */

@@ -18,8 +18,8 @@
 using namespace std;
 
 Command::Command(Game *game, struct arguments *args):
-  game(game),
-  args(args)
+  game_(game),
+  args_(args)
 {
 }
 
@@ -28,7 +28,7 @@ Command::~Command()
 }
 
 cmdAddTile::cmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
-int cmd_AddTile::execute()
+int CmdAddTile::execute()
 {
   int8_t error = 0;
   if (args->arg_count != 2) 
@@ -127,15 +127,15 @@ int cmd_AddTile::execute()
     *args->arg[0] = "write";
     *args->arg[1] = "auto";
     args->arg_count = 1;
-    Command *save = new cmd_Write(game, args);
+    Command *save = new CmdWrite(game, args);
     save->execute();
     delete save;
   }
   return 0;
 }
 
-cmd_Write::cmd_Write(Game *game, struct arguments *args): Command(game, args){}
-int cmd_Write::execute()
+cmdWrite::cmdWrite(Game *game, struct arguments *args): Command(game, args){}
+int CmdWrite::execute()
 {
   if (args->arg_count != 1) 
   {
