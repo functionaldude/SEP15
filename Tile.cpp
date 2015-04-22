@@ -21,9 +21,9 @@ using namespace std;
 Tile::Tile(TileType side, Position *pos, Game *parent) :
   side_(side),
   pos_(pos),
-  parent_(parent)
+  parent_(parent),
+  topcolor_(COLOR_BLANK)
 {
-  topcolor_ = COLOR_BLANK;
 }
 
 Tile::~Tile()

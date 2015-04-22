@@ -58,12 +58,12 @@ void getCmd(string input, Arguments *arguments)
 }
 
 //constructor
-Game::Game(string *filename)
+Game::Game(string *filename) :
+  activeplayer_(COLOR_WHITE),
+  running_(false),
+  over_(false),
+  tile_num_(64)
 {
-  activeplayer_ = COLOR_WHITE;
-  running_ = false;
-  over_ = false;
-  tile_num_ = 64;
   if (filename) 
   {
     filename_ = filename;
