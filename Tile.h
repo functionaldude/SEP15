@@ -16,12 +16,11 @@ class Game;
 
 class Tile {
 public:
-  Tile(TileType Side, Position *pos, Color player, Game *parent);
+  Tile(TileType Side, Position *pos, Game *parent);
   ~Tile();
   Position *getPos();
   TileType getType();
   Color getColor();
-  Color getPlayer();
   Color getSideColor(enum Side side);
   void matchSides();
   Game *getParent();
@@ -32,7 +31,6 @@ private:
   TileType Side;
   Color Topcolor;
   Position *pos;
-  Color player;
   Game *parent;
 };
 

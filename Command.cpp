@@ -51,10 +51,10 @@ int cmd_AddTile::execute(){
   }
   Tile *tmp_tile;
   try {
-    tmp_tile = new Tile(tiletype, tmp_pos, game->Activeplayer, game);
+    tmp_tile = new Tile(tiletype, tmp_pos, game);
   } catch (std::bad_alloc &ba) {
     delete tmp_pos;
-    throw ba;
+    throw;
   }
   error = game->addTile(tmp_tile);
 
@@ -132,7 +132,7 @@ int cmd_Write::execute(){
     }
     outputfile->close();
     delete outputfile;
-    throw ba;
+    throw;
   }
 
   header->player = game->Activeplayer;

@@ -99,7 +99,7 @@ void Game::run(){
           cmd = new cmd_AddTile(this, args_cont);
         } catch (bad_alloc &ba) {
           delete args_cont;
-          throw ba;
+          throw;
         }
         break;
       case CMD_WRITE:
@@ -107,7 +107,7 @@ void Game::run(){
           cmd = new cmd_Write(this, args_cont);
         } catch (bad_alloc &ba) {
           delete args_cont;
-          throw ba;
+          throw;
         }
         break;
       case CMD_ERROR:
@@ -127,20 +127,12 @@ void Game::run(){
   }
 }
 
-void Game::setRunning(bool input){
-  Running = input;
-}
-
 void Game::togglePlayer(){
   if (Activeplayer == COLOR_WHITE) {
     Activeplayer = COLOR_RED;
   } else {
     Activeplayer = COLOR_WHITE;
   }
-}
-
-Color Game::getActivePlayer(){
-  return Activeplayer;
 }
 
 //adds a tile
@@ -283,26 +275,26 @@ void Game::addAutomatic(Tile * input){
         neighbours = iter->getNeighbours();
         int8_t cnt_neighbour = neighbours->countNeighbours();
         if (cnt_neighbour > 1) {
-          testtile = new Tile(CROSS, new Position(*iter->getPos()), Activeplayer, this);
+          testtile = new Tile(CROSS, new Position(*iter->getPos()), this);
           if (tryTile(testtile) == 0) {
             tests++;
             testtype = testtile->getType();
           }
           delete testtile;
-          testtile = new Tile(CURVE_1, new Position(*iter->getPos()), Activeplayer, this);
+          testtile = new Tile(CURVE_1, new Position(*iter->getPos()), this);
           if (tryTile(testtile) == 0) {
             tests++;
             testtype = testtile->getType();
           }
           delete testtile;
-          testtile = new Tile(CURVE_2, new Position(*iter->getPos()), Activeplayer, this);
+          testtile = new Tile(CURVE_2, new Position(*iter->getPos()), this);
           if (tryTile(testtile) == 0) {
             tests++;
             testtype = testtile->getType();
           }
           delete testtile;
           if (tests == 1 && testtype != VOID) {
-            addTile(new Tile(testtype, new Position(*iter->getPos()), Activeplayer, this));
+            addTile(new Tile(testtype, new Position(*iter->getPos()), this));
           }
           tests = 0;
           testtype = VOID;
@@ -329,7 +321,7 @@ void Game::addAutomatic(Tile * input){
     if (testtile) {
       delete testtile;
     }
-    throw ba;
+    throw;
   }
 }
 

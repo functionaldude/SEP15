@@ -24,7 +24,6 @@ public:
   bool parse(std::string input);
   bool isPos(int8_t x, int8_t y);
   bool isPos(const Position* input);
-  std::string toString();
 };
 
 #endif /* defined(__ass1__Position__) */

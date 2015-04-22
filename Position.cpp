@@ -49,13 +49,6 @@ bool Position::parse(std::string input){
   }
 }
 
-//converts position to string
-std::string Position::toString(){
-  std::stringstream ss;
-  ss << "(" << x << "," << y << ")";
-  return ss.str();
-}
-
 //checks if a position is on x, y
 bool Position::isPos(int8_t x, int8_t y){
   return (x == this->x && y == this->y);

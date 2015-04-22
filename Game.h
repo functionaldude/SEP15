@@ -38,9 +38,7 @@ public:
   int8_t tryTile(Tile *input);
   void run();
   void togglePlayer();
-  void setRunning(bool input);
   Tile *getTile(int8_t x, int8_t y);
-  Color getActivePlayer();
   void GameOver();
   dimension *getFieldDimension();
   std::vector<Tile*> *getTiles();

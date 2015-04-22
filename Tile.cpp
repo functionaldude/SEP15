@@ -13,12 +13,12 @@
 
 using namespace std;
 
-Tile::Tile(TileType Side, Position *pos, Color player, Game *parent) :
+Tile::Tile(TileType Side, Position *pos, Game *parent) :
   Side(Side),
   pos(pos),
-  player(player),
   parent(parent)
 {
+  Topcolor = COLOR_BLANK;
 }
 
 Tile::~Tile(){
@@ -38,10 +38,6 @@ TileType Tile::getType(){
 //returns topcolor
 Color Tile::getColor(){
   return Topcolor;
-}
-
-Color Tile::getPlayer(){
-  return player;
 }
 
 //returns the color of the side of the tile
@@ -236,25 +232,25 @@ vector<Tile*> *Tile::getEdges(){
     if (found) {
       edges->push_back(found);
     } else {
-      edges->push_back(new Tile(VOID, new Position(pos->getX()+1, pos->getY()), parent->getActivePlayer(), parent));
+      edges->push_back(new Tile(VOID, new Position(pos->getX()+1, pos->getY()), parent));
     }
     found = parent->getTile(pos->getX()-1, pos->getY());
     if (found) {
       edges->push_back(found);
     } else {
-      edges->push_back(new Tile(VOID, new Position(pos->getX()-1, pos->getY()), parent->getActivePlayer(), parent));
+      edges->push_back(new Tile(VOID, new Position(pos->getX()-1, pos->getY()), parent));
     }
     found = parent->getTile(pos->getX(), pos->getY() +1);
     if (found) {
       edges->push_back(found);
     } else {
-      edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() +1), parent->getActivePlayer(), parent));
+      edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() +1), parent));
     }
     found = parent->getTile(pos->getX(), pos->getY() -1);
     if (found) {
       edges->push_back(found);
     } else {
-      edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() -1), parent->getActivePlayer(), parent));
+      edges->push_back(new Tile(VOID, new Position(pos->getX(), pos->getY() -1), parent));
     }
     return edges;
   } catch (std::bad_alloc &ba) {
@@ -264,7 +260,7 @@ vector<Tile*> *Tile::getEdges(){
       }
       delete edges;
     }
-    throw ba;
+    throw;
   }
   return nullptr;
 }
