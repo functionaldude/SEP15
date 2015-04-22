@@ -48,13 +48,17 @@ int cmd_AddTile::execute()
   if (*args->arg[2] == "+") 
   {
     tiletype = CROSS;
-  } else if (*args->arg[2] == "/")
+  } 
+  else if (*args->arg[2] == "/")
   {
     tiletype = CURVE_1;
-  } else {
+  } 
+  else 
+  {
     tiletype = CURVE_2;
   }
   Tile *tmp_tile;
+  
   try 
   {
     tmp_tile = new Tile(tiletype, tmp_pos, game);
@@ -159,6 +163,7 @@ int cmd_Write::execute()
 
   file_header *header = nullptr;
   dimension *dimensions = nullptr;
+  
   try 
   {
     header = new file_header;
