@@ -6,6 +6,8 @@
 // Authors: Alexander Grass 1331106
 // Amel Hamidovic 1330013
 // Zoltan Sasvari 1330435
+//
+// latest change by Amel Hamidovic 23.4.2015
 //------------------------------------------------------------------------------
 //
 
@@ -35,7 +37,7 @@ int Position::getY()
   return y_;
 }
 
-//position parsing
+
 bool Position::parse(std::string input)
 {
   std::stringstream ss(input);
@@ -57,13 +59,13 @@ bool Position::parse(std::string input)
   }
 }
 
-//checks if a position is on x, y
+
 bool Position::isPos(int8_t x, int8_t y)
 {
   return (x == x_ && y == y_);
 }
 
-//returns true if the input pointer on the same position is
+
 bool Position::isPos(const Position *input)
 {
   return (input->x_ == x_ && input->y_ == y_);

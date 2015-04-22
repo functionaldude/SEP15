@@ -6,6 +6,8 @@
 // Authors: Alexander Grass 1331106
 // Amel Hamidovic 1330013
 // Zoltan Sasvari 1330435
+//
+// latest change by Amel Hamidovic 23.4.2015
 //------------------------------------------------------------------------------
 //
 

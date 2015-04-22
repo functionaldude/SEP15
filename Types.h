@@ -6,6 +6,8 @@
 // Authors: Alexander Grass 1331106
 // Amel Hamidovic 1330013
 // Zoltan Sasvari 1330435
+//
+// latest change by Amel Hamidovic 23.4.2015
 //------------------------------------------------------------------------------
 //
 
@@ -24,6 +26,9 @@
 
 class Tile;
 
+//-------------------------------------------------------------------------
+// Enum for colors
+// 
 enum Color
 {
   COLOR_BLANK = 0,
@@ -31,6 +36,9 @@ enum Color
   COLOR_RED = 2
 };
 
+//-------------------------------------------------------------------------
+// Enum for Commands
+// 
 enum Cmd
 {
   CMD_QUIT = 0,
@@ -40,6 +48,9 @@ enum Cmd
   CMD_BLANK = 4
 };
 
+//-------------------------------------------------------------------------
+// Struct for checking input arguments 
+//
 struct Arguments
 {
   Cmd command;
@@ -55,6 +66,9 @@ struct Arguments
   }
 };
 
+//-------------------------------------------------------------------------
+// Struct for scaling width and height of the game board
+//
 struct Dimension
 {
   int8_t min_x = 0;
@@ -63,6 +77,9 @@ struct Dimension
   int8_t max_x = 0;
 };
 
+//-------------------------------------------------------------------------
+// Struct for the file header
+//
 struct FileHeader
 {
   unsigned char magicnum[4] = {'T', 'R', 'A', 'X'};
@@ -73,6 +90,10 @@ struct FileHeader
   char max_y;
 }__attribute__((packed));
 
+
+//-----------------------------------------------------------------------------
+// Enum for different Tile Types
+//
 enum TileType 
 {
   VOID = 0,
@@ -81,6 +102,9 @@ enum TileType
   CURVE_2 = 3
 };
 
+//-----------------------------------------------------------------------------
+// Enum for Topside of Tiles
+//
 enum Side
 {
   UP = 0,
@@ -89,6 +113,9 @@ enum Side
   RIGHT = 3
 };
 
+//-------------------------------------------------------------------------
+// Struct for initialising, counting and checking neighbours of Tiles
+//
 struct TileNeighbours 
 {
   Tile *up = nullptr;
