@@ -72,56 +72,61 @@ int CmdAddTile::execute()
   error = game_->addTile(tmp_tile);
 
   //TODO: rewrite this in switch
-  if (error == -1) {
-    cout << "Invalid coordinates - first tile must be set on (0,0)" << endl;
-  } 
-  else if (error == -3)
+
+  if (error != 0)
   {
-    cout << "Invalid coordinates - field not connected to tile" << endl;
-  } 
-  else if (error == -2)
-  {
-    cout << "Invalid coordinates - field not empty" << endl;
-  }  
-  else if (error == -4)
-  {
-    cout << "Invalid move - connected line colors mismatch" << endl;
-  } 
-  else if (error == 1)
-  {
-    cout << "Player white wins!" << endl;
-  } 
-  else if (error == 2)
-  {
-    cout << "Player red wins!" << endl;
-  } 
-  else if (error == 3)
-  {
-    if (game_->activeplayer_ == COLOR_RED) 
-    {
-      cout << "Player red wins!" << endl;
-    } 
-    else 
-    {
-      cout << "Player white wins!" << endl;
+    switch (error) {
+      case -1:
+        cout << "Invalid coordinates - first tile must be set on (0,0)" << endl;
+        break;
+      case -3:
+        cout << "Invalid coordinates - field not connected to tile" << endl;
+        break;
+      case -2:
+        cout << "Invalid coordinates - field not empty" << endl;
+        break;
+      case -4:
+        cout << "Invalid move - connected line colors mismatch" << endl;
+        break;
+      case 1:
+        cout << "Player white wins!" << endl;
+        break;
+      case 2:
+        cout << "Player red wins!" << endl;
+        break;
+      case 3:
+        if (game_->activeplayer_ == COLOR_RED)
+        {
+          cout << "Player red wins!" << endl;
+        }
+        else
+        {
+          cout << "Player white wins!" << endl;
+        }
+        break;
+      case 4:
+        cout << "No more tiles left. Game ends in a draw!" << endl;
+        break;
+
+      default:
+        cout << "Unknown error, fuck" << endl;
+        exit(-5);
     }
-  } 
-  else if (error == 4)
-  {
-    cout << "No more tiles left. Game ends in a draw!" << endl;
+
+    if (error < 0)
+    {
+      return -1;
+    }
+    else
+    {
+      game_->gameOver();
+    }
   }
-  if (error < 0) 
-  {
-    return -1;
-  } 
-  else if (error > 0)
-  {
-    game_->gameOver();
-  } 
-  else 
+  else
   {
     game_->togglePlayer();
   }
+
   //autosave if -g
   if (game_->constant_write_)
   {
