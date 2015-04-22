@@ -1,9 +1,12 @@
+//------------------------------------------------------------------------------
+// Tile.cpp
 //
-//  Tile.cpp
-//  ass1
+// Group: Group 2, study assistant Christoph Hack
 //
-//  Created by Zoltán Sasvári on 15.03.15.
-//  Copyright (c) 2015 G-TEAM. All rights reserved.
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
+//------------------------------------------------------------------------------
 //
 
 #include <vector>

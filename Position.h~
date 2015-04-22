@@ -1,11 +1,13 @@
+//------------------------------------------------------------------------------
+// Position.h
 //
-//  Position.h
-//  ass1
+// Group: Group 2, study assistant Christoph Hack
 //
-//  Created by Zoltán Sasvári on 15.03.15.
-//  Copyright (c) 2015 G-TEAM. All rights reserved.
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
+//------------------------------------------------------------------------------
 //
-
 #ifndef __ass1__Position__
 #define __ass1__Position__
 
@@ -14,8 +16,8 @@
 class Position 
 {
   private:
-    int8_t x;
-    int8_t y;
+    int8_t x_;
+    int8_t y_;
   
   public:
     Position(int8_t x, int8_t y);

@@ -1,13 +1,13 @@
 //------------------------------------------------------------------------------
-// Filename: Command.cpp
-// Description: Class representing a general command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: 42
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Command.cpp
+//
+// Group: Group 2, study assistant Christoph Hack
+//
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
 //------------------------------------------------------------------------------
-
+//
 #include <iostream>
 #include <fstream>
 #include "Command.h"
@@ -182,10 +182,10 @@ int CmdWrite::execute()
 
   header->player = game->Activeplayer;
 
-  header->minX = dimensions->minX;
-  header->minY = dimensions->minY;
-  header->maxX = dimensions->maxX;
-  header->maxY = dimensions->maxY;
+  header->min_x = dimensions->min_x;
+  header->min_y = dimensions->min_y;
+  header->max_x = dimensions->max_x;
+  header->max_y = dimensions->max_y;
 
   outputfile->write((char*)header, sizeof(FileHeader));
   delete header;
@@ -202,9 +202,9 @@ int CmdWrite::execute()
   else 
   {
     //multiple tiles
-    int8_t x = dimensions->minX;
-    int8_t y = dimensions->minY;
-    while (x <= dimensions->maxX && y <= dimensions->maxY) 
+    int8_t x = dimensions->min_x;
+    int8_t y = dimensions->min_y;
+    while (x <= dimensions->max_x && y <= dimensions->max_y) 
     {
       buffer[0] = 0;
       buffer[1] = 0;
@@ -218,9 +218,9 @@ int CmdWrite::execute()
         }
       }
       outputfile->write(buffer, 2);
-      if (x == dimensions->maxX) 
+      if (x == dimensions->max_x) 
       {
-        x = dimensions->minX;
+        x = dimensions->min_X;
         y++;
       } 
       else 

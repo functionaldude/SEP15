@@ -1,13 +1,13 @@
 //------------------------------------------------------------------------------
-// Filename: Command.cpp
-// Description: Class representing a general command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: 42
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Command.cpp
+//
+// Group: Group 2, study assistant Christoph Hack
+//
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
 //------------------------------------------------------------------------------
-
+//
 #include <iostream>
 #include <fstream>
 #include "Command.h"

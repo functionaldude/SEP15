@@ -42,7 +42,7 @@ class Game
     void togglePlayer();
     Tile *getTile(int8_t x, int8_t y);
     void gameOver();
-    dimension *getFieldDimension();
+    Dimension *getFieldDimension();
     std::vector<Tile*> *getTiles();
 };
 

@@ -10,7 +10,7 @@
 #include <sstream>
 #include "Position.h"
 
-Position::Position(int8_t x, int8_t y) : x(x), y(y)
+Position::Position(int8_t x, int8_t y) : x_(x), y_(y)
 {
 }
 
@@ -18,18 +18,18 @@ Position::Position(){}
 
 Position::Position(const Position &obj)
 {
-  x = obj.x;
-  y = obj.y;
+  x_ = obj.x;
+  y_ = obj.y;
 }
 
 int Position::getX()
 {
-  return x;
+  return x_;
 }
 
 int Position::getY()
 {
-  return y;
+  return y_;
 }
 
 //position parsing

@@ -1,15 +1,18 @@
+//------------------------------------------------------------------------------
+// Game.h
 //
-//  Game.h
-//  ass1
+// Group: Group 2, study assistant Christoph Hack
 //
-//  Created by Zoltán Sasvári on 15.03.15.
-//  Copyright (c) 2015 G-TEAM. All rights reserved.
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
+//------------------------------------------------------------------------------
 //
 
-#ifndef __ass1__Game__
-#define __ass1__Game__
+#ifndef _GAME_H_
+#define _GAME_H_
 
-#include "types.h"
+#include "Types.h"
 #include <vector>
 #include <string>
 
@@ -46,4 +49,4 @@ class Game
     std::vector<Tile*> *getTiles();
 };
 
-#endif /* defined(__ass1__Game__) */
+#endif //GAME_H_INCLUDED

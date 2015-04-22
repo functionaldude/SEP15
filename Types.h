@@ -1,9 +1,12 @@
+//------------------------------------------------------------------------------
+// types.h
 //
-//  types.h
-//  SEP15
+// Group: Group 2, study assistant Christoph Hack
 //
-//  Created by Zoltán Sasvári on 13.04.15.
-//  Copyright (c) 2015 BinaryTrasher. All rights reserved.
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
+//------------------------------------------------------------------------------
 //
 
 #ifndef SEP15_types_h

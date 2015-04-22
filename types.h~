@@ -78,7 +78,7 @@ enum Side
   RIGHT = 3
 };
 
-struct TileHeighbours 
+struct TileNeighbours 
 {
   Tile *up = nullptr;
   Tile *down = nullptr;

@@ -1,19 +1,19 @@
 //------------------------------------------------------------------------------
-// Filename: Command.h
-// Description: Class representing a general command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: 42
-// Created: 08.08.2011
-// Last change: 02.09.2011
+// Command.h
+//
+// Group: Group 2, study assistant Christoph Hack
+//
+// Authors: Alexander Grass 1331106
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
 //------------------------------------------------------------------------------
-
+//
 #ifndef COMMAND_H_INCLUDED
 #define COMMAND_H_INCLUDED
 
 #include <string>
 #include <vector>
-#include "types.h"
+#include "Types.h"
 
 class Game;
 

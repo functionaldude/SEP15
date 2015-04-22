@@ -1,11 +1,12 @@
 //------------------------------------------------------------------------------
 // main.cpp
 //
-// Group: Group 2, study assistant Christoph Hack
+// Group: Group 43, study assistant: Max Mustertutor
 //
-// Authors: Alexander Grass 1331106
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Authors: Super Student 1 (0800001)
+// Super Student 2 (0800002)
+// Super Student 3 (0800003)
+// Super Student 4 (0800004)
 //------------------------------------------------------------------------------
 //
 
@@ -13,7 +14,7 @@
 #include <string.h>
 #include "Game.h"
 #include "Position.h"
-#include "Types.h"
+#include "types.h"
 #include "Tile.h"
 
 using namespace std;
