@@ -27,7 +27,7 @@ Command::~Command()
 {
 }
 
-cmdAddTile::cmdAddTile(Game *game, struct Arguments *args): Command(game, args){}
+cmd_AddTile::cmd_AddTile(Game *game, struct arguments *args): Command(game, args){}
 int cmd_AddTile::execute()
 {
   int8_t error = 0;
