@@ -67,12 +67,12 @@ void Game::run(){
   Running = true;
   string input;
   Command *cmd = nullptr;
-  arguments *args_cont = nullptr;
   while (Running == true) {
     if (over) {
       Running = false;
       break;
     }
+    arguments *args_cont = nullptr;
     args_cont = new arguments;
     cout << "sep> ";
     //cin >> input;

@@ -225,10 +225,9 @@ vector<Tile*> *Tile::getEdges(){
     return nullptr;
   }
   vector<Tile*> *edges = nullptr;
-  Tile *found = nullptr;
   try {
     edges = new std::vector<Tile*>;
-    found = parent->getTile(pos->getX()+1, pos->getY());
+    Tile *found = parent->getTile(pos->getX()+1, pos->getY());
     if (found) {
       edges->push_back(found);
     } else {
