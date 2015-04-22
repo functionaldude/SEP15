@@ -14,24 +14,26 @@
 class Position;
 class Game;
 
-class Tile {
-public:
-  Tile(TileType Side, Position *pos, Game *parent);
-  ~Tile();
-  Position *getPos();
-  TileType getType();
-  Color getColor();
-  Color getSideColor(enum Side side);
-  void matchSides();
-  Game *getParent();
-  std::vector<Tile*> *getEdges();
-  tile_neighbours *getNeighbours();
-  bool checkSides();
-private:
-  TileType Side;
-  Color Topcolor;
-  Position *pos;
-  Game *parent;
+class Tile 
+{
+  public:
+    Tile(TileType Side, Position *pos, Game *parent);
+    ~Tile();
+    Position *getPos();
+    TileType getType();
+    Color getColor();
+    Color getSideColor(enum Side side);
+    void matchSides();
+    Game *getParent();
+    std::vector<Tile*> *getEdges();
+    tile_neighbours *getNeighbours();
+    bool checkSides();
+    
+  private:
+    TileType Side;
+    Color Topcolor;
+    Position *pos;
+    Game *parent;
 };
 
 #endif /* defined(__ass1__Tile__) */
