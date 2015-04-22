@@ -295,7 +295,7 @@ Tile *Game::getTile(int8_t x, int8_t y)
 //checks shit
 int8_t Game::tryTile(Tile *input)
 {
-  if (tiles.size() == 0 && input->getPos()->getX() != 0 && input->getPos()->getY() != 0)
+  if (tiles.size() == 0 && (input->getPos()->getX() != 0 || input->getPos()->getY() != 0))
   {
     return -1;
   }
