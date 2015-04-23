@@ -190,7 +190,7 @@ int8_t Game::addTile(Tile *input)
     tile_num_--;
     addAutomatic(input);
 
-    if (tiles_.size() >=5)
+    if (tiles_.size() >= 4)
     {
       future<bool> fut_win_red_loop;
       future<bool> fut_win_white_loop;

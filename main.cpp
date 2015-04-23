@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 
   Game *trax = new Game(filename);
 
-  try 
+  try
   {
     trax->run();
   } 
