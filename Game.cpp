@@ -45,7 +45,8 @@ void getCmd(string input, Arguments *arguments)
   for (; iss >> buf; i++)
   {
     arguments->arg[i] = new string(buf);
-    transform(arguments->arg[i]->begin(), arguments->arg[i]->end(), arguments->arg[i]->begin(), ::tolower);
+    transform(arguments->arg[i]->begin(), arguments->arg[i]->end(),
+              arguments->arg[i]->begin(), ::tolower);
   }
   arguments->arg_count = i-1;
   if (*arguments->arg[0] == "addtile") 
@@ -197,8 +198,10 @@ int8_t Game::addTile(Tile *input)
       bool win_white_loop;
       try 
       {
-        fut_win_red_loop = async(&Game::checkLoopWin, COLOR_RED, input, nullptr, input->getPos());
-        fut_win_white_loop = async(&Game::checkLoopWin, COLOR_WHITE, input, nullptr, input->getPos());
+        fut_win_red_loop = async(&Game::checkLoopWin, COLOR_RED, input,
+                                 nullptr, input->getPos());
+        fut_win_white_loop = async(&Game::checkLoopWin, COLOR_WHITE, input,
+                                   nullptr, input->getPos());
         win_red_loop = fut_win_red_loop.get();
         win_white_loop = fut_win_white_loop.get();
       }
@@ -446,19 +449,27 @@ bool Game::checkLoopWin(Color color, Tile *input, Tile *prev, Position *origin)
   }
   if (likely(prev))
   {
-    if (neighbours->up && !(neighbours->up->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color)
+    if (neighbours->up &&
+        !(neighbours->up->getPos()->isPos(prev->getPos())) &&
+        input->getSideColor(UP) == color)
     {
       next = neighbours->up;
     } 
-    else if (neighbours->left && !(neighbours->left->getPos()->isPos(prev->getPos())) && input->getSideColor(LEFT) == color)
+    else if (neighbours->left &&
+             !(neighbours->left->getPos()->isPos(prev->getPos())) &&
+             input->getSideColor(LEFT) == color)
     {
       next = neighbours->left;
     } 
-    else  if (neighbours->down && !(neighbours->down->getPos()->isPos(prev->getPos())) && input->getSideColor(DOWN) == color)
+    else  if (neighbours->down &&
+              !(neighbours->down->getPos()->isPos(prev->getPos())) &&
+              input->getSideColor(DOWN) == color)
     {
       next = neighbours->down;
     } 
-    else if (neighbours->right && !(neighbours->right->getPos()->isPos(prev->getPos())) && input->getSideColor(RIGHT) == color)
+    else if (neighbours->right &&
+             !(neighbours->right->getPos()->isPos(prev->getPos())) &&
+             input->getSideColor(RIGHT) == color)
     {
       next = neighbours->right;
     }
@@ -525,19 +536,27 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
 
   if (likely(prev))
   {
-    if (neighbours->up && !(neighbours->up->getPos()->isPos(prev->getPos())) && input->getSideColor(UP) == color) 
+    if (neighbours->up &&
+        !(neighbours->up->getPos()->isPos(prev->getPos())) &&
+        input->getSideColor(UP) == color)
     {
       next = neighbours->up;
     }
-    else if (neighbours->left && !(neighbours->left->getPos()->isPos(prev->getPos())) && input->getSideColor(LEFT) == color) 
+    else if (neighbours->left &&
+             !(neighbours->left->getPos()->isPos(prev->getPos())) &&
+             input->getSideColor(LEFT) == color)
     {
       next = neighbours->left;
     }
-    else  if (neighbours->down && !(neighbours->down->getPos()->isPos(prev->getPos())) && input->getSideColor(DOWN) == color)
+    else  if (neighbours->down &&
+              !(neighbours->down->getPos()->isPos(prev->getPos())) &&
+              input->getSideColor(DOWN) == color)
     {
       next = neighbours->down;
     }
-    else if (neighbours->right && !(neighbours->right->getPos()->isPos(prev->getPos())) && input->getSideColor(RIGHT) == color)
+    else if (neighbours->right &&
+             !(neighbours->right->getPos()->isPos(prev->getPos())) &&
+             input->getSideColor(RIGHT) == color)
     {
       next = neighbours->right;
     }

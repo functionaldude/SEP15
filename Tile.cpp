@@ -318,7 +318,8 @@ vector<Tile*> *Tile::getEdges()
     } 
     else 
     {
-      edges->push_back(new Tile(VOID, new Position(pos_->getX()+1, pos_->getY()), parent_));
+      edges->push_back(new Tile(VOID, new Position(pos_->getX()+1,
+                                                   pos_->getY()), parent_));
     }
     found = parent_->getTile(pos_->getX()-1, pos_->getY());
     if (found) 
@@ -327,7 +328,8 @@ vector<Tile*> *Tile::getEdges()
     } 
     else 
     {
-      edges->push_back(new Tile(VOID, new Position(pos_->getX()-1, pos_->getY()), parent_));
+      edges->push_back(new Tile(VOID, new Position(pos_->getX()-1,
+                                                   pos_->getY()), parent_));
     }
     found = parent_->getTile(pos_->getX(), pos_->getY() +1);
     if (found) 
@@ -336,7 +338,8 @@ vector<Tile*> *Tile::getEdges()
     } 
     else 
     {
-      edges->push_back(new Tile(VOID, new Position(pos_->getX(), pos_->getY() +1), parent_));
+      edges->push_back(new Tile(VOID, new Position(pos_->getX(),
+                                                   pos_->getY() +1), parent_));
     }
     found = parent_->getTile(pos_->getX(), pos_->getY() -1);
     if (found) 
@@ -345,7 +348,8 @@ vector<Tile*> *Tile::getEdges()
     } 
     else 
     {
-      edges->push_back(new Tile(VOID, new Position(pos_->getX(), pos_->getY() -1), parent_));
+      edges->push_back(new Tile(VOID, new Position(pos_->getX(),
+                                                   pos_->getY() -1), parent_));
     }
     return edges;
   } 
@@ -408,19 +412,23 @@ bool Tile::checkSides()
     delete neighbours;
     return retval;
   }
-  if (neighbours->up && this->getSideColor(UP) != neighbours->up->getSideColor(DOWN))
+  if (neighbours->up &&
+      this->getSideColor(UP) != neighbours->up->getSideColor(DOWN))
   {
     retval = false;
   }
-  if (neighbours->down && this->getSideColor(DOWN) != neighbours->down->getSideColor(UP))
+  if (neighbours->down &&
+      this->getSideColor(DOWN) != neighbours->down->getSideColor(UP))
   {
     retval = false;
   }
-  if (neighbours->left && this->getSideColor(LEFT) != neighbours->left->getSideColor(RIGHT))
+  if (neighbours->left &&
+      this->getSideColor(LEFT) != neighbours->left->getSideColor(RIGHT))
   {
     retval = false;
   }
-  if (neighbours->right && this->getSideColor(RIGHT) != neighbours->right->getSideColor(LEFT))
+  if (neighbours->right &&
+      this->getSideColor(RIGHT) != neighbours->right->getSideColor(LEFT))
   {
     retval = false;
   }
