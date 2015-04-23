@@ -71,7 +71,7 @@ class Tile
     //-------------------------------------------------------------------------
     // Returns the four next neighbours of a tile
     //
-    TileNeighbours getNeighbours();
+    TileNeighbours *getNeighbours();
 
     //-------------------------------------------------------------------------
     // Sets the top color according to the neigbours
