@@ -64,16 +64,17 @@ class Game
     // Vector with placed Tiles
     //
     std::vector<Tile*> tiles_;
-    
-    //-------------------------------------------------------------------------
-    // Amount of remaining Tiles avaible in the Game
-    //
-    int tile_num_;
-    
+
+
     //-------------------------------------------------------------------------
     // Bool which is set true if someone wins or game is draw
     //
     bool over_;
+
+    //-------------------------------------------------------------------------
+    // Amount of remaining Tiles avaible in the Game
+    //
+    int tile_num_;
     
     //-------------------------------------------------------------------------
     // Method for placing automatic Tiles
