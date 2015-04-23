@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 {
   string *filename = nullptr;
   //chack for arguments
-  if (unlikely(argc > 3))
+  if (unlikely(argc > 3 || argc == 2))
   {
     cout << "Usage: <" << string(argv[0]) << ">" << endl;
     return 2;
