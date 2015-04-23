@@ -127,7 +127,7 @@ struct TileNeighbours
   {
     uint_fast8_t retval = 0;
     if (up){retval++;}
-    if (up){retval++;}
+    if (down){retval++;}
     if (left){retval++;}
     if (right){retval++;}
     return retval;
