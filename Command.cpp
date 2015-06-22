@@ -246,3 +246,21 @@ int CmdWrite::execute()
   delete outputfile;
   return 0;
 }
+
+CmdHistory::CmdHistory(Game *game, struct Arguments *args): Command(game, args){}
+int CmdHistory::execute() {
+  if (game_->history.size() == 0) {
+    cout << "No history!" << endl;
+    return -1;
+  }
+
+  cout << "History: -----------------" << endl;
+
+  for (auto &it : game_->history){
+    cout << it << endl;
+  }
+
+  cout << "--------------------------" << endl;
+
+  return 0;
+}

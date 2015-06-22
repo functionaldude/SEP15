@@ -38,8 +38,12 @@ class Game
   //
   friend class CmdWrite;
 
+  friend class CmdHistory;
+
   protected:
-    
+
+  std::vector<std::string> history;
+
     //-------------------------------------------------------------------------
     // Color of the active player
     //

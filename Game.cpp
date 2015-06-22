@@ -61,7 +61,11 @@ void getCmd(string input, Arguments *arguments)
   {
     arguments->command = CMD_QUIT;
   }
-  else 
+  else if (*arguments->arg[0] == "history")
+  {
+    arguments->command = CMD_HIST;
+  }
+  else
   {
     arguments->command = CMD_ERROR;
   }
@@ -146,12 +150,23 @@ void Game::run()
           throw;
         }
         break;
+      case CMD_HIST:
+        try
+        {
+          cmd = new CmdHistory(this, args_cont);
+        } catch (bad_alloc &ba)
+        {
+          delete args_cont;
+          throw;
+        }
+        break;
       case CMD_ERROR:
         cout << "Error: Unknown command!" << endl;
         delete args_cont;
         continue;
     }
     cmd->execute();
+    history.push_back(input);
     if (likely(args_cont))
     {
       delete args_cont;
