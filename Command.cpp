@@ -246,3 +246,26 @@ int CmdWrite::execute()
   delete outputfile;
   return 0;
 }
+
+CmdSats::CmdSats(Game *game, struct Arguments *args): Command(game, args){}
+int CmdSats::execute(){
+  if (args_->arg_count != 1)
+  {
+    cout << "Error: Wrong parameter count!" << endl;
+    return -1;
+  }
+
+  if (*args_->arg[1] == "red") {
+    cout << "red player: " << game_->stats[1] << " steps" << endl;
+  } else if (*args_->arg[1] == "white") {
+    cout << "white player: " << game_->stats[0] << " steps" << endl;
+  } else if (*args_->arg[1] == "all") {
+    cout << "red player: " << game_->stats[1] << " steps" << endl;
+    cout << "white player: " << game_->stats[0] << " steps" << endl;
+  } else {
+    cout << "Invalid parameter!" << endl;
+    return -1;
+  }
+
+  return 0;
+}

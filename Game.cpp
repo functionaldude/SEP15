@@ -61,7 +61,11 @@ void getCmd(string input, Arguments *arguments)
   {
     arguments->command = CMD_QUIT;
   }
-  else 
+  else if (*arguments->arg[0] == "statistik")
+  {
+    arguments->command = CMD_STAT;
+  }
+  else
   {
     arguments->command = CMD_ERROR;
   }
@@ -146,6 +150,16 @@ void Game::run()
           throw;
         }
         break;
+      case CMD_STAT:
+        try
+        {
+          cmd = new CmdSats(this, args_cont);
+        } catch (bad_alloc &ba)
+        {
+          delete args_cont;
+          throw;
+        }
+        break;
       case CMD_ERROR:
         cout << "Error: Unknown command!" << endl;
         delete args_cont;
@@ -188,6 +202,11 @@ int8_t Game::addTile(Tile *input)
   if ((retval = tryTile(input)) == 0) 
   {
     tiles_.push_back(input);
+    if (activeplayer_ == COLOR_WHITE) {
+      stats[0]++;
+    } else {
+      stats[1]++;
+    }
     tile_num_--;
     addAutomatic(input);
 

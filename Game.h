@@ -38,8 +38,12 @@ class Game
   //
   friend class CmdWrite;
 
+  friend class CmdSats;
+
   protected:
-    
+
+  int stats[2];
+
     //-------------------------------------------------------------------------
     // Color of the active player
     //
