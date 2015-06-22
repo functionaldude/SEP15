@@ -201,7 +201,7 @@ int CmdWrite::execute()
   outputfile->write((char*)header, sizeof(FileHeader));
   delete header;
 
-  char buffer[2] ;
+  char buffer[2];
 
   if(game_->tiles_.size() == 1)
   {

@@ -42,7 +42,7 @@ void getCmd(string input, Arguments *arguments)
   stringstream iss(input);
   string buf;
   int8_t i = 0;
-  for (; iss >> buf; i++)
+  for (; iss >> buf && i < 3; i++)
   {
     arguments->arg[i] = new string(buf);
     transform(arguments->arg[i]->begin(), arguments->arg[i]->end(),
@@ -104,6 +104,7 @@ void Game::run()
     cout << "sep> ";
     //cin >> input;
     getline(cin, input);
+    cin.clear();
     getCmd(input, args_cont);
     switch (args_cont->command) 
     {
@@ -516,6 +517,10 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   if (unlikely(!prev))
   {
     //first init
+    dim.min_x = input->getPos()->getX();
+    dim.min_y = input->getPos()->getY();
+    dim.max_x = input->getPos()->getX();
+    dim.max_y = input->getPos()->getY();
     origin = input;
     onedirection = false;
     dir_cnt = 0;
@@ -599,11 +604,11 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
 
   if (likely(dir_cnt))
   {
-    if (dim.max_x - dim.min_x > 6)
+    if (dim.max_x - dim.min_x > 7)
     {
       return true;
     }
-    if (dim.max_y - dim.min_y > 6)
+    if (dim.max_y - dim.min_y > 7)
     {
       return true;
     }
