@@ -61,7 +61,11 @@ void getCmd(string input, Arguments *arguments)
   {
     arguments->command = CMD_QUIT;
   }
-  else 
+  else if (*arguments->arg[0] == "delete")
+  {
+    arguments->command = CMD_DEL;
+  }
+  else
   {
     arguments->command = CMD_ERROR;
   }
@@ -142,6 +146,14 @@ void Game::run()
           cmd = new CmdWrite(this, args_cont);
         } catch (bad_alloc &ba) 
         {
+          delete args_cont;
+          throw;
+        }
+        break;
+      case CMD_DEL:
+        try {
+          cmd = new CmdDel(this, args_cont);
+        } catch (bad_alloc &ba) {
           delete args_cont;
           throw;
         }
@@ -623,4 +635,16 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   retval = checkLineWin(color, next, input);
 
   return retval;
+}
+
+int8_t Game::delTile(Position *input){
+  for (vector<Tile*>::iterator iter = tiles_.begin(); iter != tiles_.end(); ++iter) {
+    Tile* tile = *iter;
+    if (tile->getPos()->isPos(input)) {
+      delete tile;
+      tiles_.erase(iter);
+      return 0;
+    }
+  }
+  return -1;
 }

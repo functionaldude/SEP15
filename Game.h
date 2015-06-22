@@ -37,6 +37,7 @@ class Game
   // Friend for Command Class for writing game output
   //
   friend class CmdWrite;
+  friend class CmdDel;
 
   protected:
     
@@ -141,6 +142,8 @@ class Game
     // Method for ending the game
     //
     void gameOver();
+
+  int8_t delTile(Position *input);
 
     //-------------------------------------------------------------------------
     // Getter Methods

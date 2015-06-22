@@ -246,3 +246,45 @@ int CmdWrite::execute()
   delete outputfile;
   return 0;
 }
+
+CmdDel::CmdDel(Game *game, struct Arguments *args): Command(game, args){}
+int CmdDel::execute() {
+  int error = 0;
+  if (unlikely(args_->arg_count != 1))
+  {
+    cout << "Error: Wrong parameter count!" << endl;
+    return -1;
+  }
+  if (game_->tiles_.size() == 0)
+  {
+    cout << "Board is empty!" << endl;
+    return -1;
+  }
+  Position *tmp_pos = new Position();
+  if (!tmp_pos->parse(*args_->arg[1]))
+  {
+    cout << "Invalid parameters" << endl;
+    delete tmp_pos;
+    return -1;
+  }
+
+  error = game_->delTile(tmp_pos);
+  delete tmp_pos;
+
+  if (error == -1) {
+    cout << "Tile not exists!" << endl;
+    return -1;
+  } else {
+    //autosave if -g
+    if (game_->constant_write_)
+    {
+      *args_->arg[0] = "write";
+      *args_->arg[1] = "auto";
+      args_->arg_count = 1;
+      Command *save = new CmdWrite(game_, args_);
+      save->execute();
+      delete save;
+    }
+    return 0;
+  }
+}
