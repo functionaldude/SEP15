@@ -61,7 +61,11 @@ void getCmd(string input, Arguments *arguments)
   {
     arguments->command = CMD_QUIT;
   }
-  else 
+  else if (*arguments->arg[0] == "swap")
+  {
+    arguments->command = CMD_SWAP;
+  }
+  else
   {
     arguments->command = CMD_ERROR;
   }
@@ -141,6 +145,16 @@ void Game::run()
         {
           cmd = new CmdWrite(this, args_cont);
         } catch (bad_alloc &ba) 
+        {
+          delete args_cont;
+          throw;
+        }
+        break;
+      case CMD_SWAP:
+        try
+        {
+          cmd = new CmdSwap(this, args_cont);
+        } catch (bad_alloc &ba)
         {
           delete args_cont;
           throw;
@@ -623,4 +637,18 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   retval = checkLineWin(color, next, input);
 
   return retval;
+}
+
+int8_t Game::swap(){
+  if (tiles_.size() == 0) {
+    return -1;
+  }
+  for (auto &it : tiles_){
+    if (it->getColor() == COLOR_RED) {
+      it->setColor(COLOR_WHITE);
+    } else {
+      it->setColor(COLOR_RED);
+    }
+  }
+  return 0;
 }

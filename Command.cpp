@@ -246,3 +246,34 @@ int CmdWrite::execute()
   delete outputfile;
   return 0;
 }
+
+CmdSwap::CmdSwap(Game *game, struct Arguments *args): Command(game, args){}
+int CmdSwap::execute(){
+  int error = 0;
+  if (args_->arg_count != 0)
+  {
+    cout << "Error: Wrong parameter count!" << endl;
+    return -1;
+  }
+
+  error = game_->swap();
+
+  if (error == -1) {
+    cout << "Board is empty!" << endl;
+    return -1;
+  } else {
+    //autosave if -g
+    if (game_->constant_write_)
+    {
+      *args_->arg[0] = "write";
+      args_->arg[1] = new string("auto");
+      args_->arg_count = 1;
+      Command *save = new CmdWrite(game_, args_);
+      save->execute();
+      delete save;
+    }
+    return 0;
+  }
+
+}
+

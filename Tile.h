@@ -89,7 +89,10 @@ class Tile
     TileType getType();
     Color getColor();
     Game *getParent();
-     
+
+    //setter
+    void setColor(Color farbe);
+
 };
 
 #endif // TILE_H

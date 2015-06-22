@@ -45,7 +45,8 @@ enum Cmd
   CMD_ADDTILE = 1,
   CMD_WRITE = 2,
   CMD_ERROR = 3,
-  CMD_BLANK = 4
+  CMD_BLANK = 4,
+  CMD_SWAP = 5
 };
 
 //-------------------------------------------------------------------------

@@ -435,3 +435,7 @@ bool Tile::checkSides()
   delete neighbours;
   return retval;
 }
+
+void Tile::setColor(Color farbe){
+  this->topcolor_ = farbe;
+}

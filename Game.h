@@ -38,6 +38,7 @@ class Game
   //
   friend class CmdWrite;
 
+  friend class CmdSwap;
   protected:
     
     //-------------------------------------------------------------------------
@@ -104,6 +105,8 @@ class Game
     static bool checkLineWin(Color color, Tile *input, Tile *prev);
 
   public:
+
+    int8_t swap();
 
     //-------------------------------------------------------------------------
     // Constructor
