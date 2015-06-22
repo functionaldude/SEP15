@@ -202,14 +202,14 @@ int8_t Game::addTile(Tile *input)
   if ((retval = tryTile(input)) == 0) 
   {
     tiles_.push_back(input);
-    if (activeplayer_ == COLOR_WHITE) {
+    tile_num_--;
+    if (!automatic) {
       stats[0]++;
+      automatic = true;
     } else {
       stats[1]++;
     }
-    tile_num_--;
     addAutomatic(input);
-
     if (tiles_.size() >= 4)
     {
       future<bool> fut_win_red_loop;

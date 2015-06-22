@@ -43,6 +43,7 @@ class Game
   protected:
 
   int stats[2];
+  bool automatic;
 
     //-------------------------------------------------------------------------
     // Color of the active player
