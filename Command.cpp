@@ -22,6 +22,7 @@ using std::string;
 using std::fstream;
 using std::ios;
 using std::bad_alloc;
+using std::streamsize;
 
 Command::Command(Game *game, struct Arguments *args):
   game_(game),
@@ -244,5 +245,88 @@ int CmdWrite::execute()
   delete dimensions;
   outputfile->close();
   delete outputfile;
+  return 0;
+}
+
+CmdLoad::CmdLoad(Game *game, struct Arguments *args): Command(game, args){}
+int CmdLoad::execute(){
+  if (unlikely(args_->arg_count != 1))
+  {
+    cout << "Error: Wrong parameter count!" << endl;
+    return -1;
+  }
+
+  fstream *inputfile = new fstream(*args_->arg[1], ios::in | ios::binary);
+  if (unlikely(!inputfile->is_open()))
+  {
+    cout << "Cannot read file " << *args_->arg[1] << endl;
+    return -1;
+  }
+
+  //get length of file
+  inputfile->seekg(0, inputfile->end);
+  streamsize length = (streamsize)inputfile->tellg();
+  inputfile->seekg(0, inputfile->beg);
+
+  //create buffer
+  char * buffer = new char[1024*1024*4];
+  char tile[2];
+
+  //read file
+  inputfile->read(buffer, length);
+
+  if (buffer[0] != 'T' || buffer[1] != 'R' || buffer[2] != 'A' || buffer[3] != 'X') {
+    cout << "Bad file" << endl;
+    delete [] buffer;
+    inputfile->close();
+    delete inputfile;
+    return -1;
+  }
+
+  //get header
+  Dimension dim;
+  game_->activeplayer_ = (Color)buffer[4];
+  dim.min_x = (int8_t)buffer[5];
+  dim.min_y = (int8_t)buffer[6];
+  dim.max_x = (int8_t)buffer[7];
+  dim.max_y = (int8_t)buffer[8];
+
+  //clear game vector
+  game_->tiles_.clear();
+
+  int8_t counter = 9;
+  int8_t x = dim.min_x;
+  int8_t y = dim.min_y;
+
+  while (x <= dim.max_x && y <= dim.max_y) {
+    tile[0] = buffer[counter++];
+    tile[1] = buffer[counter++];
+    if (tile[0] != 0 && tile[1] != 0) {
+      Tile *newtile = new Tile((TileType)tile[0], new Position(x,y), game_);
+      newtile->setColor((Color)tile[1]);
+      game_->tiles_.push_back(newtile);
+    }
+    if (x == dim.max_x)
+    {
+      x = dim.min_x;
+      y++;
+    }
+    else
+    {
+      x++;
+    }
+  }
+
+  //autosave if -g
+  if (game_->constant_write_)
+  {
+    *args_->arg[0] = "write";
+    *args_->arg[1] = "auto";
+    args_->arg_count = 1;
+    Command *save = new CmdWrite(game_, args_);
+    save->execute();
+    delete save;
+  }
+
   return 0;
 }

@@ -37,6 +37,7 @@ class Game
   // Friend for Command Class for writing game output
   //
   friend class CmdWrite;
+  friend class CmdLoad;
 
   protected:
     

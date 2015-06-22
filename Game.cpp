@@ -61,7 +61,11 @@ void getCmd(string input, Arguments *arguments)
   {
     arguments->command = CMD_QUIT;
   }
-  else 
+  else if (*arguments->arg[0] == "load")
+  {
+    arguments->command = CMD_LOAD;
+  }
+  else
   {
     arguments->command = CMD_ERROR;
   }
@@ -141,6 +145,16 @@ void Game::run()
         {
           cmd = new CmdWrite(this, args_cont);
         } catch (bad_alloc &ba) 
+        {
+          delete args_cont;
+          throw;
+        }
+        break;
+      case CMD_LOAD:
+        try
+        {
+          cmd = new CmdLoad(this, args_cont);
+        } catch (bad_alloc &ba)
         {
           delete args_cont;
           throw;
