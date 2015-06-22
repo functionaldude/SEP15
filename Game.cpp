@@ -61,6 +61,10 @@ void getCmd(string input, Arguments *arguments)
   {
     arguments->command = CMD_QUIT;
   }
+  else if (*arguments->arg[0] == "undo")
+  {
+    arguments->command = CMD_UNDO;
+  }
   else 
   {
     arguments->command = CMD_ERROR;
@@ -146,6 +150,16 @@ void Game::run()
           throw;
         }
         break;
+      case CMD_UNDO:
+        try
+        {
+          cmd = new CmdUndo(this, args_cont);
+        } catch (bad_alloc &ba)
+        {
+          delete args_cont;
+          throw;
+        }
+        break;
       case CMD_ERROR:
         cout << "Error: Unknown command!" << endl;
         delete args_cont;
@@ -188,6 +202,7 @@ int8_t Game::addTile(Tile *input)
   if ((retval = tryTile(input)) == 0) 
   {
     tiles_.push_back(input);
+    last_moves.push_back(input);
     tile_num_--;
     addAutomatic(input);
 
@@ -623,4 +638,28 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
   retval = checkLineWin(color, next, input);
 
   return retval;
+}
+
+
+int8_t Game::delTile(Position *input){
+  for (vector<Tile*>::iterator iter = tiles_.begin(); iter != tiles_.end(); ++iter) {
+    Tile* tile = *iter;
+    if (tile->getPos()->isPos(input)) {
+      delete tile;
+      tiles_.erase(iter);
+      return 0;
+    }
+  }
+  return -1;
+}
+
+int8_t Game::undo() {
+  if (last_moves.size() == 0) {
+    return -1;
+  }
+  for (auto &it : last_moves){
+    delTile(it->getPos());
+  }
+  last_moves.clear();
+  return 0;
 }

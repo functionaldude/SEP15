@@ -74,6 +74,8 @@ int CmdAddTile::execute()
     delete tmp_pos;
     throw;
   }
+
+  game_->last_moves.clear();
   error = game_->addTile(tmp_tile);
 
   //TODO: rewrite this in switch
@@ -245,4 +247,34 @@ int CmdWrite::execute()
   outputfile->close();
   delete outputfile;
   return 0;
+}
+
+CmdUndo::CmdUndo(Game *game, struct Arguments *args): Command(game, args){}
+int CmdUndo::execute(){
+  int error = 0;
+  if (args_->arg_count != 0)
+  {
+    cout << "Error: Wrong parameter count!" << endl;
+    return -1;
+  }
+
+  error = game_->undo();
+
+  if (error == -1) {
+    cout << "No last move" << endl;
+    return -1;
+  } else {
+    //autosave if -g
+    if (game_->constant_write_)
+    {
+      *args_->arg[0] = "write";
+      args_->arg[1] = new string("auto");
+      args_->arg_count = 1;
+      Command *save = new CmdWrite(game_, args_);
+      save->execute();
+      delete save;
+    }
+    return 0;
+  }
+
 }

@@ -38,7 +38,11 @@ class Game
   //
   friend class CmdWrite;
 
+  friend class CmdUndo;
+
   protected:
+
+  std::vector<Tile*> last_moves;
     
     //-------------------------------------------------------------------------
     // Color of the active player
@@ -141,6 +145,9 @@ class Game
     // Method for ending the game
     //
     void gameOver();
+
+  int8_t delTile(Position *input);
+  int8_t undo();
 
     //-------------------------------------------------------------------------
     // Getter Methods

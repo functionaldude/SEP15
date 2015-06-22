@@ -94,4 +94,10 @@ class CmdWrite : public Command
     int execute() override;
 };
 
+class CmdUndo : public Command {
+public:
+  CmdUndo(Game *game, struct Arguments *args);
+  int execute() override;
+};
+
 #endif // COMMAND_H
