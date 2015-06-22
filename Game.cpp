@@ -61,7 +61,11 @@ void getCmd(string input, Arguments *arguments)
   {
     arguments->command = CMD_QUIT;
   }
-  else 
+  else if (*arguments->arg[0] == "statistik")
+  {
+    arguments->command = CMD_STAT;
+  }
+  else
   {
     arguments->command = CMD_ERROR;
   }
@@ -146,6 +150,16 @@ void Game::run()
           throw;
         }
         break;
+      case CMD_STAT:
+        try
+        {
+          cmd = new CmdStat(this, args_cont);
+        } catch (bad_alloc &ba)
+        {
+          delete args_cont;
+          throw;
+        }
+        break;
       case CMD_ERROR:
         cout << "Error: Unknown command!" << endl;
         delete args_cont;
@@ -188,6 +202,12 @@ int8_t Game::addTile(Tile *input)
   if ((retval = tryTile(input)) == 0) 
   {
     tiles_.push_back(input);
+    if (automatik) {
+      stat[1]++;
+    }else{
+      stat[0]++;
+      automatik = true;
+    }
     tile_num_--;
     addAutomatic(input);
 
@@ -624,3 +644,115 @@ bool Game::checkLineWin(Color color, Tile *input, Tile *prev)
 
   return retval;
 }
+
+int8_t Game::countLine(Color color, Tile *input, Tile *prev){
+
+  static Dimension dim;
+  static Tile *firstnext;
+  static Tile *origin;
+  static bool onedirection;
+  static int dir_cnt;
+  static int8_t retval;
+
+  if (unlikely(!prev))
+  {
+    //first init
+    dim.min_x = input->getPos()->getX();
+    dim.min_y = input->getPos()->getY();
+    dim.max_x = input->getPos()->getX();
+    dim.max_y = input->getPos()->getY();
+    origin = input;
+    onedirection = false;
+    dir_cnt = 0;
+    firstnext = nullptr;
+    retval = 0;
+  }
+
+  if (!input){
+    return retval;
+  } else {
+    retval++;
+  }
+
+  Tile *next = nullptr;
+  TileNeighbours *neighbours = input->getNeighbours();
+
+  if (dir_cnt == 2 && onedirection)
+  {
+    dir_cnt--;
+    onedirection = false;
+    input = origin;
+    prev = firstnext;
+  }
+
+  if (likely(prev))
+  {
+    if (neighbours->up &&
+        !(neighbours->up->getPos()->isPos(prev->getPos())) &&
+        input->getSideColor(UP) == color)
+    {
+      next = neighbours->up;
+    }
+    else if (neighbours->left &&
+             !(neighbours->left->getPos()->isPos(prev->getPos())) &&
+             input->getSideColor(LEFT) == color)
+    {
+      next = neighbours->left;
+    }
+    else  if (neighbours->down &&
+              !(neighbours->down->getPos()->isPos(prev->getPos())) &&
+              input->getSideColor(DOWN) == color)
+    {
+      next = neighbours->down;
+    }
+    else if (neighbours->right &&
+             !(neighbours->right->getPos()->isPos(prev->getPos())) &&
+             input->getSideColor(RIGHT) == color)
+    {
+      next = neighbours->right;
+    }
+  }
+  else
+  {
+    //first
+    if (neighbours->up && input->getSideColor(UP) == color) {dir_cnt++;}
+    if (neighbours->left && input->getSideColor(LEFT) == color) {dir_cnt++;}
+    if (neighbours->down && input->getSideColor(DOWN) == color){dir_cnt++;}
+    if (neighbours->right && input->getSideColor(RIGHT) == color){dir_cnt++;}
+
+    if (neighbours->up && input->getSideColor(UP) == color)
+    {
+      next = neighbours->up;
+    }
+    else if (neighbours->left && input->getSideColor(LEFT) == color)
+    {
+      next = neighbours->left;
+    }
+    else  if (neighbours->down && input->getSideColor(DOWN) == color)
+    {
+      next = neighbours->down;
+    }
+    else if (neighbours->right && input->getSideColor(RIGHT) == color)
+    {
+      next = neighbours->right;
+    }
+    firstnext = next;
+  }
+  delete neighbours;
+
+  int8_t x = input->getPos()->getX();
+  int8_t y = input->getPos()->getY();
+
+  if (x < dim.min_x) {dim.min_x = x;}
+  if (x > dim.max_x) {dim.max_x = x;}
+  if (y < dim.min_y) {dim.min_y = y;}
+  if (y > dim.max_y) {dim.max_y = y;}
+
+  if (!next && dir_cnt == 2)
+  {
+    onedirection = true;
+  }
+
+  return countLine(color, next, input);
+}
+

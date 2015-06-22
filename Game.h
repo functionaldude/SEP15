@@ -37,6 +37,7 @@ class Game
   // Friend for Command Class for writing game output
   //
   friend class CmdWrite;
+  friend class CmdStat;
 
   protected:
     
@@ -49,6 +50,10 @@ class Game
     // Is set true if game is running
     //
     bool running_;
+
+  int stat[2];
+  int longest_line[2];
+  bool automatik;
 
     //-------------------------------------------------------------------------
     // String with the outputfile name
@@ -148,6 +153,8 @@ class Game
     Tile *getTile(int8_t x, int8_t y);
     Dimension *getFieldDimension();
     std::vector<Tile*> *getTiles();
+
+  int8_t countLine(Color color, Tile *input, Tile *prev);
 };
 
 #endif // GAME_H

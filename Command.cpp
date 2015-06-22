@@ -74,6 +74,7 @@ int CmdAddTile::execute()
     delete tmp_pos;
     throw;
   }
+  game_->automatik = false;
   error = game_->addTile(tmp_tile);
 
   //TODO: rewrite this in switch
@@ -129,6 +130,15 @@ int CmdAddTile::execute()
   }
   else
   {
+    int8_t longest_red = game_->countLine(COLOR_RED, tmp_tile, nullptr);
+    int8_t longest_white = game_->countLine(COLOR_WHITE, tmp_tile, nullptr);
+
+    if (longest_red > game_->longest_line[0]) {
+      game_->longest_line[0] = longest_red;
+    }
+    if (longest_white > game_->longest_line[1]) {
+      game_->longest_line[1] = longest_white;
+    }
     game_->togglePlayer();
   }
 
@@ -244,5 +254,23 @@ int CmdWrite::execute()
   delete dimensions;
   outputfile->close();
   delete outputfile;
+  return 0;
+}
+
+CmdStat::CmdStat(Game *game, struct Arguments *args): Command(game, args){}
+int CmdStat::execute(){
+  if (args_->arg_count != 0)
+  {
+    cout << "Error: Wrong parameter count!" << endl;
+    return -1;
+  }
+
+  cout << "STATS-----------------" << endl;
+  cout << "player: " << game_->stat[0] << " steps" << endl;
+  cout << "automatic: " << game_->stat[1] << " steps" << endl;
+  cout << endl;
+  cout << "longest red line: " << game_->longest_line[0] << " tiles" << endl;
+  cout << "longest white line: " << game_->longest_line[1] << " tiles" << endl;
+  cout << "----------------------" << endl;
   return 0;
 }
